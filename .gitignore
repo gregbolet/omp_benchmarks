@@ -1,0 +1,13 @@
+
+*.yaml
+*.o
+*.a
+result.txt
+setparams
+
+**/buildWithApollo
+**/buildNoApollo
+
+bfs/inputs/graph1MW_6.txt
+cfd/inputs/missile.domn.0.2M
+cfd/inputs/missile.domn.0.4M
