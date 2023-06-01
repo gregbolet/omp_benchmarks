@@ -43,7 +43,7 @@ int ComputeProlongation_ref(const SparseMatrix & Af, Vector & xf) {
   local_int_t nc = Af.mgData->rc->localLength;
 
 #ifndef HPCG_NO_OPENMP
-#pragma omp parallel for
+#pragma omp parallel for schedule(runtime)
 #endif
 // TODO: Somehow note that this loop can be safely vectorized since f2c has no repeated indices
   for (local_int_t i=0; i<nc; ++i) xfv[f2c[i]] += xcv[i]; // This loop is safe to vectorize
