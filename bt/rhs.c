@@ -415,7 +415,7 @@ void compute_rhs()
   }
 
   k = grid_points[2]-2;
-  #pragma omp for schedule(static)
+  #pragma omp for schedule(runtime)
   for (j = 1; j <= grid_points[1]-2; j++) {
     for (i = 1; i <= grid_points[0]-2; i++) {
       for (m = 0; m < 5; m++) {
@@ -428,7 +428,7 @@ void compute_rhs()
   #pragma omp master
   if (timeron) timer_stop(t_rhsz);
 
-  #pragma omp for schedule(static) nowait
+  #pragma omp for schedule(runtime) nowait
   for (k = 1; k <= grid_points[2]-2; k++) {
     for (j = 1; j <= grid_points[1]-2; j++) {
       for (i = 1; i <= grid_points[0]-2; i++) {
