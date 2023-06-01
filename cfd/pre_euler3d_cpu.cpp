@@ -53,7 +53,7 @@ void dealloc(T* array)
 template <typename T>
 void copy(T* dst, T* src, int N)
 {
-	#pragma omp parallel for default(shared) schedule(static)
+	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < N; i++)
 	{
 		dst[i] = src[i];
@@ -102,7 +102,7 @@ float3 ff_fc_density_energy;
 
 void initialize_variables(int nelr, float* variables)
 {
-	#pragma omp parallel for default(shared) schedule(static)
+	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		for(int j = 0; j < NVAR; j++) variables[i*NVAR + j] = ff_variable[j];
@@ -155,7 +155,7 @@ inline float compute_speed_of_sound(float& density, float& pressure)
 
 void compute_step_factor(int nelr, float* variables, float* areas, float* step_factors)
 {
-	#pragma omp parallel for default(shared) schedule(static)
+	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		float density = variables[NVAR*i + VAR_DENSITY];
@@ -178,7 +178,7 @@ void compute_step_factor(int nelr, float* variables, float* areas, float* step_f
 
 void compute_flux_contributions(int nelr, float* variables, float* fc_momentum_x, float* fc_momentum_y, float* fc_momentum_z, float* fc_density_energy)
 {
-	#pragma omp parallel for default(shared) schedule(static)
+	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		float density_i = variables[NVAR*i + VAR_DENSITY];
@@ -226,7 +226,7 @@ void compute_flux(int nelr, int* elements_surrounding_elements, float* normals, 
 {
 	const float smoothing_coefficient = float(0.2f);
 
-	#pragma omp parallel for default(shared) schedule(static)
+	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		int j, nb;
@@ -385,7 +385,7 @@ void compute_flux(int nelr, int* elements_surrounding_elements, float* normals, 
 
 void time_step(int j, int nelr, float* old_variables, float* variables, float* step_factors, float* fluxes)
 {
-	#pragma omp parallel for  default(shared) schedule(static)
+	#pragma omp parallel for  default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		float factor = step_factors[i]/float(RK+1-j);

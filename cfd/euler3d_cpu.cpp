@@ -74,7 +74,7 @@ void dealloc(T* array)
 template <typename T>
 void copy(T* dst, T* src, int N)
 {
-	#pragma omp parallel for default(shared) schedule(static)
+	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < N; i++)
 	{
 		dst[i] = src[i];
@@ -116,7 +116,7 @@ void dump(float* variables, int nel, int nelr)
 
 void initialize_variables(int nelr, float* variables, float* ff_variable)
 {
-	#pragma omp parallel for default(shared) schedule(static)
+	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		for(int j = 0; j < NVAR; j++) variables[i + j*nelr] = ff_variable[j];
@@ -171,7 +171,7 @@ inline float compute_speed_of_sound(float& density, float& pressure)
 
 void compute_step_factor(int nelr, float* __restrict variables, float* areas, float* __restrict step_factors)
 {
-	#pragma omp parallel for default(shared) schedule(auto)
+	#pragma omp parallel for default(shared) schedule(runtime)
         for(int blk = 0; blk < nelr/block_length; ++blk)
         {
             int b_start = blk*block_length;
@@ -208,7 +208,7 @@ void compute_flux(int nelr, int* elements_surrounding_elements, float* normals, 
 {
 	const float smoothing_coefficient = float(0.2f);
 
-	#pragma omp parallel for default(shared) schedule(auto)
+	#pragma omp parallel for default(shared) schedule(runtime)
         for(int blk = 0; blk < nelr/block_length; ++blk)
         {
             int b_start = blk*block_length;
@@ -344,7 +344,7 @@ void compute_flux(int nelr, int* elements_surrounding_elements, float* normals, 
 
 void time_step(int j, int nelr, float* old_variables, float* variables, float* step_factors, float* fluxes)
 {
-    #pragma omp parallel for  default(shared) schedule(auto)
+    #pragma omp parallel for  default(shared) schedule(runtime)
     for(int blk = 0; blk < nelr/block_length; ++blk)
     {
         int b_start = blk*block_length;
