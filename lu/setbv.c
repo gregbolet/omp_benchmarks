@@ -51,7 +51,7 @@ void setbv()
   #pragma omp parallel default(shared) private(i,j,k,m,temp1,temp2) \
                                        shared(nx,ny,nz)
   {
-  #pragma omp for schedule(static)
+  #pragma omp for schedule(runtime)
   for (j = 0; j < ny; j++) {
     for (i = 0; i < nx; i++) {
       exact( i, j, 0, temp1 );
@@ -81,7 +81,7 @@ void setbv()
   //---------------------------------------------------------------------
   // set the dependent variable values along east and west faces
   //---------------------------------------------------------------------
-  #pragma omp for schedule(static) nowait
+  #pragma omp for schedule(runtime) nowait
   for (k = 0; k < nz; k++) {
     for (j = 0; j < ny; j++) {
       exact( 0, j, k, temp1 );
