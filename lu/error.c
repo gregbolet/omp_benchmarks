@@ -60,7 +60,7 @@ void error()
   for (m = 0; m < 5; m++) {
     errnm_local[m] = 0.0;
   }
-  #pragma omp for nowait
+  #pragma omp for schedule(runtime) nowait
   for (k = 1; k < nz-1; k++) {
     for (j = jst; j < jend; j++) {
       for (i = ist; i < iend; i++) {

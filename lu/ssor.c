@@ -74,7 +74,7 @@ void ssor(int niter)
   //---------------------------------------------------------------------
   #pragma omp parallel default(shared) private(m,n,i,j)
   {
-  #pragma omp for nowait
+  #pragma omp for schedule(runtime) nowait
   for (j = jst; j < jend; j++) {
     for (i = ist; i < iend; i++) {
       for (n = 0; n < 5; n++) {
@@ -87,7 +87,7 @@ void ssor(int niter)
       }
     }
   }
-  #pragma omp for nowait
+  #pragma omp for schedule(runtime) nowait
   for (j = jend - 1; j >= jst; j--) {
     for (i = iend - 1; i >= ist; i--) {
       for (n = 0; n < 5; n++) {
@@ -138,7 +138,7 @@ void ssor(int niter)
     #pragma omp master
     if (timeron) timer_start(t_rhs);
     tmp2 = dt;
-    #pragma omp for nowait
+    #pragma omp for schedule(runtime) nowait
     for (k = 1; k < nz - 1; k++) {
       for (j = jst; j < jend; j++) {
         for (i = ist; i < iend; i++) {
@@ -221,7 +221,7 @@ void ssor(int niter)
     #pragma omp master
     if (timeron) timer_start(t_add);
     tmp2 = tmp;
-    #pragma omp for nowait
+    #pragma omp for schedule(runtime) nowait
     for (k = 1; k < nz-1; k++) {
       for (j = jst; j < jend; j++) {
         for (i = ist; i < iend; i++) {
