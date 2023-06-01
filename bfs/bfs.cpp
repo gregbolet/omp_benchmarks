@@ -132,7 +132,7 @@ void BFSGraph( int argc, char** argv)
     #ifdef OMP_OFFLOAD
     #pragma omp target
     #endif
-    #pragma omp parallel for
+    #pragma omp parallel for schedule(runtime)
 #endif 
             for(int tid = 0; tid < no_of_nodes; tid++ )
             {
@@ -154,7 +154,7 @@ void BFSGraph( int argc, char** argv)
     #ifdef OMP_OFFLOAD
     #pragma omp target map(stop)
     #endif
-    #pragma omp parallel for
+    #pragma omp parallel for schedule(runtime)
 #endif
             for(int tid=0; tid< no_of_nodes ; tid++ )
             {
