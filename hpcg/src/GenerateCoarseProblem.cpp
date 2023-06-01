@@ -57,7 +57,7 @@ void GenerateCoarseProblem(const SparseMatrix & Af) {
   // Use a parallel loop to do initial assignment:
   // distributes the physical placement of arrays of pointers across the memory system
 #ifndef HPCG_NO_OPENMP
-  #pragma omp parallel for
+  #pragma omp parallel for schedule(runtime)
 #endif
   for (local_int_t i=0; i< localNumberOfRows; ++i) {
     f2cOperator[i] = 0;
@@ -66,7 +66,7 @@ void GenerateCoarseProblem(const SparseMatrix & Af) {
 
   // TODO:  This triply nested loop could be flattened or use nested parallelism
 #ifndef HPCG_NO_OPENMP
-  #pragma omp parallel for
+  #pragma omp parallel for schedule(runtime)
 #endif
   for (local_int_t izc=0; izc<nzc; ++izc) {
     local_int_t izf = 2*izc;

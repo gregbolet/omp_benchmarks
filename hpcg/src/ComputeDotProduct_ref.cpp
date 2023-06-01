@@ -53,12 +53,12 @@ int ComputeDotProduct_ref(const local_int_t n, const Vector & x, const Vector & 
   double * yv = y.values;
   if (yv==xv) {
 #ifndef HPCG_NO_OPENMP
-    #pragma omp parallel for reduction (+:local_result)
+    #pragma omp parallel for schedule(runtime) reduction (+:local_result)
 #endif
     for (local_int_t i=0; i<n; i++) local_result += xv[i]*xv[i];
   } else {
 #ifndef HPCG_NO_OPENMP
-    #pragma omp parallel for reduction (+:local_result)
+    #pragma omp parallel for schedule(runtime) reduction (+:local_result)
 #endif
     for (local_int_t i=0; i<n; i++) local_result += xv[i]*yv[i];
   }

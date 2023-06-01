@@ -56,7 +56,7 @@ int ComputeResidual(const local_int_t n, const Vector & v1, const Vector & v2, d
   #pragma omp parallel default(none) shared(local_residual, v1v, v2v) shared(n)
   {
     double threadlocal_residual = 0.0;
-    #pragma omp for
+    #pragma omp for schedule(runtime)
     for (local_int_t i=0; i<n; i++) {
       double diff = std::fabs(v1v[i] - v2v[i]);
       if (diff > threadlocal_residual) threadlocal_residual = diff;
