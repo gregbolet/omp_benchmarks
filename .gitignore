@@ -4,6 +4,7 @@
 *.a
 result.txt
 setparams
+npbparams.h
 
 **/buildWithApollo
 **/buildNoApollo

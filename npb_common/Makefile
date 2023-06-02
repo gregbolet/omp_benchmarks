@@ -1,4 +1,4 @@
-UCC = cc
+UCC = ${LLVM_INSTALL}/bin/clang
 include ./make.def
 
 # Note that COMPILE is also defined in make.common and should

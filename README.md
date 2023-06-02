@@ -1,25 +1,48 @@
+## Objective
+
+The purpose of this repo is to house multiple OMP benchmarks in their closest-to-original (slightly modified) forms where the changes we've made are to enable easy building and OMP schedule control.
+What we ultimately want to answer is: 
+- *Apart from tuning thread count and thread affinity, can controlling the OMP schedule be useful?*
+- *Is the OMP schedule a worth-while hyperparameter for tuning OMP codes?*
+
+Being able to answer these questions will motivate us in designing an LLVM plugin for tuning all three using LLNL's Apollo.
+An extension is to then be able to perform a Sobol analysis on the space to see how different code regions interact with each other (and which don't) so as to distinguish regions that should be tuned with more care than others.
+
 ## Required Environment Variables for building
 
 ### Building without Apollo
 `LLVM_INSTALL="path/to/llvm/build/install_dir"`
 
+`OMP_NUM_THREADS="${SOME_NUMBER}"` 
+
+The num threads is required for `CFD` to build. It's used for some `block_length` variable, so you'll need to rebuild `CFD` for any change in thread count.
+
 ### Building with Apollo
 `APOLLO_INSTALL="path/to/apollo/build/install_dir"`
 
-`APOLLO_CPU_POLICIES="56,48,44,36,32,28,20,12,8,4,1,112"`
+`APOLLO_CPU_POLICIES="56,48,44,36,32,28,20,12,8,4,1,112"` (this gets passed to the compiler with our custom Apollo pass)
 
 ## Building
-Look at the Makefile in the root directory to see how the codes are built. If you set the `LLVM_INSTALL` environment variable, you can type `make noapollo` in the root directory of this repo and it should build all the codes without a problem.
+Look at the Makefile in the root directory to see how the codes are built. If you set the `LLVM_INSTALL` and `OMP_NUM_THREADS` environment variables, you can type `make noapollo` in the root directory of this repo and it should build all the codes without a problem.
+
+## Hardware
+Below is a table showing the details of each of the machines we're testing with.
+
+| Machine |              CPU              | NUMA <br>Nodes <br>(Sockets) | Cores<br>-per-<br>Socket | SMT <br>Threads<br>-per-<br>Core | Max <br>SMT<br>Threads |                        Cache <br>Sizes                       |     Cores<br>-per-<br>cache     | DRAM<br>-per-<br>socket |
+|:-------:|:-----------------------------:|:----------------------------:|:------------------------:|:--------------------------------:|:----------------------:|:------------------------------------------------------------:|:-------------------------------:|:-----------------------:|
+|   Ruby  | Intel Xeon <br>Platinum 8276L |               2              |            28            |                 2                |           112          | L1i:   32 KB<br>L1d:   32 KB<br>L2:  1024 KB<br>L3:    39 MB | L1 + L2: 1 core<br>L3: 28 cores |          93 GB          |
+|  Lassen |           IBM Power9          |               2              |            20            |                 4                |           160          | L1i:   32 KB<br>L1d:   32 KB<br>L2:   512 KB<br>L3:    10 MB | L1: 1 core<br>L2 + L3: 2 cores  |          128 GB         |
+
 
 ## Hyperparameters to Explore
 For each of these codes, we tune the following OMP runtime parameters. We're ultimately trying to find out whether these runtime parameters are worth tuning for these codes.
 
-|   **Tunable Parameter**   |                              **Explored Values**                              |
-|:-------------------------:|:-----------------------------------------------------------------------------:|
-|      OMP_NUM_THREADS      | {4,8,14,28,42,56,70,112} (ruby) <br>{10,20,40,60,80,100,120,140,160} (lassen) |
-|       OMP_PROC_BIND       |                                 {close,spread}                                |
-|  OMP_SCHEDULE (schedule)  |                            {static,guided,dynamic}                            |
-| OMP_SCHEDULE (chunk size) |                            {1,8,32,64,128,256,512}                            |
+|   **Tunable Parameter**   |                               **Explored Values**                               |
+|:-------------------------:|:-------------------------------------------------------------------------------:|
+|      OMP_NUM_THREADS      | {14,28,42,56,70,84,98,112} (ruby) <br>{10,20,40,60,80,100,120,140,160} (lassen) |
+|       OMP_PROC_BIND       |                                  {close,spread}                                 |
+|  OMP_SCHEDULE (schedule)  |                             {static,guided,dynamic}                             |
+| OMP_SCHEDULE (chunk size) |                             {1,8,32,64,128,256,512}                             |
 
 From the configuration table, we can note that on the ruby machine we will have to test `8*2*3*7=336` configurations for each code, while on the lassen machine we will have to test `9*2*3*7=378` configurations for each code. Given that we have three benchmarks for each program, and we want to do at most 3 repeat trials, we'll be executing `3*3*336=3024` and `3*3*378=3402` runs on ruby and lassen, respectively.
 
@@ -28,12 +51,12 @@ Below we show three inputs that we feed to each of the codes. We try a small, me
 
 | **Benchmark** |         **Small Input**         |         **Medium Input**        |         **Large Input**         |
 |:-------------:|:-------------------------------:|:-------------------------------:|:-------------------------------:|
-|      bfs      |        `1 graph4096.txt`        |        `1 graph65536.txt`       |        `1 graph1MW_6.txt`       |
+|      bfs      |   `1 ../inputs/graph4096.txt`   |   `1 ../inputs/graph65536.txt`  |   `1 ../inputs/graph1MW_6.txt`  |
 |       bt      |             `bt.B.x`            |             `bt.C.x`            |             `bt.D.x`            |
 |      cfd      |        `fvcorr.domn.097K`       |       `missile.domn.0.2M`       |       `missile.domn.0.4M`       |
 |       cg      |             `cg.B.x`            |             `cg.C.x`            |             `cg.D.x`            |
 |       ft      |             `ft.B.x`            |             `ft.C.x`            |             `ft.D.x`            |
-|      hpcg     |    `--nx=16 --ny=16 --nz=16`    |   `--nx=104 --ny=104 --nz=104`  |   `--nx=676 --ny=676 --nz=676`  |
+|      hpcg     |    `--nx=32 --ny=32 --nz=32`    |   `--nx=128 --ny=128 --nz=128`  |   `--nx=512 --ny=512 --nz=512`  |
 |       lu      |             `lu.B.x`            |             `lu.C.x`            |             `lu.D.x`            |
 |     lulesh    | `-s 30 -r 100 -b 0 -c 8 -i 200` | `-s 55 -r 100 -b 0 -c 8 -i 200` | `-s 80 -r 100 -b 0 -c 8 -i 200` |
 
@@ -41,6 +64,7 @@ Below we show three inputs that we feed to each of the codes. We try a small, me
 ### Runtime Note
 ALL these codes have had their `#pragma omp for` regions modified to have `schedule(runtime)` included.
 This means that we can set the `OMP_SCHEDULE` environment variable to control the OMP for loop schedule and chunk size without needing to manually set it and rebuild for each code.
+We also assume each code is being executed from their build directory. We've automated the builds to be written into the `buildNoApollo` and `buildWithApollo` directories within each benchmark directory.
 
 ### NPB Note
 The NPB codes are from the 2019 SNU NPB suite, where the original Fortran codes were ported over to C. We modified their makefiles and had to include the `npb_common` directory to get these codes to build alone in their own directories.
