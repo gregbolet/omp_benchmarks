@@ -73,13 +73,6 @@ FLINKFLAGS = -O3 -fopenmp -mcmodel=medium
 # linking is done with       $(CLINK) $(C_LIB) $(CLINKFLAGS)
 #---------------------------------------------------------------------------
 
-#LLVM_INSTALL=/g/g15/bolet1/workspace/clang-apollo/llvm-project/build-release-quartz/install
-#APOLLO_INSTALL=/g/g15/bolet1/workspace/apollo/build/install
-
-#CXXFLAGS=-fsave-optimization-record -fopenmp -Xclang -load -Xclang ${LLVM_INSTALL}/../lib/LLVMApollo.so -mllvm --apollo-omp-numthreads=36,18,1 -mllvm --apollo-enable-thread-instrumentation -march=native
-#LDFLAGS=-L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo -Wl,--rpath,${LLVM_INSTALL}/lib
-#LDFLAGS=-Wl,--rpath,${LLVM_INSTALL}/lib
-
 #---------------------------------------------------------------------------
 # This is the C compiler used for C programs
 #---------------------------------------------------------------------------
@@ -129,13 +122,13 @@ BUILD_WITH_APOLLO_LDFLAGS=${LDFLAGS} -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOL
 
 ifeq ($(origin APOLLO_BUILD),undefined)
   $(info variable not set)
-	CFLAGS = -O3 -fopenmp -mcmodel=medium ${CXXFLAGS}
-	CLINKFLAGS = -O3 -fopenmp -mcmodel=medium ${LDFLAGS}
+	CFLAGS = -O3 -fopenmp -mcmodel=large -march=native ${CXXFLAGS}
+	CLINKFLAGS = -O3 -fopenmp -mcmodel=large -march=native -fuse-ld=lld ${LDFLAGS} -L${LLVM_INSTALL}/lib -lhwloc
 	BINDIR = ./buildNoApollo
 else
   $(info variable is set)
-	CFLAGS = -O3 -fopenmp -mcmodel=medium ${BUILD_WITH_APOLLO_CXXFLAGS}
-	CLINKFLAGS = -O3 -fopenmp -mcmodel=medium ${BUILD_WITH_APOLLO_LDFLAGS}
+	CFLAGS = -O3 -fopenmp -mcmodel=large -march=native ${BUILD_WITH_APOLLO_CXXFLAGS}
+	CLINKFLAGS = -O3 -fopenmp -mcmodel=large -march=native -fuse-ld=lld -L ${LLVM_INSTALL}/lib -lhwloc ${BUILD_WITH_APOLLO_LDFLAGS}
 	BINDIR = ./buildWithApollo
 endif
 
@@ -148,7 +141,7 @@ $(info CFLAGS = ${CFLAGS} and CLINKFLAGS = ${CLINKFLAGS})
 # this compiler go here also; typically there are few flags required; hence 
 # there are no separate macros provided for such flags.
 #---------------------------------------------------------------------------
-UCC	= gcc
+UCC	= ${LLVM_INSTALL}/bin/clang
 
 
 #---------------------------------------------------------------------------

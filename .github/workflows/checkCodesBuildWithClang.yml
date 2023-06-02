@@ -1,0 +1,47 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: try prebuilt clang first
+      run: |
+            wget https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.5/clang+llvm-15.0.5-x86_64-linux-gnu-ubuntu-18.04.tar.xz;
+            tar -xf clang+llvm-15.0.5-x86_64-linux-gnu-ubuntu-18.04.tar.xz;
+            sudo apt update; sudo apt install -y libtinfo5 build-essential libhwloc15 libhwloc-plugins libhwloc-common libhwloc-contrib-plugins;
+            ls;
+            
+    - name: search for libhwloc
+      run: |
+            ls /;
+            echo "start searching";
+            find /usr/lib -name "*hwloc*.so*" 2>/dev/null;
+            echo "did usr lib";
+            find /lib -name "*hwloc*.so*" 2>/dev/null;
+            echo "did lib";
+            find /lib64 -name "*hwloc*.so*" 2>/dev/null;
+            echo "did lib64";
+            find /lib32 -name "*hwloc*.so*" 2>/dev/null;
+            echo "did lib32";
+            echo "done searching";
+            sudo ln -s /usr/lib/x86_64-linux-gnu/libhwloc.so.15.5.2 /usr/lib/x86_64-linux-gnu/libhwloc.so;
+            
+    - name: make noapollo
+      run: |
+            cat /etc/ld.so.conf.d/*;
+            export LLVM_INSTALL="$(pwd)/clang+llvm-15.0.5-x86_64-linux-gnu-ubuntu-18.04";
+            export LIBRARY_PATH="${LLVM_INSTALL}/lib";
+            export LD_LIBRARY_PATH="${LLVM_INSTALL}/lib";
+            export OMP_NUM_THREADS=2;
+            export PATH="${LLVM_INSTALL}/bin:$PATH";
+            echo $LLVM_INSTALL; ${LLVM_INSTALL}/bin/clang++ --version;
+            export LDFLAGS="-L/usr/lib/x86_64-linux-gnu";
+            which ld.lld;
+            make noapollo;
