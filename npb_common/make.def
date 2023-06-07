@@ -107,28 +107,40 @@ C_INC = -I../npb_common
 # _LARGEFILE64_SOURCE - are standard compiler flags which allow to work with 
 # files larger than 2GB.
 #---------------------------------------------------------------------------
-CFLAGS	= -Wall -O3 -fopenmp -mcmodel=medium ${CXXFLAGS}
+#CFLAGS	= -Wall -O3 -fopenmp -mcmodel=medium ${CXXFLAGS}
 #CFLAGS	= -g -Wall -O3 -fopenmp -mcmodel=medium 
 
 #---------------------------------------------------------------------------
 # Global *link time* flags. Flags for increasing maximum executable 
 # size usually go here. 
 #---------------------------------------------------------------------------
-CLINKFLAGS = -O3 -fopenmp -mcmodel=medium ${LDFLAGS}
+#CLINKFLAGS = -O3 -fopenmp -mcmodel=medium ${LDFLAGS}
 #CLINKFLAGS = -O3 -fopenmp -mcmodel=medium
 
 BUILD_WITH_APOLLO_CXXFLAGS=${CXXFLAGS} -Xclang -load -Xclang ${LLVM_INSTALL}/../lib/LLVMApollo.so -mllvm --apollo-omp-procbinds=close,spread -mllvm --apollo-omp-numthreads=${APOLLO_CPU_POLICIES}
 BUILD_WITH_APOLLO_LDFLAGS=${LDFLAGS} -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo 
 
+
+MCMODEL=medium
+ifeq ($(CLASS),D)
+	MCMODEL=large
+endif
+
+ifeq ($(BENCHMARK),ft)
+	ifeq ($(CLASS),C)
+		MCMODEL=large
+	endif
+endif
+
 ifeq ($(origin APOLLO_BUILD),undefined)
   $(info variable not set)
-	CFLAGS = -O3 -fopenmp -mcmodel=large -march=native ${CXXFLAGS}
-	CLINKFLAGS = -O3 -fopenmp -mcmodel=large -march=native -fuse-ld=lld ${LDFLAGS} -L${LLVM_INSTALL}/lib -lhwloc
+	CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${CXXFLAGS}
+	CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS} -L${LLVM_INSTALL}/lib 
 	BINDIR = ./buildNoApollo
 else
   $(info variable is set)
-	CFLAGS = -O3 -fopenmp -mcmodel=large -march=native ${BUILD_WITH_APOLLO_CXXFLAGS}
-	CLINKFLAGS = -O3 -fopenmp -mcmodel=large -march=native -fuse-ld=lld -L ${LLVM_INSTALL}/lib -lhwloc ${BUILD_WITH_APOLLO_LDFLAGS}
+	CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${BUILD_WITH_APOLLO_CXXFLAGS}
+	CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${BUILD_WITH_APOLLO_LDFLAGS} -L ${LLVM_INSTALL}/lib 
 	BINDIR = ./buildWithApollo
 endif
 
