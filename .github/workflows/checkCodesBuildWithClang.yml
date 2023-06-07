@@ -18,19 +18,8 @@ jobs:
             sudo apt update; sudo apt install -y libtinfo5 build-essential libhwloc15 libhwloc-plugins libhwloc-common libhwloc-contrib-plugins;
             ls;
             
-    - name: search for libhwloc
+    - name: symlink libhwloc
       run: |
-            ls /;
-            echo "start searching";
-            find /usr/lib -name "*hwloc*.so*" 2>/dev/null;
-            echo "did usr lib";
-            find /lib -name "*hwloc*.so*" 2>/dev/null;
-            echo "did lib";
-            find /lib64 -name "*hwloc*.so*" 2>/dev/null;
-            echo "did lib64";
-            find /lib32 -name "*hwloc*.so*" 2>/dev/null;
-            echo "did lib32";
-            echo "done searching";
             sudo ln -s /usr/lib/x86_64-linux-gnu/libhwloc.so.15.5.2 /usr/lib/x86_64-linux-gnu/libhwloc.so;
             
     - name: make noapollo
@@ -45,3 +34,8 @@ jobs:
             export LDFLAGS="-L/usr/lib/x86_64-linux-gnu";
             which ld.lld;
             make noapollo;
+            
+    - name: Check some codes run
+      run: |
+            ./cg/buildNoApollo/cg.B.x;
+            ./ft/buildNoApollo/ft.C.x;

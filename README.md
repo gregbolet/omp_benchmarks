@@ -11,7 +11,9 @@ An extension is to then be able to perform a Sobol analysis on the space to see 
 ## Required Environment Variables for building
 
 ### Building without Apollo
-`LLVM_INSTALL="path/to/llvm/build/install_dir"`
+`LLVM_INSTALL="path/to/llvm/build/install_dir"` 
+
+This directory should contain the `bin`, `lib`, `share`, `include`, `libexec` subdirectories with `bin/clang` and `bin/clang++` existing.
 
 `OMP_NUM_THREADS="${SOME_NUMBER}"` 
 
