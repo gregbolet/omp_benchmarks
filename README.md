@@ -55,7 +55,7 @@ Below we show three inputs that we feed to each of the codes. We try a small, me
 |:-------------:|:-------------------------------:|:-------------------------------:|:-------------------------------:|
 |      bfs      |   `1 ../inputs/graph4096.txt`   |   `1 ../inputs/graph65536.txt`  |   `1 ../inputs/graph1MW_6.txt`  |
 |       bt      |             `bt.B.x`            |             `bt.C.x`            |             `bt.D.x`            |
-|      cfd      |        `fvcorr.domn.097K`       |       `missile.domn.0.2M`       |       `missile.domn.0.4M`       |
+|      cfd      |        `../inputs/fvcorr.domn.097K`       |       `../inputs/missile.domn.0.2M`       |       `../inputs/missile.domn.0.4M`       |
 |       cg      |             `cg.B.x`            |             `cg.C.x`            |             `cg.D.x`            |
 |       ft      |             `ft.B.x`            |             `ft.C.x`            |             `ft.D.x`            |
 |      hpcg     |    `--nx=32 --ny=32 --nz=32`    |   `--nx=128 --ny=128 --nz=128`  |   `--nx=512 --ny=512 --nz=512`  |
