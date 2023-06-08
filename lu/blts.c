@@ -81,7 +81,7 @@ void blts(int ldmx, int ldmy, int ldmz, int nx, int ny, int nz, int k,
   }
 
 
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for schedule(static) nowait
   for (j = jst; j < jend; j++) {
     for (i = ist; i < iend; i++) {
       for (m = 0; m < 5; m++) {

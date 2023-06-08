@@ -60,7 +60,7 @@ void rhs()
               u51jm1,u41jm1,u31jm1,u21jm1,u51j,u41j,u31j,u21j,u31, \
               u51km1,u41km1,u31km1,u21km1,u51k,u41k,u31k,u21k,u41)
   {
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 0; k < nz; k++) {
     for (j = 0; j < ny; j++) {
       for (i = 0; i < nx; i++) {
@@ -207,7 +207,7 @@ void rhs()
   //---------------------------------------------------------------------
   // eta-direction flux differences
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 1; k < nz - 1; k++) {
     for (i = ist; i < iend; i++) {
       for (j = 0; j < ny; j++) {

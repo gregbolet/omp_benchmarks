@@ -60,7 +60,7 @@ void pintgr()
   #pragma omp parallel default(shared) private(i,j,k) \
                        shared(ki1,ki2,ifin,ibeg,jfin,jbeg,ifin1,jfin1)
   {
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for nowait
   for (j = jbeg; j < jfin; j++) {
     for (i = ibeg; i < ifin; i++) {
       k = ki1;
@@ -84,7 +84,7 @@ void pintgr()
   #pragma omp single
   frc1 = 0.0;
   
-  #pragma omp for schedule(runtime) reduction(+:frc1)
+  #pragma omp for reduction(+:frc1)
   for (j = jbeg; j < jfin1; j++) {
     for (i = ibeg; i < ifin1; i++) {
       frc1 = frc1 + (  phi1[j][i]
@@ -101,7 +101,7 @@ void pintgr()
   #pragma omp single nowait
   frc1 = dxi * deta * frc1;
 
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for nowait
   for (k = ki1; k < ki2; k++) {
     for (i = ibeg; i < ifin; i++) {
       phi1[k][i] = C2*(  u[k][jbeg][i][4]
@@ -112,7 +112,7 @@ void pintgr()
     }
   }
 
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for nowait
   for (k = ki1; k < ki2; k++) {
     for (i = ibeg; i < ifin; i++) {
       phi2[k][i] = C2*(  u[k][jfin-1][i][4]
@@ -126,7 +126,7 @@ void pintgr()
   #pragma omp single
   frc2 = 0.0;
 
-  #pragma omp for schedule(runtime) reduction(+:frc2)
+  #pragma omp for reduction(+:frc2)
   for (k = ki1; k < ki2-1; k++) {
     for (i = ibeg; i < ifin1; i++) {
       frc2 = frc2 + (  phi1[k][i]
@@ -143,7 +143,7 @@ void pintgr()
   #pragma omp single nowait
   frc2 = dxi * dzeta * frc2;
 
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for nowait
   for (k = ki1; k < ki2; k++) {
     for (j = jbeg; j < jfin; j++) {
       phi1[k][j] = C2*(  u[k][j][ibeg][4]
@@ -154,7 +154,7 @@ void pintgr()
     }
   }
 
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for nowait
   for (k = ki1; k < ki2; k++) {
     for (j = jbeg; j < jfin; j++) {
       phi2[k][j] = C2*(  u[k][j][ifin-1][4]
@@ -168,7 +168,7 @@ void pintgr()
   #pragma omp single
   frc3 = 0.0;
 
-  #pragma omp for schedule(runtime) reduction(+:frc3)
+  #pragma omp for reduction(+:frc3)
   for (k = ki1; k < ki2-1; k++) {
     for (j = jbeg; j < jfin1; j++) {
       frc3 = frc3 + (  phi1[k][j]
