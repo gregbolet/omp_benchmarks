@@ -52,7 +52,7 @@ void initialize()
   // to compute the whole thing with a simple loop. Make sure those 
   // values are nonzero by initializing the whole thing here. 
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 0; k <= grid_points[2]-1; k++) {
     for (j = 0; j <= grid_points[1]-1; j++) {
       for (i = 0; i <= grid_points[0]-1; i++) {
@@ -159,7 +159,7 @@ void initialize()
   //---------------------------------------------------------------------
   j = grid_points[1]-1;
   eta = 1.0;
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 0; k <= grid_points[2]-1; k++) {
     zeta = (double)(k) * dnzm1;
     for (i = 0; i <= grid_points[0]-1; i++) {
@@ -193,7 +193,7 @@ void initialize()
   //---------------------------------------------------------------------
   k = grid_points[2]-1;
   zeta = 1.0;
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for schedule(static) nowait
   for (j = 0; j <= grid_points[1]-1; j++) {
     eta = (double)(j) * dnym1;
     for (i = 0; i <= grid_points[0]-1; i++) {

@@ -48,7 +48,7 @@ void exact_rhs()
   //---------------------------------------------------------------------
   // initialize                                  
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 0; k <= grid_points[2]-1; k++) {
     for (j = 0; j <= grid_points[1]-1; j++) {
       for (i = 0; i <= grid_points[0]-1; i++) {
@@ -158,7 +158,7 @@ void exact_rhs()
   //---------------------------------------------------------------------
   // eta-direction flux differences             
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 1; k <= grid_points[2]-2; k++) {
     zeta = (double)(k) * dnzm1;
     for (i = 1; i <= grid_points[0]-2; i++) {
@@ -254,7 +254,7 @@ void exact_rhs()
   //---------------------------------------------------------------------
   // zeta-direction flux differences                      
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (j = 1; j <= grid_points[1]-2; j++) {
     eta = (double)(j) * dnym1;
     for (i = 1; i <= grid_points[0]-2; i++) {
@@ -351,7 +351,7 @@ void exact_rhs()
   //---------------------------------------------------------------------
   // now change the sign of the forcing function, 
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for schedule(static) nowait
   for (k = 1; k <= grid_points[2]-2; k++) {
     for (j = 1; j <= grid_points[1]-2; j++) {
       for (i = 1; i <= grid_points[0]-2; i++) {
