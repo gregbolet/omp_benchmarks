@@ -61,7 +61,7 @@ void l2norm (int ldx, int ldy, int ldz, int nx0, int ny0, int nz0,
   for (m = 0; m < 5; m++) {
     sum_local[m] = 0.0;
   }
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for nowait
   for (k = 1; k < nz0-1; k++) {
     for (j = jst; j < jend; j++) {
       for (i = ist; i < iend; i++) {

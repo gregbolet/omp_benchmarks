@@ -72,7 +72,7 @@ void erhs()
     }
   }
 
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 0; k < nz; k++) {
     zeta = ( (double)k ) / ( nz - 1 );
     for (j = 0; j < ny; j++) {
@@ -219,7 +219,7 @@ void erhs()
   //---------------------------------------------------------------------
   // eta-direction flux differences
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime)
+  #pragma omp for schedule(static)
   for (k = 1; k < nz - 1; k++) {
     for (i = ist; i < iend; i++) {
       for (j = 0; j < ny; j++) {
@@ -338,7 +338,7 @@ void erhs()
   //---------------------------------------------------------------------
   // zeta-direction flux differences
   //---------------------------------------------------------------------
-  #pragma omp for schedule(runtime) nowait
+  #pragma omp for schedule(static) nowait
   for (j = jst; j < jend; j++) {
     for (i = ist; i < iend; i++) {
       for (k = 0; k < nz; k++) {
