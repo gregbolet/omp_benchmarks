@@ -1,7 +1,7 @@
 #!/bin/bash
 
-CXXFLAGS=-fsave-optimization-record -O3 -fopenmp -march=native
-LDFLAGS=-L ${LLVM_INSTALL}/lib -Wl,--rpath,${LLVM_INSTALL}/lib
+CXXFLAGS="-fsave-optimization-record -O3 -fopenmp -march=native"
+LDFLAGS="-L ${LLVM_INSTALL}/lib -Wl,--rpath,${LLVM_INSTALL}/lib"
 
 BUILD_NO_APOLLO_CXXFLAGS=${CXXFLAGS}
 BUILD_NO_APOLLO_LDFLAGS=${LDFLAGS}

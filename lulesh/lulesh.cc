@@ -2239,7 +2239,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
       /* compress data, minimal set */
 #pragma omp parallel
       {
-#pragma omp for schedule(runtime) nowait firstprivate(numElemReg)
+#pragma omp for nowait firstprivate(numElemReg)
          for (Index_t i=0; i<numElemReg; ++i) {
             Index_t ielem = regElemList[i];
             e_old[i] = domain.e(ielem) ;
@@ -2250,7 +2250,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
             ql_old[i] = domain.ql(ielem) ;
          }
 
-#pragma omp for schedule(runtime) firstprivate(numElemReg)
+#pragma omp for firstprivate(numElemReg)
          for (Index_t i = 0; i < numElemReg ; ++i) {
             Index_t ielem = regElemList[i];
             Real_t vchalf ;
@@ -2261,7 +2261,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
 
       /* Check for v > eosvmax or v < eosvmin */
          if ( eosvmin != Real_t(0.) ) {
-#pragma omp for schedule(runtime) nowait firstprivate(numElemReg, eosvmin)
+#pragma omp for nowait firstprivate(numElemReg, eosvmin)
             for(Index_t i=0 ; i<numElemReg ; ++i) {
                Index_t ielem = regElemList[i];
                if (vnewc[ielem] <= eosvmin) { /* impossible due to calling func? */
@@ -2270,7 +2270,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
             }
          }
          if ( eosvmax != Real_t(0.) ) {
-#pragma omp for schedule(runtime) nowait firstprivate(numElemReg, eosvmax)
+#pragma omp for nowait firstprivate(numElemReg, eosvmax)
             for(Index_t i=0 ; i<numElemReg ; ++i) {
                Index_t ielem = regElemList[i];
                if (vnewc[ielem] >= eosvmax) { /* impossible due to calling func? */
@@ -2345,7 +2345,7 @@ void ApplyMaterialPropertiesForElems(Domain& domain)
 
        // Bound the updated relative volumes with eosvmin/max
        if (eosvmin != Real_t(0.)) {
-#pragma omp for schedule(runtime) nowait firstprivate(numElem)
+#pragma omp for nowait firstprivate(numElem)
           for(Index_t i=0 ; i<numElem ; ++i) {
              if (vnewc[i] < eosvmin)
                 vnewc[i] = eosvmin ;
@@ -2353,7 +2353,7 @@ void ApplyMaterialPropertiesForElems(Domain& domain)
        }
 
        if (eosvmax != Real_t(0.)) {
-#pragma omp for schedule(runtime) nowait firstprivate(numElem)
+#pragma omp for nowait firstprivate(numElem)
           for(Index_t i=0 ; i<numElem ; ++i) {
              if (vnewc[i] > eosvmax)
                 vnewc[i] = eosvmax ;
