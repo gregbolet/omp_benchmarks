@@ -8,6 +8,8 @@ npbparams.h
 
 **/buildWithApollo
 **/buildNoApollo
+**/explorData
+**/__pycache__
 
 graph1MW_6.txt
 missile.domn.0.2M
