@@ -32,16 +32,29 @@ class JobRunner:
         if self.completeCSV != None:
             self.completeDF = pd.read_csv(self.completeCSV)
 
-            # remove the completed work items from todoDF
-            for index, row in self.completeDF.iterrows():
-                row = row[['progname', 'probsize', 'policy']]
-                progname = row['progname']
-                probsize = row['probsize']
-                policy = row['policy']
+            # force datatype same-ness
+            for k,v in self.todoDF.dtypes.items():
+                self.completeDF[k] = self.completeDF[k].astype(v)
 
-                self.todoDF = self.todoDF[(self.todoDF['progname'] != progname) &
-                                          (self.todoDF['probsize'] != probsize) &
-                                          (self.todoDF['policy'] != policy)]
+            print(self.todoDF.dtypes)
+            print(self.completeDF.dtypes)
+            print(self.todoDF.head())
+            print(self.completeDF.tail())
+
+            # drop any jobs with a -1 xtime, these need to be re-run
+            self.completeDF = self.completeDF[self.completeDF['xtime'] != -1.0]
+
+            doneJobs = self.completeDF.drop(columns=['xtime'])
+
+            # remove the completed work items from todoDF
+            #self.todoDF = pd.concat([self.todoDF,self.completeDF]).drop_duplicates(keep=False)
+            self.todoDF = self.todoDF[~self.todoDF.isin(doneJobs)]
+            self.todoDF = self.todoDF.dropna()
+
+            # force datatype same-ness
+            for k,v in self.completeDF.drop(columns=['xtime']).dtypes.items():
+                self.todoDF[k] = self.todoDF[k].astype(v)
+
 
         else:
             completeCols = ['xtime']+list(self.todoDF.columns)
@@ -53,8 +66,12 @@ class JobRunner:
         self.envvars.remove('progname')
         self.envvars.remove('probsize')
 
+        self.todoDF     = self.todoDF.reset_index(drop=True)
+        self.completeDF = self.completeDF.reset_index(drop=True)
+
         print('Got', self.todoDF.shape[0], 'jobs todo!')
         print('Got', self.completeDF.shape[0], 'jobs pre-completed!')
+        print('todo df head:', self.todoDF.head())
         print('Using envvars',self.envvars)
         print('CSVs:', self.todoCSV, self.completeCSV, sep='\n')
 
@@ -71,7 +88,8 @@ class JobRunner:
             runner = ProgRunner(progname, probsize)
 
             envvar = row[self.envvars].to_dict()
-            print(envvar)
+            
+            print('running with envvars:', envvar.items())
 
             # this is a blocking call
             xtime = runner.runProg(envvar)
@@ -84,7 +102,7 @@ class JobRunner:
             self.completeDF.to_csv(self.completeCSV, index=False)
 
             # drop the row from the df
-            self.todoDF = self.todoDF.drop(0).reset_index(drop=True)
+            self.todoDF = self.todoDF.drop(index=0).reset_index(drop=True)
 
         return
 
@@ -107,7 +125,7 @@ class ProgRunner:
         finds = re.findall(self.xtimeRegex, toSearch)
 
         if len(finds) == 0:
-            return -1
+            return -1.0
 
         # get the last element that the regex found
         xtime = float(finds[-1].rstrip())

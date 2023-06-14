@@ -152,8 +152,9 @@ class JobManager:
             command += ' jobfile.sh'
             #comand = '"'+command+'"'
 
-            print('executing command:', command, 'with envvars', envvars)
-            result = subprocess.run(shlex.split(command), shell=True, env=vars_to_use,
+            print('executing command:', command, '\nwith envvars', envvars)
+            print(shlex.split(command))
+            result = subprocess.run(shlex.split(command), shell=False, env=vars_to_use,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
             # grab the stdout and errors 
