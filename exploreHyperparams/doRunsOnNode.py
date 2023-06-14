@@ -47,7 +47,6 @@ class JobRunner:
             doneJobs = self.completeDF.drop(columns=['xtime'])
 
             # remove the completed work items from todoDF
-            #self.todoDF = pd.concat([self.todoDF,self.completeDF]).drop_duplicates(keep=False)
             self.todoDF = self.todoDF[~self.todoDF.isin(doneJobs)]
             self.todoDF = self.todoDF.dropna()
 
