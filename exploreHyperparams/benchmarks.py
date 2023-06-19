@@ -20,7 +20,7 @@ else:
 machines = {
     'ruby' : {
         'envvars': {
-            'OMP_NUM_THREADS': [str(a) for a in [4,8,14,28,42,56,70,112]],
+            'OMP_NUM_THREADS': [str(a) for a in [4,8,14,28,42,56,70,84,98,112]],
             'OMP_PROC_BIND': ['close', 'spread'],
             'OMP_SCHEDULE': ['static']+[ a+','+str(b) for a in ['static', 'guided', 'dynamic'] for b in [1,8,32,64,128,256,512] ],
         },
