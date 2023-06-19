@@ -8,6 +8,7 @@ from benchmarks import *
 import numpy as np
 import pandas as pd
 import math
+import glob
 from itertools import product
 
 
@@ -54,6 +55,7 @@ class JobManager:
         self.jobsPerNode = jobsPerNode
         self.numTrials = numTrials
         self.useDebugNodes = useDebugNodes
+        self.runDirs = []
 
         self.samplingDir = ROOT_DIR+'/explorData/'+progname+'-'+probsize
 
@@ -68,10 +70,19 @@ class JobManager:
 
         self.pointsDF = self.setupSamplingFile()
 
+        self.wroteNewPointsFile = False
+
+        # check whether the main CSV file already exists, if it matches this shape
+        # ignore writing it out
+        CSVFile = self.samplingDir+'/allUniquePointsToSample.csv'
+        if (os.path.isfile(CSVFile)) and (pd.read_csv(CSVFile).shape[0] != self.pointsDF.shape[0]):
+            self.pointsDF.to_csv(CSVFile, index=False)
+            print('wrote sample points CSV to:', CSVFile)
+            self.wroteNewPointsFile = True
+
         return
 
     def setupSamplingFile(self):
-        CSVFile = self.samplingDir+'/allUniquePointsToSample.csv'
 
         df = self.uniquePointsDF.copy(deep=True)
 
@@ -85,23 +96,17 @@ class JobManager:
 
         df = df[['progname', 'probsize']+hparams]
 
-        #print(df.shape)
-        #print(df.head())
-        #print(df.tail())
-
-        df.to_csv(CSVFile, index=False)
-        print('wrote sample points CSV to:', CSVFile)
         return df
 
-
-    def setupJobs(self):
+    def setupAllNewJobs(self):
         numJobs = self.pointsDF.shape[0]
         totalNumGroups = math.ceil(numJobs/self.jobsPerNode)
 
         groupIdx = 0
-        self.runDirs = []
 
         hparams = list(machines[MACHINE]['envvars'].keys())
+        
+        toRunDirs = []
 
         while numJobs > 0:
             todoJobs = self.jobsPerNode if numJobs > self.jobsPerNode else numJobs
@@ -117,7 +122,7 @@ class JobManager:
             if not os.path.exists(dirname):
                 os.mkdir(dirname)
 
-            self.runDirs.append(dirname)
+            toRunDirs.append(dirname)
 
             jobs = jobs[['progname', 'probsize']+hparams]
             # create the todo CSV in the group dir
@@ -127,6 +132,55 @@ class JobManager:
             numJobs -= self.jobsPerNode
             groupIdx += 1
 
+        return toRunDirs
+
+    def findIncompleteJobs(self):
+
+        incompleteRuns = []
+
+        # job_X_of_Y directories
+        dirs = list(os.listdir(self.samplingDir))
+
+        for dir in dirs:
+            dir = self.samplingDir+'/'+dir
+
+            if not os.path.isdir(dir):
+                continue
+
+            todoFiles = glob.glob(dir+'/todo.csv')
+
+            if len(todoFiles) == 0:
+                incompleteRuns.append(dir)
+                continue
+
+            else:
+                todoFile = dir+'/todo.csv'
+                todo = pd.read_csv(todoFile)
+                compFile = todoFile.replace('todo', 'complete')
+
+                # if some runs were completed
+                if os.path.isfile(compFile):
+                    comp = pd.read_csv(compFile)
+
+                    # check that there are no -1 xtimes and the shapes match
+                    comp = comp[comp['xtime'] != -1.0]
+
+                    # if there are still runs to do, add it to the todo job list
+                    if comp.shape[0] != todo.shape[0]:
+                        incompleteRuns.append(dir)
+
+                else:
+                    incompleteRuns.append(dir)
+
+        return incompleteRuns
+
+    def setupJobs(self):
+        # this shouldn't really be the trigger, but it will be for now
+        if self.wroteNewPointsFile:
+            self.runDirs = self.setupAllNewJobs()
+        else:
+            self.runDirs = self.findIncompleteJobs()
+            print(self.progname, self.probsize, 'incomplete jobs:', '\n'.join(self.runDirs))
         return
 
     def launchJobs(self):
@@ -163,6 +217,10 @@ class JobManager:
 
             print(output)
             print(errors)
+
+
+        if len(self.runDirs) == 0:
+            print('All runs complete, none needed!', self.progname, self.probsize)
 
         return
 
