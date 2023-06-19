@@ -74,8 +74,9 @@ class JobManager:
 
         # check whether the main CSV file already exists, if it matches this shape
         # ignore writing it out
+        # sloppy coding, just want it to work
         CSVFile = self.samplingDir+'/allUniquePointsToSample.csv'
-        if (os.path.isfile(CSVFile)) and (pd.read_csv(CSVFile).shape[0] != self.pointsDF.shape[0]):
+        if (not os.path.isfile(CSVFile)) or ((os.path.isfile(CSVFile)) and (pd.read_csv(CSVFile).shape[0] != self.pointsDF.shape[0])):
             self.pointsDF.to_csv(CSVFile, index=False)
             print('wrote sample points CSV to:', CSVFile)
             self.wroteNewPointsFile = True
