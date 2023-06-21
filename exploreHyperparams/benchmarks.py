@@ -22,6 +22,7 @@ machines = {
         'envvars': {
             'OMP_NUM_THREADS': [str(a) for a in [4,8,14,28,42,56,70,84,98,112]],
             'OMP_PROC_BIND': ['close', 'spread'],
+            'OMP_PLACES': ['threads', 'cores', 'sockets'],
             'OMP_SCHEDULE': ['static']+[ a+','+str(b) for a in ['static', 'guided', 'dynamic'] for b in [1,8,32,64,128,256,512] ],
         },
         'pythonToModLoad' : 'python/3.10.8',
@@ -37,6 +38,7 @@ machines = {
         'envvars': {
             'OMP_NUM_THREADS': [str(a) for a in [10,20,40,60,80,100,120,140,160]],
             'OMP_PROC_BIND': ['close', 'spread'],
+            'OMP_PLACES': ['threads', 'cores', 'sockets'],
             'OMP_SCHEDULE': ['static']+[ a+','+str(b) for a in ['static', 'guided', 'dynamic'] for b in [1,8,32,64,128,256,512] ],
         },
         'pythonToModLoad' : 'python/3.8.2',
@@ -116,7 +118,7 @@ progs = {
         'valid-regex':r'(?<=Final Summary::)(Results are valid)(?=\s)',
         'dirname' : 'hpcg',
         'exe': {
-            'smlprob': '"rm -f *.txt" && "./xhpcg --nx=32 --ny=32 --nz=32" && "cat *.txt"',
+            'smlprob': '"rm -f *.txt" && "./xhpcg --nx=64 --ny=64 --nz=64" && "cat *.txt"',
             'medprob': '"rm -f *.txt" && "./xhpcg --nx=128 --ny=128 --nz=128" && "cat *.txt"',
             'lrgprob': '"rm -f *.txt" && "./xhpcg --nx=200 --ny=200 --nz=200" && "cat *.txt"'
         }

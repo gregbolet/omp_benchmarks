@@ -150,6 +150,8 @@ class JobManager:
 
             todoFiles = glob.glob(dir+'/todo.csv')
 
+            # this needs to be updated -- if there's no todo.csv file, we can't just launch the run...
+            # we need to create the todo file...
             if len(todoFiles) == 0:
                 incompleteRuns.append(dir)
                 continue
