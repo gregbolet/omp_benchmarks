@@ -41,12 +41,12 @@ For each of these codes, we tune the following OMP runtime parameters. We're ult
 
 |   **Tunable Parameter**   |                               **Explored Values**                               |
 |:-------------------------:|:-------------------------------------------------------------------------------:|
-|      OMP_NUM_THREADS      | {14,28,42,56,70,84,98,112} (ruby) <br>{10,20,40,60,80,100,120,140,160} (lassen) |
+|      OMP_NUM_THREADS      | {4,8,14,28,42,56,70,84,98,112} (ruby) <br>{10,20,40,60,80,100,120,140,160} (lassen) |
 |       OMP_PROC_BIND       |                                  {close,spread}                                 |
 |  OMP_SCHEDULE (schedule)  |                             {static,guided,dynamic}                             |
 | OMP_SCHEDULE (chunk size) |                             {1,8,32,64,128,256,512}                             |
 
-From the configuration table, we can note that on the ruby machine we will have to test `8*2*3*7=336` configurations for each code, while on the lassen machine we will have to test `9*2*3*7=378` configurations for each code. Given that we have three benchmarks for each program, and we want to do at most 3 repeat trials, we'll be executing `3*3*336=3024` and `3*3*378=3402` runs on ruby and lassen, respectively.
+From the configuration table, we can note that on the ruby machine we will have to test `10*2*(3*7+1)=440` configurations for each code, while on the lassen machine we will have to test `9*2*(3*7+1)=396` configurations for each code. Given that we have three benchmarks for each program, and we want to do at most 3 repeat trials, we'll be executing `3*3*440=3960` and `3*3*396=3564` runs on ruby and lassen, respectively.
 
 ## Code Inputs
 Below we show three inputs that we feed to each of the codes. We try a small, medium, and large problem size for each program. We do this to see whether there are execution differences across problem size -- usually due to effects like cache pollution or remote DRAM accesses.
@@ -58,7 +58,7 @@ Below we show three inputs that we feed to each of the codes. We try a small, me
 |      cfd      |        `../inputs/fvcorr.domn.097K`       |       `../inputs/missile.domn.0.2M`       |       `../inputs/missile.domn.0.4M`       |
 |       cg      |             `cg.B.x`            |             `cg.C.x`            |             `cg.D.x`            |
 |       ft      |             `ft.B.x`            |             `ft.C.x`            |             `ft.D.x`            |
-|      hpcg     |    `--nx=32 --ny=32 --nz=32`    |   `--nx=128 --ny=128 --nz=128`  |   `--nx=512 --ny=512 --nz=512`  |
+|      hpcg     |    `--nx=64 --ny=64 --nz=64`    |   `--nx=128 --ny=128 --nz=128`  |   `--nx=200 --ny=200 --nz=200`  |
 |       lu      |             `lu.B.x`            |             `lu.C.x`            |             `lu.D.x`            |
 |     lulesh    | `-s 30 -r 100 -b 0 -c 8 -i 200` | `-s 55 -r 100 -b 0 -c 8 -i 200` | `-s 80 -r 100 -b 0 -c 8 -i 200` |
 
