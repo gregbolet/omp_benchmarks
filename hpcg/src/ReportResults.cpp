@@ -23,6 +23,11 @@
 #endif
 
 #include <vector>
+
+#ifdef HPCG_PRINT_TO_STDOUT
+#include <iostream>
+#endif
+
 #include "ReportResults.hpp"
 #include "OutputFile.hpp"
 #include "OptimizeProblem.hpp"
@@ -407,6 +412,9 @@ void ReportResults(const SparseMatrix & A, int numberOfMgLevels, int numberOfCgS
     std::string yaml = doc.generate();
 #ifdef HPCG_DEBUG
     HPCG_fout << yaml;
+#endif
+#ifdef HPCG_PRINT_TO_STDOUT
+    std::cout << yaml;
 #endif
   }
   return;

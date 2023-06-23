@@ -139,6 +139,7 @@ class ProgRunner:
         vars_to_use = {**os.environ.copy(), **envvars}
 
         exe_dir = ROOT_DIR+'/../'+self.prog['dirname']+'/buildNoApollo'
+        timeoutSecs = int(self.prog['timeout'][self.probsize])
 
         os.chdir(exe_dir)
 
@@ -148,27 +149,37 @@ class ProgRunner:
         print(shlex.split(command))
 
         allOutput=''
+        noTimeoutHappened = True
 
         toExec = command.split('&&')
         for subcommand in toExec:
-            result = subprocess.run(shlex.split(subcommand), shell=True, env=vars_to_use,
-                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result = ''
+            try:
+                result = subprocess.run(shlex.split(subcommand), shell=True, env=vars_to_use, timeout=timeoutSecs,
+                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-            # grab the stdout and errors 
-            errors = result.stderr.decode('utf-8')
-            output = result.stdout.decode('utf-8')
+                # grab the stdout and errors 
+                errors = result.stderr.decode('utf-8')
+                output = result.stdout.decode('utf-8')
 
-            print(output)
-            print(errors)
-            allOutput += output
+                print(output)
+                print(errors)
+                allOutput += output
 
+                if noTimeoutHappened:
+                    noTimeoutHappened = True
+
+            except subprocess.TimeoutExpired:
+                print(self.progname, self.probsize, 'REACHED MAX EXECUTION TIME -- Killed after:', timeoutSecs, 'seconds')
+                noTimeoutHappened = False
 
         # extract the xtime from the output
-        xtime = self.extractXtimeFromString(allOutput)
-
-        print('\t\textracted xtime:', xtime, 'seconds')
-
-        return xtime
+        if noTimeoutHappened:
+            xtime = self.extractXtimeFromString(allOutput)
+            print('\t\textracted xtime:', xtime, 'seconds')
+            return xtime
+        else:
+            return float(timeoutSecs)
 
 # Defining main function
 def main():
