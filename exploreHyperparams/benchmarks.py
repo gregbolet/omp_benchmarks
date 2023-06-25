@@ -17,6 +17,7 @@ else:
     sys.exit('Unrecognized Machine Type from uname')
 
 # specify the job launching approach for each machine
+# the timeouts are in units of seconds
 machines = {
     'ruby' : {
         'envvars': {
