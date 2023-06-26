@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <omp.h>
+#include "apollo.h"
 //#define NUM_THREAD 4
 #define OPEN
 
@@ -132,6 +133,7 @@ void BFSGraph( int argc, char** argv)
     #ifdef OMP_OFFLOAD
     #pragma omp target
     #endif
+    APOLLO_BEGIN(no_of_nodes);
     #pragma omp parallel for schedule(runtime)
 #endif 
             for(int tid = 0; tid < no_of_nodes; tid++ )
@@ -149,12 +151,14 @@ void BFSGraph( int argc, char** argv)
                     }
                 }
             }
+    APOLLO_END;
 
 #ifdef OPEN
     #ifdef OMP_OFFLOAD
     #pragma omp target map(stop)
     #endif
-    #pragma omp parallel for schedule(runtime)
+    APOLLO_BEGIN(no_of_nodes);
+#pragma omp parallel for schedule(runtime)
 #endif
             for(int tid=0; tid< no_of_nodes ; tid++ )
             {
@@ -165,6 +169,9 @@ void BFSGraph( int argc, char** argv)
                     h_updating_graph_mask[tid]=false;
                 }
             }
+
+	    APOLLO_END;
+
             k++;
         }
 	while(stop);
