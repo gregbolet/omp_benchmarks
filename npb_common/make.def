@@ -76,7 +76,7 @@ FLINKFLAGS = -O3 -fopenmp -mcmodel=medium
 #---------------------------------------------------------------------------
 # This is the C compiler used for C programs
 #---------------------------------------------------------------------------
-CC = ${LLVM_INSTALL}/bin/clang
+CC = clang
 #CC = gcc
 
 # This links C programs; usually the same as ${CC}
@@ -116,10 +116,7 @@ C_INC = -I../npb_common
 #---------------------------------------------------------------------------
 #CLINKFLAGS = -O3 -fopenmp -mcmodel=medium ${LDFLAGS}
 #CLINKFLAGS = -O3 -fopenmp -mcmodel=medium
-
-BUILD_WITH_APOLLO_CXXFLAGS=${CXXFLAGS} -Xclang -load -Xclang ${LLVM_INSTALL}/../lib/LLVMApollo.so -mllvm --apollo-omp-procbinds=close,spread -mllvm --apollo-omp-numthreads=${APOLLO_CPU_POLICIES}
-BUILD_WITH_APOLLO_LDFLAGS=${LDFLAGS} -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo 
-
+LDFLAGS = -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo
 
 MCMODEL=medium
 ifeq ($(CLASS),D)
@@ -132,15 +129,14 @@ ifeq ($(BENCHMARK),ft)
 	endif
 endif
 
+CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS}
+CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${CXXFLAGS} -I ${ROOT_DIR}
 ifeq ($(origin APOLLO_BUILD),undefined)
   $(info variable not set)
-	CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${CXXFLAGS}
-	CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS} -L${LLVM_INSTALL}/lib 
 	BINDIR = ./buildNoApollo
 else
   $(info variable is set)
-	CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${BUILD_WITH_APOLLO_CXXFLAGS}
-	CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${BUILD_WITH_APOLLO_LDFLAGS} -L ${LLVM_INSTALL}/lib 
+	CFLAGS += -DENABLE_APOLLO
 	BINDIR = ./buildWithApollo
 endif
 
