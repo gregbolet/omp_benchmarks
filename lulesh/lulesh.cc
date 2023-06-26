@@ -160,6 +160,7 @@ Additional BSD Notice
 #endif
 
 #include "lulesh.h"
+#include "apollo.h"
 
 /* Work Routines */
 
@@ -279,10 +280,12 @@ void InitStressTermsForElems(Domain &domain,
    // pull in the stresses appropriate to the hydro integration
    //
 
+  APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem)
    for (Index_t i = 0 ; i < numElem ; ++i){
       sigxx[i] = sigyy[i] = sigzz[i] =  - domain.p(i) - domain.q(i) ;
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -518,6 +521,7 @@ void IntegrateStressForElems( Domain &domain,
   }
   // loop over all elements
 
+  APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem)
   for( Index_t k=0 ; k<numElem ; ++k )
   {
@@ -558,10 +562,12 @@ void IntegrateStressForElems( Domain &domain,
        }
     }
   }
+  APOLLO_END;
 
   if (numthreads > 1) {
      // If threaded, then we need to copy the data out of the temporary
      // arrays used above into the final forces field
+    APOLLO_BEGIN(numNode);
 #pragma omp parallel for schedule(runtime) firstprivate(numNode)
      for( Index_t gnode=0 ; gnode<numNode ; ++gnode )
      {
@@ -580,6 +586,8 @@ void IntegrateStressForElems( Domain &domain,
         domain.fy(gnode) = fy_tmp ;
         domain.fz(gnode) = fz_tmp ;
      }
+     APOLLO_END;
+
      Release(&fz_elem) ;
      Release(&fy_elem) ;
      Release(&fx_elem) ;
@@ -779,6 +787,7 @@ void CalcFBHourglassForceForElems( Domain &domain,
 /*    compute the hourglass modes */
 
 
+   APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem, hourg)
    for(Index_t i2=0;i2<numElem;++i2){
       Real_t *fx_local, *fy_local, *fz_local ;
@@ -963,9 +972,11 @@ void CalcFBHourglassForceForElems( Domain &domain,
          domain.fz(n7si2) += hgfz[7];
       }
    }
+   APOLLO_END;
 
    if (numthreads > 1) {
      // Collect the data from the local arrays into the final force arrays
+     APOLLO_BEGIN(numNode);
 #pragma omp parallel for schedule(runtime) firstprivate(numNode)
       for( Index_t gnode=0 ; gnode<numNode ; ++gnode )
       {
@@ -984,6 +995,8 @@ void CalcFBHourglassForceForElems( Domain &domain,
          domain.fy(gnode) += fy_tmp ;
          domain.fz(gnode) += fz_tmp ;
       }
+      APOLLO_END;
+
       Release(&fz_elem) ;
       Release(&fy_elem) ;
       Release(&fx_elem) ;
@@ -1006,6 +1019,7 @@ void CalcHourglassControlForElems(Domain& domain,
    Real_t *z8n  = Allocate<Real_t>(numElem8) ;
 
    /* start loop over elements */
+   APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem)
    for (Index_t i=0 ; i<numElem ; ++i){
       Real_t  x1[8],  y1[8],  z1[8] ;
@@ -1039,6 +1053,7 @@ void CalcHourglassControlForElems(Domain& domain,
 #endif
       }
    }
+   APOLLO_END;
 
    if ( hgcoef > Real_t(0.) ) {
       CalcFBHourglassForceForElems( domain,
@@ -1079,6 +1094,7 @@ void CalcVolumeForceForElems(Domain& domain)
                                domain.numNode()) ;
 
       // check for negative element volume
+      APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem)
       for ( Index_t k=0 ; k<numElem ; ++k ) {
          if (determ[k] <= Real_t(0.0)) {
@@ -1089,6 +1105,7 @@ void CalcVolumeForceForElems(Domain& domain)
 #endif
          }
       }
+      APOLLO_END;
 
       CalcHourglassControlForElems(domain, determ, hgcoef) ;
 
@@ -1111,12 +1128,14 @@ static inline void CalcForceForNodes(Domain& domain)
            true, false) ;
 #endif  
 
+  APOLLO_BEGIN(numNode);
 #pragma omp parallel for schedule(runtime) firstprivate(numNode)
   for (Index_t i=0; i<numNode; ++i) {
      domain.fx(i) = Real_t(0.0) ;
      domain.fy(i) = Real_t(0.0) ;
      domain.fz(i) = Real_t(0.0) ;
   }
+  APOLLO_END;
 
   /* Calcforce calls partial, force, hourq */
   CalcVolumeForceForElems(domain) ;
@@ -1140,12 +1159,14 @@ static inline
 void CalcAccelerationForNodes(Domain &domain, Index_t numNode)
 {
    
+  APOLLO_BEGIN(numNode);
 #pragma omp parallel for schedule(runtime) firstprivate(numNode)
    for (Index_t i = 0; i < numNode; ++i) {
       domain.xdd(i) = domain.fx(i) / domain.nodalMass(i);
       domain.ydd(i) = domain.fy(i) / domain.nodalMass(i);
       domain.zdd(i) = domain.fz(i) / domain.nodalMass(i);
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -1185,6 +1206,7 @@ void CalcVelocityForNodes(Domain &domain, const Real_t dt, const Real_t u_cut,
                           Index_t numNode)
 {
 
+  APOLLO_BEGIN(numNode);
 #pragma omp parallel for schedule(runtime) firstprivate(numNode)
    for ( Index_t i = 0 ; i < numNode ; ++i )
    {
@@ -1202,6 +1224,7 @@ void CalcVelocityForNodes(Domain &domain, const Real_t dt, const Real_t u_cut,
      if( FABS(zdtmp) < u_cut ) zdtmp = Real_t(0.0);
      domain.zd(i) = zdtmp ;
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -1209,6 +1232,7 @@ void CalcVelocityForNodes(Domain &domain, const Real_t dt, const Real_t u_cut,
 static inline
 void CalcPositionForNodes(Domain &domain, const Real_t dt, Index_t numNode)
 {
+  APOLLO_BEGIN(numNode);
 #pragma omp parallel for schedule(runtime) firstprivate(numNode)
    for ( Index_t i = 0 ; i < numNode ; ++i )
    {
@@ -1216,6 +1240,7 @@ void CalcPositionForNodes(Domain &domain, const Real_t dt, Index_t numNode)
      domain.y(i) += domain.yd(i) * dt ;
      domain.z(i) += domain.zd(i) * dt ;
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -1507,6 +1532,7 @@ void CalcKinematicsForElems( Domain &domain,
 {
 
   // loop over all elements
+  APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem, deltaTime)
   for( Index_t k=0 ; k<numElem ; ++k )
   {
@@ -1565,6 +1591,7 @@ void CalcKinematicsForElems( Domain &domain,
     domain.dyy(k) = D[1];
     domain.dzz(k) = D[2];
   }
+  APOLLO_END;
 }
 
 /******************************************/
@@ -1581,6 +1608,7 @@ void CalcLagrangeElements(Domain& domain)
       CalcKinematicsForElems(domain, deltatime, numElem) ;
 
       // element loop to do some stuff not included in the elemlib function.
+      APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem)
       for ( Index_t k=0 ; k<numElem ; ++k )
       {
@@ -1604,6 +1632,7 @@ void CalcLagrangeElements(Domain& domain)
 #endif
         }
       }
+      APOLLO_END;
       domain.DeallocateStrains();
    }
 }
@@ -1615,6 +1644,7 @@ void CalcMonotonicQGradientsForElems(Domain& domain)
 {
    Index_t numElem = domain.numElem();
 
+   APOLLO_BEGIN(numElem);
 #pragma omp parallel for schedule(runtime) firstprivate(numElem)
    for (Index_t i = 0 ; i < numElem ; ++i ) {
       const Real_t ptiny = Real_t(1.e-36) ;
@@ -1754,6 +1784,7 @@ void CalcMonotonicQGradientsForElems(Domain& domain)
 
       domain.delv_eta(i) = ax*dxv + ay*dyv + az*dzv ;
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -1767,6 +1798,7 @@ void CalcMonotonicQRegionForElems(Domain &domain, Int_t r,
    Real_t qlc_monoq = domain.qlc_monoq();
    Real_t qqc_monoq = domain.qqc_monoq();
 
+   APOLLO_BEGIN(domain.regElemSize(r));
 #pragma omp parallel for schedule(runtime) firstprivate(qlc_monoq, qqc_monoq, monoq_limiter_mult, monoq_max_slope, ptiny)
    for ( Index_t i = 0 ; i < domain.regElemSize(r); ++i ) {
       Index_t ielem = domain.regElemlist(r,i);
@@ -1918,6 +1950,7 @@ void CalcMonotonicQRegionForElems(Domain &domain, Int_t r,
       domain.qq(ielem) = qquad ;
       domain.ql(ielem) = qlin  ;
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -2019,13 +2052,16 @@ void CalcPressureForElems(Real_t* p_new, Real_t* bvc,
                           Real_t p_cut, Real_t eosvmax,
                           Index_t length, Index_t *regElemList)
 {
+  APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length)
    for (Index_t i = 0; i < length ; ++i) {
       Real_t c1s = Real_t(2.0)/Real_t(3.0) ;
       bvc[i] = c1s * (compression[i] + Real_t(1.));
       pbvc[i] = c1s;
    }
+   APOLLO_END;
 
+  APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length, pmin, p_cut, eosvmax)
    for (Index_t i = 0 ; i < length ; ++i){
       Index_t ielem = regElemList[i];
@@ -2041,6 +2077,7 @@ void CalcPressureForElems(Real_t* p_new, Real_t* bvc,
       if    (p_new[i]       <  pmin)
          p_new[i]   = pmin ;
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -2059,6 +2096,7 @@ void CalcEnergyForElems(Real_t* p_new, Real_t* e_new, Real_t* q_new,
 {
    Real_t *pHalfStep = Allocate<Real_t>(length) ;
 
+   APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length, emin)
    for (Index_t i = 0 ; i < length ; ++i) {
       e_new[i] = e_old[i] - Real_t(0.5) * delvc[i] * (p_old[i] + q_old[i])
@@ -2068,10 +2106,12 @@ void CalcEnergyForElems(Real_t* p_new, Real_t* e_new, Real_t* q_new,
          e_new[i] = emin ;
       }
    }
+   APOLLO_END;
 
    CalcPressureForElems(pHalfStep, bvc, pbvc, e_new, compHalfStep, vnewc,
                         pmin, p_cut, eosvmax, length, regElemList);
 
+   APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length, rho0)
    for (Index_t i = 0 ; i < length ; ++i) {
       Real_t vhalf = Real_t(1.) / (Real_t(1.) + compHalfStep[i]) ;
@@ -2096,7 +2136,9 @@ void CalcEnergyForElems(Real_t* p_new, Real_t* e_new, Real_t* q_new,
          * (  Real_t(3.0)*(p_old[i]     + q_old[i])
               - Real_t(4.0)*(pHalfStep[i] + q_new[i])) ;
    }
+   APOLLO_END;
 
+   APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length, emin, e_cut)
    for (Index_t i = 0 ; i < length ; ++i) {
 
@@ -2109,10 +2151,12 @@ void CalcEnergyForElems(Real_t* p_new, Real_t* e_new, Real_t* q_new,
          e_new[i] = emin ;
       }
    }
+   APOLLO_END;
 
    CalcPressureForElems(p_new, bvc, pbvc, e_new, compression, vnewc,
                         pmin, p_cut, eosvmax, length, regElemList);
 
+   APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length, rho0, emin, e_cut)
    for (Index_t i = 0 ; i < length ; ++i){
       const Real_t sixth = Real_t(1.0) / Real_t(6.0) ;
@@ -2146,10 +2190,12 @@ void CalcEnergyForElems(Real_t* p_new, Real_t* e_new, Real_t* q_new,
          e_new[i] = emin ;
       }
    }
+   APOLLO_END;
 
    CalcPressureForElems(p_new, bvc, pbvc, e_new, compression, vnewc,
                         pmin, p_cut, eosvmax, length, regElemList);
 
+   APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length, rho0, q_cut)
    for (Index_t i = 0 ; i < length ; ++i){
       Index_t ielem = regElemList[i];
@@ -2169,6 +2215,7 @@ void CalcEnergyForElems(Real_t* p_new, Real_t* e_new, Real_t* q_new,
          if (FABS(q_new[i]) < q_cut) q_new[i] = Real_t(0.) ;
       }
    }
+   APOLLO_END;
 
    Release(&pHalfStep) ;
 
@@ -2184,6 +2231,7 @@ void CalcSoundSpeedForElems(Domain &domain,
                             Real_t *bvc, Real_t ss4o3,
                             Index_t len, Index_t *regElemList)
 {
+  APOLLO_BEGIN(len);
 #pragma omp parallel for schedule(runtime) firstprivate(rho0, ss4o3)
    for (Index_t i = 0; i < len ; ++i) {
       Index_t ielem = regElemList[i];
@@ -2197,6 +2245,7 @@ void CalcSoundSpeedForElems(Domain &domain,
       }
       domain.ss(ielem) = ssTmp ;
    }
+   APOLLO_END;
 }
 
 /******************************************/
@@ -2294,6 +2343,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
                          numElemReg, regElemList);
    }
 
+   APOLLO_BEGIN(numElemReg);
 #pragma omp parallel for schedule(runtime) firstprivate(numElemReg)
    for (Index_t i=0; i<numElemReg; ++i) {
       Index_t ielem = regElemList[i];
@@ -2301,6 +2351,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
       domain.e(ielem) = e_new[i] ;
       domain.q(ielem) = q_new[i] ;
    }
+   APOLLO_END;
 
    CalcSoundSpeedForElems(domain,
                           vnewc, rho0, e_new, p_new,
@@ -2412,6 +2463,7 @@ void UpdateVolumesForElems(Domain &domain,
                            Real_t v_cut, Index_t length)
 {
    if (length != 0) {
+     APOLLO_BEGIN(length);
 #pragma omp parallel for schedule(runtime) firstprivate(length, v_cut)
       for(Index_t i=0 ; i<length ; ++i) {
          Real_t tmpV = domain.vnew(i) ;
@@ -2421,6 +2473,7 @@ void UpdateVolumesForElems(Domain &domain,
 
          domain.v(i) = tmpV ;
       }
+      APOLLO_END;
    }
 
    return ;
