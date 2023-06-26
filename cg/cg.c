@@ -47,6 +47,7 @@
 #include "randdp.h"
 #include "timers.h"
 #include "print_results.h"
+#include "../apollo.h"
 
 
 //---------------------------------------------------------------------
@@ -283,6 +284,9 @@ int main(int argc, char *argv[])
     //---------------------------------------------------------------------
     norm_temp1 = 0.0;
     norm_temp2 = 0.0;
+
+    APOLLO_BEGIN(lastcol - firstcol + 1);
+
     #pragma omp parallel for schedule(runtime) default(shared) private(j) \
                              reduction(+:norm_temp1,norm_temp2)
     for (j = 0; j < lastcol - firstcol + 1; j++) {
@@ -290,25 +294,36 @@ int main(int argc, char *argv[])
       norm_temp2 = norm_temp2 + z[j] * z[j];
     }
 
+    APOLLO_END;
+
     norm_temp2 = 1.0 / sqrt(norm_temp2);
 
     //---------------------------------------------------------------------
     // Normalize z to obtain x
     //---------------------------------------------------------------------
+
+    APOLLO_BEGIN(lastcol - firstcol +1);
+
     #pragma omp parallel for schedule(runtime) default(shared) private(j)
     for (j = 0; j < lastcol - firstcol + 1; j++) {
       x[j] = norm_temp2 * z[j];
     }
+
+    APOLLO_END;
+
+   
   } // end of do one iteration untimed
 
 
   //---------------------------------------------------------------------
   // set starting vector to (1, 1, .... 1)
   //---------------------------------------------------------------------
+  APOLLO_BEGIN(NA+1);
   #pragma omp parallel for schedule(runtime) default(shared) private(i)
   for (i = 0; i < NA+1; i++) {
     x[i] = 1.0;
   }
+  APOLLO_END;
 
   zeta = 0.0;
 
@@ -339,12 +354,17 @@ int main(int argc, char *argv[])
     //---------------------------------------------------------------------
     norm_temp1 = 0.0;
     norm_temp2 = 0.0;
+
+    APOLLO_BEGIN(lastcol-firstcol+1);
+
     #pragma omp parallel for schedule(runtime) default(shared) private(j) \
                              reduction(+:norm_temp1,norm_temp2)
     for (j = 0; j < lastcol - firstcol + 1; j++) {
       norm_temp1 = norm_temp1 + x[j]*z[j];
       norm_temp2 = norm_temp2 + z[j]*z[j];
     }
+
+    APOLLO_END;
 
     norm_temp2 = 1.0 / sqrt(norm_temp2);
 
@@ -356,10 +376,12 @@ int main(int argc, char *argv[])
     //---------------------------------------------------------------------
     // Normalize z to obtain x
     //---------------------------------------------------------------------
+    APOLLO_BEGIN(lastcol-firstcol+1);
     #pragma omp parallel for schedule(runtime) default(shared) private(j)
     for (j = 0; j < lastcol - firstcol + 1; j++) {
       x[j] = norm_temp2 * z[j];
     }
+    APOLLO_END;
   } // end of main iter inv pow meth
 
   timer_stop(T_bench);
@@ -453,6 +475,7 @@ static void conj_grad(int colidx[],
   rho = 0.0;
   sum = 0.0;
 
+  APOLLO_BEGIN(naa+1);
   #pragma omp parallel default(shared) private(j,k,cgit,suml,alpha,beta) \
                                        shared(d,rho0,rho,sum)
   {
@@ -618,6 +641,7 @@ static void conj_grad(int colidx[],
     sum  = sum + suml*suml;
   }
   }
+  APOLLO_END;
 
   *rnorm = sqrt(sum);
 }
