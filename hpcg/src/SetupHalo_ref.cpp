@@ -38,6 +38,8 @@ using std::endl;
 #include "SetupHalo_ref.hpp"
 #include "mytimer.hpp"
 
+#include "apollo.h"
+
 /*!
   Reference version of SetupHalo that prepares system matrix data structure and creates data necessary
   for communication of boundary values of this process.
@@ -55,6 +57,7 @@ void SetupHalo_ref(SparseMatrix & A) {
   global_int_t ** mtxIndG = A.mtxIndG;
   local_int_t ** mtxIndL = A.mtxIndL;
 
+  APOLLO_BEGIN(localNumberOfRows);
 #ifdef HPCG_NO_MPI  // In the non-MPI case we simply copy global indices to local index storage
 #ifndef HPCG_NO_OPENMP
   #pragma omp parallel for schedule(runtime)
@@ -63,6 +66,7 @@ void SetupHalo_ref(SparseMatrix & A) {
     int cur_nnz = nonzerosInRow[i];
     for (int j=0; j<cur_nnz; j++) mtxIndL[i][j] = mtxIndG[i][j];
   }
+  APOLLO_END;
 
 #else // Run this section if compiling for MPI
 
@@ -139,6 +143,7 @@ void SetupHalo_ref(SparseMatrix & A) {
   }
 
   // Convert matrix indices to local IDs
+  APOLLO_BEGIN(localNumberOfRows);
 #ifndef HPCG_NO_OPENMP
   #pragma omp parallel for schedule(runtime)
 #endif
@@ -153,6 +158,7 @@ void SetupHalo_ref(SparseMatrix & A) {
       }
     }
   }
+  APOLLO_END;
 
   // Store contents in our matrix struct
   A.numberOfExternalValues = externalToLocalMap.size();

@@ -28,6 +28,8 @@
 #include "GenerateProblem.hpp"
 #include "SetupHalo.hpp"
 
+#include "apollo.h"
+
 /*!
   Routine to construct a prolongation/restriction operator for a given fine grid matrix
   solution (as computed by a direct solver).
@@ -56,15 +58,18 @@ void GenerateCoarseProblem(const SparseMatrix & Af) {
 
   // Use a parallel loop to do initial assignment:
   // distributes the physical placement of arrays of pointers across the memory system
+  APOLLO_BEGIN(localNumberOfRows);
 #ifndef HPCG_NO_OPENMP
   #pragma omp parallel for schedule(runtime)
 #endif
   for (local_int_t i=0; i< localNumberOfRows; ++i) {
     f2cOperator[i] = 0;
   }
+  APOLLO_END;
 
 
   // TODO:  This triply nested loop could be flattened or use nested parallelism
+  APOLLO_BEGIN(nzc);
 #ifndef HPCG_NO_OPENMP
   #pragma omp parallel for schedule(runtime)
 #endif
@@ -80,6 +85,7 @@ void GenerateCoarseProblem(const SparseMatrix & Af) {
       } // end iy loop
     } // end even iz if statement
   } // end iz loop
+  APOLLO_END;
 
   // Construct the geometry and linear system
   Geometry * geomc = new Geometry;

@@ -24,6 +24,8 @@
 
 #include "ComputeProlongation_ref.hpp"
 
+#include "apollo.h"
+
 /*!
   Routine to compute the coarse residual vector.
 
@@ -42,11 +44,13 @@ int ComputeProlongation_ref(const SparseMatrix & Af, Vector & xf) {
   local_int_t * f2c = Af.mgData->f2cOperator;
   local_int_t nc = Af.mgData->rc->localLength;
 
+  APOLLO_BEGIN(nc);
 #ifndef HPCG_NO_OPENMP
 #pragma omp parallel for schedule(runtime)
 #endif
 // TODO: Somehow note that this loop can be safely vectorized since f2c has no repeated indices
   for (local_int_t i=0; i<nc; ++i) xfv[f2c[i]] += xcv[i]; // This loop is safe to vectorize
+  APOLLO_END;
 
   return 0;
 }

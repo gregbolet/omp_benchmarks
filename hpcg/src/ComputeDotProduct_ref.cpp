@@ -28,6 +28,8 @@
 #include <cassert>
 #include "ComputeDotProduct_ref.hpp"
 
+#include "apollo.h"
+
 /*!
   Routine to compute the dot product of two vectors where:
 
@@ -53,14 +55,18 @@ int ComputeDotProduct_ref(const local_int_t n, const Vector & x, const Vector & 
   double * yv = y.values;
   if (yv==xv) {
 #ifndef HPCG_NO_OPENMP
+    APOLLO_BEGIN(n);
     #pragma omp parallel for schedule(runtime) reduction (+:local_result)
 #endif
     for (local_int_t i=0; i<n; i++) local_result += xv[i]*xv[i];
+    APOLLO_END;
   } else {
 #ifndef HPCG_NO_OPENMP
+    APOLLO_BEGIN(n);
     #pragma omp parallel for schedule(runtime) reduction (+:local_result)
 #endif
     for (local_int_t i=0; i<n; i++) local_result += xv[i]*yv[i];
+    APOLLO_END;
   }
 
 #ifndef HPCG_NO_MPI

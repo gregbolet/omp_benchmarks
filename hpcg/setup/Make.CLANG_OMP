@@ -116,17 +116,14 @@ HPCG_DEFS     = $(HPCG_OPTS) $(HPCG_INCLUDES)
 # ----------------------------------------------------------------------
 # - Compilers / linkers - Optimization flags ---------------------------
 # ----------------------------------------------------------------------
-# 
+#
 
-
-LLVM_CXXFLAGS=-fsave-optimization-record -O3 -fopenmp -Xclang -load -Xclang ${LLVM_INSTALL}/../lib/LLVMApollo.so -mllvm --apollo-omp-procbinds=close,spread -mllvm --apollo-omp-numthreads=${APOLLO_CPU_POLICIES} -march=native
-LLVM_LDFLAGS=-L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo -Wl,--rpath,${LLVM_INSTALL}/lib
-
-CXX          = ${LLVM_INSTALL}/bin/clang++
-CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp ${LLVM_CXXFLAGS} ${LLVM_LDFLAGS}
+CXX          = clang++
+#CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp ${LLVM_CXXFLAGS} ${LLVM_LDFLAGS}
+CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp -march=native -I ${ROOT_DIR}
 #
 LINKER       = $(CXX)
-LINKFLAGS    = $(CXXFLAGS)
+LINKFLAGS    = $(CXXFLAGS) -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo
 #
 ARCHIVER     = ar
 ARFLAGS      = r
