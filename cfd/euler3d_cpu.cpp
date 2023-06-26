@@ -13,6 +13,7 @@
 #endif
 
 #include <omp.h>
+#include "apollo.h"
 
 struct float3 { float x, y, z; };
 
@@ -74,11 +75,13 @@ void dealloc(T* array)
 template <typename T>
 void copy(T* dst, T* src, int N)
 {
+	APOLLO_BEGIN(N);
 	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < N; i++)
 	{
 		dst[i] = src[i];
 	}
+	APOLLO_END;
 }
 #ifdef OMP_OFFLOAD
 #pragma omp end declare target
@@ -116,11 +119,13 @@ void dump(float* variables, int nel, int nelr)
 
 void initialize_variables(int nelr, float* variables, float* ff_variable)
 {
+	APOLLO_BEGIN(nelr);
 	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		for(int j = 0; j < NVAR; j++) variables[i + j*nelr] = ff_variable[j];
 	}
+	APOLLO_END;
 }
 
 #ifdef OMP_OFFLOAD
@@ -171,6 +176,7 @@ inline float compute_speed_of_sound(float& density, float& pressure)
 
 void compute_step_factor(int nelr, float* __restrict variables, float* areas, float* __restrict step_factors)
 {
+	APOLLO_BEGIN(nelr/block_length);
 	#pragma omp parallel for default(shared) schedule(runtime)
         for(int blk = 0; blk < nelr/block_length; ++blk)
         {
@@ -196,6 +202,7 @@ void compute_step_factor(int nelr, float* __restrict variables, float* areas, fl
 		step_factors[i] = float(0.5f) / (std::sqrt(areas[i]) * (std::sqrt(speed_sqd) + speed_of_sound));
 	}
         }
+	APOLLO_END;
 }
 
 
@@ -208,6 +215,7 @@ void compute_flux(int nelr, int* elements_surrounding_elements, float* normals, 
 {
 	const float smoothing_coefficient = float(0.2f);
 
+	APOLLO_BEGIN(nelr/block_length);
 	#pragma omp parallel for default(shared) schedule(runtime)
         for(int blk = 0; blk < nelr/block_length; ++blk)
         {
@@ -340,10 +348,12 @@ void compute_flux(int nelr, int* elements_surrounding_elements, float* normals, 
                 
 	}
         }
+	APOLLO_END;
 }
 
 void time_step(int j, int nelr, float* old_variables, float* variables, float* step_factors, float* fluxes)
 {
+    APOLLO_BEGIN(nelr/block_length);
     #pragma omp parallel for  default(shared) schedule(runtime)
     for(int blk = 0; blk < nelr/block_length; ++blk)
     {
@@ -362,6 +372,7 @@ void time_step(int j, int nelr, float* old_variables, float* variables, float* s
 
         }
     }
+    APOLLO_END;
 }
 #ifdef OMP_OFFLOAD
 #pragma omp end declare target

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cmath>
 #include <omp.h>
+#include "apollo.h"
 
 struct double3 { double x, y, z; };
 
@@ -53,11 +54,13 @@ void dealloc(T* array)
 template <typename T>
 void copy(T* dst, T* src, int N)
 {
+	APOLLO_BEGIN(N);
 	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < N; i++)
 	{
 		dst[i] = src[i];
 	}
+	APOLLO_END;
 }
 
 
@@ -102,11 +105,13 @@ double3 ff_flux_contribution_density_energy;
 
 void initialize_variables(int nelr, double* variables)
 {
+	APOLLO_BEGIN(nelr);
 	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
 		for(int j = 0; j < NVAR; j++) variables[i*NVAR + j] = ff_variable[j];
 	}
+	APOLLO_END;
 }
 
 inline void compute_flux_contribution(double& density, double3& momentum, double& density_energy, double& pressure, double3& velocity, double3& fc_momentum_x, double3& fc_momentum_y, double3& fc_momentum_z, double3& fc_density_energy)
@@ -155,6 +160,7 @@ inline double compute_speed_of_sound(double& density, double& pressure)
 
 void compute_step_factor(int nelr, double* variables, double* areas, double* step_factors)
 {
+	APOLLO_BEGIN(nelr);
 	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
@@ -174,6 +180,7 @@ void compute_step_factor(int nelr, double* variables, double* areas, double* ste
 		// dt = double(0.5) * std::sqrt(areas[i]) /  (||v|| + c).... but when we do time stepping, this later would need to be divided by the area, so we just do it all at once
 		step_factors[i] = double(0.5) / (std::sqrt(areas[i]) * (std::sqrt(speed_sqd) + speed_of_sound));
 	}
+	APOLLO_END;
 }
 
 
@@ -186,6 +193,7 @@ void compute_flux(int nelr, int* elements_surrounding_elements, double* normals,
 {
 	const double smoothing_coefficient = double(0.2f);
 
+	APOLLO_BEGIN(nelr);
 	#pragma omp parallel for default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
@@ -313,10 +321,12 @@ void compute_flux(int nelr, int* elements_surrounding_elements, double* normals,
 		fluxes[i*NVAR + (VAR_MOMENTUM+2)] = flux_i_momentum.z;
 		fluxes[i*NVAR + VAR_DENSITY_ENERGY] = flux_i_density_energy;
 	}
+	APOLLO_END;
 }
 
 void time_step(int j, int nelr, double* old_variables, double* variables, double* step_factors, double* fluxes)
 {
+	APOLLO_BEGIN(nelr);
 	#pragma omp parallel for  default(shared) schedule(runtime)
 	for(int i = 0; i < nelr; i++)
 	{
@@ -328,6 +338,7 @@ void time_step(int j, int nelr, double* old_variables, double* variables, double
 		variables[NVAR*i + (VAR_MOMENTUM+1)] = old_variables[NVAR*i + (VAR_MOMENTUM+1)] + factor*fluxes[NVAR*i + (VAR_MOMENTUM+1)];
 		variables[NVAR*i + (VAR_MOMENTUM+2)] = old_variables[NVAR*i + (VAR_MOMENTUM+2)] + factor*fluxes[NVAR*i + (VAR_MOMENTUM+2)];
 	}
+	APOLLO_END;
 }
 /*
  * Main function
