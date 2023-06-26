@@ -34,6 +34,7 @@
 
 #include "header.h"
 #include "timers.h"
+#include "apollo.h"
 
 //---------------------------------------------------------------------
 // addition of update to the vector u
@@ -43,6 +44,7 @@ void add()
   int i, j, k, m;
 
   if (timeron) timer_start(t_add);
+  APOLLO_BEGIN(grid_points[2]);
   #pragma omp parallel for schedule(runtime) default(shared) private(i,j,k,m)
   for (k = 1; k <= grid_points[2]-2; k++) {
     for (j = 1; j <= grid_points[1]-2; j++) {
@@ -53,5 +55,6 @@ void add()
       }
     }
   }
+  APOLLO_END;
   if (timeron) timer_stop(t_add);
 }
