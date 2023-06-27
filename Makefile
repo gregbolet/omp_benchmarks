@@ -22,7 +22,7 @@ noapollo:
 	cd ft; make clean; make ft CLASS=C; 
 	cd ft; make clean; make ft CLASS=D;
 
-	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure LLVM_OMP_No_Apollo; make; cp ./bin/* ./;
+	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure CLANG_OMP; make clean; make; cp ./bin/* ./;
 
 	cd lu; make clean; make lu CLASS=B; 
 	cd lu; make clean; make lu CLASS=C; 
@@ -48,7 +48,7 @@ withapollo:
 	cd ft; make clean; make ft CLASS=C APOLLO_BUILD=1; 
 	cd ft; make clean; make ft CLASS=D APOLLO_BUILD=1;
 
-	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure LLVM_OMP_With_Apollo; make; cp ./bin/* ./;
+	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_Apollo; make clean; make; cp ./bin/* ./;
 
 	cd lu; make clean; make lu CLASS=B APOLLO_BUILD=1; 
 	cd lu; make clean; make lu CLASS=C APOLLO_BUILD=1; 
@@ -90,8 +90,8 @@ ft:
 	cd ft; make clean; make ft CLASS=D APOLLO_BUILD=1;
 
 hpcg:
-	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure LLVM_OMP_No_Apollo; make; cp ./bin/* ./;
-	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure LLVM_OMP_With_Apollo; make; cp ./bin/* ./;
+	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure CLANG_OMP; make clean; make; cp ./bin/* ./;
+	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_APOLLO; make clean; make; cp ./bin/* ./;
 
 lu:
 	cd lu; make clean; make lu CLASS=B; 
@@ -105,9 +105,3 @@ lulesh:
 	cd lulesh; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../runBuildNoApollo.sh; make;
 	cd lulesh; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../runBuildWithApollo.sh; make;
 
-
-
-
-
-
-	

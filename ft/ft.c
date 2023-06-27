@@ -47,6 +47,7 @@
 #include "randdp.h"
 #include "timers.h"
 #include "print_results.h"
+#include "../apollo.h"
 
 
 //---------------------------------------------------------------------------
@@ -196,6 +197,7 @@ static void init_ui(void *ou0, void *ou1, void *ot, int d1, int d2, int d3)
 
   int i, j, k;
 
+  APOLLO_BEGIN(d3);
   #pragma omp parallel for schedule(runtime) default(shared) private(i,j,k)
   for (k = 0; k < d3; k++) {
     for (j = 0; j < d2; j++) {
@@ -206,6 +208,7 @@ static void init_ui(void *ou0, void *ou1, void *ot, int d1, int d2, int d3)
       }
     }
   }
+  APOLLO_END;
 }
 
 
@@ -220,6 +223,7 @@ static void evolve(void *ou0, void *ou1, void *ot, int d1, int d2, int d3)
 
   int i, j, k;
 
+  APOLLO_BEGIN(d3);
   #pragma omp parallel for schedule(runtime) default(shared) private(i,j,k)
   for (k = 0; k < d3; k++) {
     for (j = 0; j < d2; j++) {
@@ -229,6 +233,7 @@ static void evolve(void *ou0, void *ou1, void *ot, int d1, int d2, int d3)
       }
     }
   }
+  APOLLO_END;
 }
 
 
@@ -260,6 +265,7 @@ static void compute_initial_conditions(void *ou0, int d1, int d2, int d3)
   //---------------------------------------------------------------------
   // Go through by z planes filling in one square at a time.
   //---------------------------------------------------------------------
+  APOLLO_BEGIN(dims[2]);
   #pragma omp parallel for schedule(runtime) default(shared) private(k,j,x0)
   for (k = 0; k < dims[2]; k++) {
     x0 = starts[k];
@@ -267,6 +273,7 @@ static void compute_initial_conditions(void *ou0, int d1, int d2, int d3)
       vranlc(2*NX, &x0, A, (double *)&u0[k][j][0]);
     }
   }
+  APOLLO_END;
 }
 
 
@@ -373,6 +380,7 @@ static void compute_indexmap(void *ot, int d1, int d2, int d3)
 
   ap = -4.0 * ALPHA * PI * PI;
 
+  APOLLO_BEGIN(dims[2]);
   #pragma omp parallel for schedule(runtime) default(shared) private(i,j,k,kk,kk2,jj,kj2,ii)
   for (k = 0; k < dims[2]; k++) {
     kk = ((k + NZ/2) % NZ) - NZ/2;
@@ -386,6 +394,7 @@ static void compute_indexmap(void *ot, int d1, int d2, int d3)
       }
     }
   }
+  APOLLO_END;
 }
 
 
@@ -444,6 +453,7 @@ static void cffts1(int is, int d1, int d2, int d3, void *ox, void *oxout)
   logd1 = ilog2(d1);
 
   if (timers_enabled) timer_start(T_fftx);
+  APOLLO_BEGIN(d3);
   #pragma omp parallel for schedule(runtime) default(shared) private(i,j,k,jj)
   for (k = 0; k < d3; k++) {
     for (jj = 0; jj <= d2 - fftblock; jj += fftblock) {
@@ -462,6 +472,7 @@ static void cffts1(int is, int d1, int d2, int d3, void *ox, void *oxout)
       }
     }
   }
+  APOLLO_END;
   if (timers_enabled) timer_stop(T_fftx);
 }
 
@@ -477,6 +488,7 @@ static void cffts2(int is, int d1, int d2, int d3, void *ox, void *oxout)
   logd2 = ilog2(d2);
 
   if (timers_enabled) timer_start(T_ffty);
+  APOLLO_BEGIN(d3);
   #pragma omp parallel for schedule(runtime) default(shared) private(i,j,k,ii)
   for (k = 0; k < d3; k++) {
     for (ii = 0; ii <= d1 - fftblock; ii += fftblock) {
@@ -495,6 +507,7 @@ static void cffts2(int is, int d1, int d2, int d3, void *ox, void *oxout)
       }
     }
   }
+  APOLLO_END;
   if (timers_enabled) timer_stop(T_ffty);
 }
 
@@ -510,6 +523,7 @@ static void cffts3(int is, int d1, int d2, int d3, void *ox, void *oxout)
   logd3 = ilog2(d3);
 
   if (timers_enabled) timer_start(T_fftz);
+  APOLLO_BEGIN(d2);
   #pragma omp parallel for schedule(runtime) default(shared) private(i,j,k,ii)
   for (j = 0; j < d2; j++) {
     for (ii = 0; ii <= d1 - fftblock; ii += fftblock) {
@@ -528,6 +542,7 @@ static void cffts3(int is, int d1, int d2, int d3, void *ox, void *oxout)
       }
     }
   }
+  APOLLO_END;
   if (timers_enabled) timer_stop(T_fftz);
 }
 

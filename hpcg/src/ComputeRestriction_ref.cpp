@@ -25,6 +25,8 @@
 
 #include "ComputeRestriction_ref.hpp"
 
+#include "apollo.h"
+
 /*!
   Routine to compute the coarse residual vector.
 
@@ -45,10 +47,12 @@ int ComputeRestriction_ref(const SparseMatrix & A, const Vector & rf) {
   local_int_t * f2c = A.mgData->f2cOperator;
   local_int_t nc = A.mgData->rc->localLength;
 
+  APOLLO_BEGIN(nc);
 #ifndef HPCG_NO_OPENMP
 #pragma omp parallel for schedule(runtime)
 #endif
   for (local_int_t i=0; i<nc; ++i) rcv[i] = rfv[f2c[i]] - Axfv[f2c[i]];
+  APOLLO_END;
 
   return 0;
 }

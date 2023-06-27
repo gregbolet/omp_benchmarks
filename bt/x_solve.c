@@ -35,6 +35,7 @@
 #include "header.h"
 #include "work_lhs.h"
 #include "timers.h"
+#include "apollo.h"
 
 //---------------------------------------------------------------------
 // 
@@ -68,6 +69,7 @@ void x_solve()
   //---------------------------------------------------------------------
   // determine a (labeled f) and n jacobians
   //---------------------------------------------------------------------
+  APOLLO_BEGIN(grid_points[2]);
   #pragma omp parallel for schedule(runtime) default(shared) shared(isize) private(i,j,k,m,n)
   for (k = 1; k <= grid_points[2]-2; k++) {
     for (j = 1; j <= grid_points[1]-2; j++) {
@@ -393,5 +395,6 @@ void x_solve()
       }
     }
   }
+  APOLLO_END;
   if (timeron) timer_stop(t_xsolve);
 }

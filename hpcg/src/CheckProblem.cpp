@@ -35,6 +35,8 @@ using std::endl;
 
 #include "CheckProblem.hpp"
 
+#include "apollo.h"
+
 
 /*!
   Check the contents of the generated sparse matrix to see if values match expected contents.
@@ -74,6 +76,7 @@ void CheckProblem(SparseMatrix & A, Vector * b, Vector * x, Vector * xexact) {
   local_int_t localNumberOfNonzeros = 0;
   // TODO:  This triply nested loop could be flattened or use nested parallelism
 #ifndef HPCG_NO_OPENMP
+  APOLLO_BEGIN(nz);
   #pragma omp parallel for schedule(runtime)
 #endif
   for (local_int_t iz=0; iz<nz; iz++) {
@@ -123,6 +126,7 @@ void CheckProblem(SparseMatrix & A, Vector * b, Vector * x, Vector * xexact) {
       } // end ix loop
     } // end iy loop
   } // end iz loop
+  APOLLO_END;
 #ifdef HPCG_DETAILED_DEBUG
   HPCG_fout     << "Process " << A.geom->rank << " of " << A.geom->size <<" has " << localNumberOfRows    << " rows."     << endl
       << "Process " << A.geom->rank << " of " << A.geom->size <<" has " << localNumberOfNonzeros<< " nonzeros." <<endl;

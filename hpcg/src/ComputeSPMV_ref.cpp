@@ -29,6 +29,8 @@
 #endif
 #include <cassert>
 
+#include "apollo.h"
+
 /*!
   Routine to compute matrix vector product y = Ax where:
   Precondition: First call exchange_externals to get off-processor values of x
@@ -55,6 +57,7 @@ int ComputeSPMV_ref( const SparseMatrix & A, Vector & x, Vector & y) {
   const double * const xv = x.values;
   double * const yv = y.values;
   const local_int_t nrow = A.localNumberOfRows;
+  APOLLO_BEGIN(nrow);
 #ifndef HPCG_NO_OPENMP
   #pragma omp parallel for schedule(runtime)
 #endif
@@ -68,5 +71,6 @@ int ComputeSPMV_ref( const SparseMatrix & A, Vector & x, Vector & y) {
       sum += cur_vals[j]*xv[cur_inds[j]];
     yv[i] = sum;
   }
+  APOLLO_END;
   return 0;
 }

@@ -107,7 +107,7 @@ HPCG_LIBS     =
 #    *) Build with OpenMP enabled.
 #    *) Not generate debugging output.
 #
-HPCG_OPTS     = -DHPCG_NO_MPI -DHPCG_DETAILED_TIMING -DHPCG_PRINT_TO_STDOUT
+HPCG_OPTS     = -DHPCG_NO_MPI -DHPCG_DETAILED_TIMING
 #
 # ----------------------------------------------------------------------
 #
@@ -118,14 +118,12 @@ HPCG_DEFS     = $(HPCG_OPTS) $(HPCG_INCLUDES)
 # ----------------------------------------------------------------------
 #
 
-LLVM_CXXFLAGS=-fsave-optimization-record -O3 -fopenmp -march=native
-LLVM_LDFLAGS=-L ${LLVM_INSTALL}/lib -Wl,--rpath,${LLVM_INSTALL}/lib
-
-CXX          = ${LLVM_INSTALL}/bin/clang++
-CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp ${LLVM_CXXFLAGS} ${LLVM_LDFLAGS}
+CXX          = clang++
+#CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp ${LLVM_CXXFLAGS} ${LLVM_LDFLAGS}
+CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp -march=native -I ${ROOT_DIR} -DENABLE_APOLLO
 #
 LINKER       = $(CXX)
-LINKFLAGS    = $(CXXFLAGS)
+LINKFLAGS    = $(CXXFLAGS) -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo
 #
 ARCHIVER     = ar
 ARFLAGS      = r

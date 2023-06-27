@@ -35,6 +35,8 @@ using std::endl;
 
 #include "GenerateProblem_ref.hpp"
 
+#include "apollo.h"
+
 
 /*!
   Reference version of GenerateProblem to generate the sparse matrix, right hand side, initial guess, and exact solution.
@@ -91,6 +93,7 @@ void GenerateProblem_ref(SparseMatrix & A, Vector * b, Vector * x, Vector * xexa
 
   // Use a parallel loop to do initial assignment:
   // distributes the physical placement of arrays of pointers across the memory system
+  APOLLO_BEGIN(localNumberOfRows);
 #ifndef HPCG_NO_OPENMP
   #pragma omp parallel for schedule(runtime)
 #endif
@@ -100,6 +103,7 @@ void GenerateProblem_ref(SparseMatrix & A, Vector * b, Vector * x, Vector * xexa
     mtxIndG[i] = 0;
     mtxIndL[i] = 0;
   }
+  APOLLO_END;
 
 #ifndef HPCG_CONTIGUOUS_ARRAYS
   // Now allocate the arrays pointed to
@@ -125,6 +129,7 @@ void GenerateProblem_ref(SparseMatrix & A, Vector * b, Vector * x, Vector * xexa
 
   local_int_t localNumberOfNonzeros = 0;
   // TODO:  This triply nested loop could be flattened or use nested parallelism
+  APOLLO_BEGIN(nz);
 #ifndef HPCG_NO_OPENMP
   #pragma omp parallel for schedule(runtime)
 #endif
@@ -181,6 +186,7 @@ void GenerateProblem_ref(SparseMatrix & A, Vector * b, Vector * x, Vector * xexa
       } // end ix loop
     } // end iy loop
   } // end iz loop
+  APOLLO_END;
 #ifdef HPCG_DETAILED_DEBUG
   HPCG_fout     << "Process " << A.geom->rank << " of " << A.geom->size <<" has " << localNumberOfRows    << " rows."     << endl
       << "Process " << A.geom->rank << " of " << A.geom->size <<" has " << localNumberOfNonzeros<< " nonzeros." <<endl;

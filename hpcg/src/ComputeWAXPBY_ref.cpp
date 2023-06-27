@@ -23,6 +23,8 @@
 #include <omp.h>
 #endif
 #include <cassert>
+
+#include "apollo.h"
 /*!
   Routine to compute the update of a vector with the sum of two
   scaled vectors where: w = alpha*x + beta*y
@@ -50,20 +52,26 @@ int ComputeWAXPBY_ref(const local_int_t n, const double alpha, const Vector & x,
   double * const wv = w.values;
 
   if (alpha==1.0) {
+    APOLLO_BEGIN(n);
 #ifndef HPCG_NO_OPENMP
     #pragma omp parallel for schedule(runtime)
 #endif
     for (local_int_t i=0; i<n; i++) wv[i] = xv[i] + beta * yv[i];
+    APOLLO_END;
   } else if (beta==1.0) {
 #ifndef HPCG_NO_OPENMP
+    APOLLO_BEGIN(n);
     #pragma omp parallel for schedule(runtime)
 #endif
     for (local_int_t i=0; i<n; i++) wv[i] = alpha * xv[i] + yv[i];
+    APOLLO_END;
   } else  {
 #ifndef HPCG_NO_OPENMP
+    APOLLO_BEGIN(n);
     #pragma omp parallel for schedule(runtime)
 #endif
     for (local_int_t i=0; i<n; i++) wv[i] = alpha * xv[i] + beta * yv[i];
+    APOLLO_END;
   }
 
   return 0;
