@@ -1,11 +1,9 @@
 
 .PHONY: all noapollo withapollo bfs bt cfd cg cholesky ft hpcg lu lulesh 
 
-all: bfs bt cfd cg cholesky ft hpcg lu lulesh
+all: bt cfd cg cholesky ft hpcg lu lulesh
 
 noapollo: 
-	cd bfs; make bfs;
-
 	rm -f ./npb_common/*.o;
 
 	cd bt; make clean; make bt CLASS=B; 
@@ -32,7 +30,7 @@ noapollo:
 
 
 withapollo:
-	cd bfs; make bfs_apollo;
+	rm -f ./npb_common/*.o;
 
 	cd bt; make clean; make bt CLASS=B APOLLO_BUILD=1; 
 	cd bt; make clean; make bt CLASS=C APOLLO_BUILD=1; 
@@ -55,9 +53,6 @@ withapollo:
 	cd lu; make clean; make lu CLASS=D APOLLO_BUILD=1;
 
 	cd lulesh; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../runBuildWithApollo.sh; make;
-
-bfs:
-	cd bfs; make;
 
 bt:
 	cd bt; make clean; make bt CLASS=B; 

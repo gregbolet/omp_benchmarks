@@ -77,7 +77,6 @@ FLINKFLAGS = -O3 -fopenmp -mcmodel=medium
 # This is the C compiler used for C programs
 #---------------------------------------------------------------------------
 CC = clang
-#CC = gcc
 
 # This links C programs; usually the same as ${CC}
 CLINK	= $(CC)
@@ -85,7 +84,7 @@ CLINK	= $(CC)
 #---------------------------------------------------------------------------
 # These macros are passed to the linker 
 #---------------------------------------------------------------------------
-C_LIB  = -lm
+C_LIB  = -lm 
 
 #---------------------------------------------------------------------------
 # These macros are passed to the compiler 
@@ -129,8 +128,9 @@ ifeq ($(BENCHMARK),ft)
 	endif
 endif
 
-CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS}
+CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS} 
 CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${CXXFLAGS} -I ${ROOT_DIR}
+
 ifeq ($(origin APOLLO_BUILD),undefined)
   $(info variable not set)
 	BINDIR = ./buildNoApollo
@@ -149,7 +149,7 @@ $(info CFLAGS = ${CFLAGS} and CLINKFLAGS = ${CLINKFLAGS})
 # this compiler go here also; typically there are few flags required; hence 
 # there are no separate macros provided for such flags.
 #---------------------------------------------------------------------------
-UCC	= ${LLVM_INSTALL}/bin/clang
+UCC	= clang
 
 
 #---------------------------------------------------------------------------
