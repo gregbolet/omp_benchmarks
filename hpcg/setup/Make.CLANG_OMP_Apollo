@@ -121,6 +121,16 @@ HPCG_DEFS     = $(HPCG_OPTS) $(HPCG_INCLUDES)
 CXX          = clang++
 #CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp ${LLVM_CXXFLAGS} ${LLVM_LDFLAGS}
 CXXFLAGS     = $(HPCG_DEFS) -O3 -ffast-math -ftree-vectorize -Rpass=loop-vectorize -fopenmp -march=native -I ${ROOT_DIR} -DENABLE_APOLLO
+
+UNAME=$(shell uname -n)
+ifneq (,$(findstring ruby,$(UNAME)))
+ 	$(info building RUBY)
+	CXXFLAGS += -DRUBY_MACHINE
+else ifneq (,$(findstring lassen,$(UNAME)))
+ 	$(info building LASSEN)
+	CXXFLAGS += -DLASSEN_MACHINE
+endif
+
 #
 LINKER       = $(CXX)
 LINKFLAGS    = $(CXXFLAGS) -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo

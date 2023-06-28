@@ -5,6 +5,15 @@ CXXFLAGS=-O3 -fopenmp -march=native -I ${ROOT_DIR}
 APOLLO_CXXFLAGS=$(CXXFLAGS) -DENABLE_APOLLO
 APOLLO_LDFLAGS=-L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo 
 
+UNAME=$(shell uname -n)
+ifneq (,$(findstring ruby,$(UNAME)))
+ 	$(info building RUBY)
+	APOLLO_CXXFLAGS += -DRUBY_MACHINE
+else ifneq (,$(findstring lassen,$(UNAME)))
+ 	$(info building LASSEN)
+	APOLLO_CXXFLAGS += -DLASSEN_MACHINE
+endif
+
 CXX=clang++
 
 # TODO: BLOCK_LENGTH seems to be originally the same as number of threads

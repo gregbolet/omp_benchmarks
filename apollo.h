@@ -18,10 +18,25 @@ enum {
     SPREAD = 4
 };
 
+#ifdef RUBY_MACHINE
+static const int nthreads[] = {4,8,14,28,42,56,70,84,98,112};
+static const int bind[] = {CLOSE, SPREAD};
+static const omp_sched_t sched[] = {omp_sched_static, omp_sched_dynamic, omp_sched_guided};
+static const int chunk[] = {0,1,4,8,32,64,128,256,512};
+
+#elif defined(LASSEN_MACHINE)
+static const int nthreads[] = {10,20,40,60,80,100,120,140,160};
+static const int bind[] = {CLOSE, SPREAD};
+static const omp_sched_t sched[] = {omp_sched_static, omp_sched_dynamic, omp_sched_guided};
+static const int chunk[] = {0,1,4,8,32,64,128,256,512};
+
+#else
 static const int nthreads[] = {72, 60, 48, 36, 18};
 static const int bind[] = {CLOSE, SPREAD};
 static const omp_sched_t sched[] = {omp_sched_static, omp_sched_dynamic, omp_sched_guided};
 static const int chunk[] = {0, 4, 16, 64, 256, 1024};
+
+#endif
 
 #define NUM_POLICIES asize(nthreads)*asize(bind)*asize(sched)*asize(chunk)
 

@@ -132,11 +132,21 @@ CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS}
 CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${CXXFLAGS} -I ${ROOT_DIR}
 
 ifeq ($(origin APOLLO_BUILD),undefined)
-  $(info variable not set)
+  $(info building without apollo)
 	BINDIR = ./buildNoApollo
 else
-  $(info variable is set)
+  $(info doing an apollo build)
 	CFLAGS += -DENABLE_APOLLO
+
+	UNAME=$(shell uname -n)
+	ifneq (,$(findstring ruby,$(UNAME)))
+  	$(info building RUBY)
+		CFLAGS += -DRUBY_MACHINE
+	else ifneq (,$(findstring lassen,$(UNAME)))
+  	$(info building LASSEN)
+		CFLAGS += -DLASSEN_MACHINE
+	endif
+
 	BINDIR = ./buildWithApollo
 endif
 

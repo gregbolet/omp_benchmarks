@@ -1,7 +1,20 @@
 
-.PHONY: all noapollo withapollo bfs bt cfd cg cholesky ft hpcg lu lulesh 
+
+
+.PHONY: all noapollo withapollo bt cfd cg cholesky ft hpcg lu lulesh nothing
 
 all: bt cfd cg cholesky ft hpcg lu lulesh
+
+UNAME=$(shell uname -n)
+
+ifneq (,$(findstring ruby,$(UNAME)))
+	UNAME = ruby	
+else ifneq (,$(findstring lassen,$(UNAME)))
+	UNAME = lassen 
+endif
+
+nothing:
+	@echo $(UNAME)
 
 noapollo: 
 	rm -f ./npb_common/*.o;
