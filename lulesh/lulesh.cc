@@ -1177,6 +1177,7 @@ void ApplyAccelerationBoundaryConditionsForNodes(Domain& domain)
    Index_t size = domain.sizeX();
    Index_t numNodeBC = (size+1)*(size+1) ;
 
+APOLLO_BEGIN(0);
 #pragma omp parallel
    {
       if (!domain.symmXempty() != 0) {
@@ -1197,6 +1198,7 @@ void ApplyAccelerationBoundaryConditionsForNodes(Domain& domain)
             domain.zdd(domain.symmZ(i)) = Real_t(0.0) ;
       }
    }
+APOLLO_END;
 }
 
 /******************************************/
@@ -2286,6 +2288,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
    //loop to add load imbalance based on region number 
    for(Int_t j = 0; j < rep; j++) {
       /* compress data, minimal set */
+APOLLO_BEGIN(0);
 #pragma omp parallel
       {
 #pragma omp for nowait firstprivate(numElemReg)
@@ -2335,6 +2338,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
             work[i] = Real_t(0.) ; 
          }
       }
+      APOLLO_END;
       CalcEnergyForElems(p_new, e_new, q_new, bvc, pbvc,
                          p_old, e_old,  q_old, compression, compHalfStep,
                          vnewc, work,  delvc, pmin,
@@ -2387,6 +2391,7 @@ void ApplyMaterialPropertiesForElems(Domain& domain)
     Real_t eosvmax = domain.eosvmax() ;
     Real_t *vnewc = Allocate<Real_t>(numElem) ;
 
+APOLLO_BEGIN(0);
 #pragma omp parallel
     {
 #pragma omp for firstprivate(numElem)
@@ -2434,6 +2439,7 @@ void ApplyMaterialPropertiesForElems(Domain& domain)
           }
        }
     }
+    APOLLO_END;
 
     for (Int_t r=0 ; r<domain.numReg() ; r++) {
        Index_t numElemReg = domain.regElemSize(r);
@@ -2513,6 +2519,7 @@ void CalcCourantConstraintForElems(Domain &domain, Index_t length,
    Real_t  dtcourant_per_thread[1];
 #endif
 
+APOLLO_BEGIN(0);
 #pragma omp parallel firstprivate(length, qqc)
    {
       Real_t   qqc2 = Real_t(64.0) * qqc * qqc ;
@@ -2559,6 +2566,7 @@ void CalcCourantConstraintForElems(Domain &domain, Index_t length,
       courant_elem_per_thread[thread_num] = courant_elem ;
 
    }
+   APOLLO_END;
 
    for (Index_t i = 1; i < threads; ++i) {
       if (dtcourant_per_thread[i] < dtcourant_per_thread[0] ) {
@@ -2592,6 +2600,7 @@ void CalcHydroConstraintForElems(Domain &domain, Index_t length,
    Real_t  dthydro_per_thread[1];
 #endif
 
+APOLLO_BEGIN(0);
 #pragma omp parallel firstprivate(length, dvovmax)
    {
       Real_t dthydro_tmp = dthydro ;
@@ -2627,8 +2636,8 @@ void CalcHydroConstraintForElems(Domain &domain, Index_t length,
 
       dthydro_per_thread[thread_num]    = dthydro_tmp ;
       hydro_elem_per_thread[thread_num] = hydro_elem ;
-
    }
+   APOLLO_END;
 
    for (Index_t i = 1; i < threads; ++i) {
       if(dthydro_per_thread[i] < dthydro_per_thread[0]) {
