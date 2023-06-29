@@ -5,12 +5,14 @@ LDFLAGS="-L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo"
 
 UNAME=$(uname -n)
 
-if [[ $name == *"ruby"* ]]; then 
-	echo "RUBY Machine Detected";
-	CXXFLAGS = "${CXXFLAGS} -DRUBY_MACHINE"
-elif [[ $name == *"lassen"* ]]; then
-	echo "LASSEN Machine Detected";
-	CXXFLAGS = "${CXXFLAGS} -DLASSEN_MACHINE"
+if [[ $UNAME == *"ruby"* ]]; then 
+	echo "RUBY Machine Detected"
+	CXXFLAGS="${CXXFLAGS} -DRUBY_MACHINE"
+elif [[ $UNAME == *"lassen"* ]]; then
+	echo "LASSEN Machine Detected"
+	CXXFLAGS="${CXXFLAGS} -DLASSEN_MACHINE"
+else
+	echo "NO Machine Detected";
 fi
 
 cmake \

@@ -110,6 +110,6 @@ lu:
 	cd lu; make clean; make lu CLASS=D APOLLO_BUILD=1;
 
 lulesh:
-	cd lulesh; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../runBuildNoApollo.sh; make;
-	cd lulesh; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../runBuildWithApollo.sh; make;
+	cd lulesh; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../runBuildWithApollo.sh; make VERBOSE=1;
+	cd lulesh; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../runBuildNoApollo.sh; make VERBOSE=1;
 

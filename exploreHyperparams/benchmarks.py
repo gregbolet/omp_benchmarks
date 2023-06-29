@@ -24,7 +24,7 @@ machines = {
             'OMP_NUM_THREADS': [str(a) for a in [4,8,14,28,42,56,70,84,98,112]],
             'OMP_PROC_BIND': ['close', 'spread'],
             'OMP_PLACES': ['threads', 'cores', 'sockets'],
-            'OMP_SCHEDULE': ['static']+[ a+','+str(b) for a in ['static', 'guided', 'dynamic'] for b in [1,8,32,64,128,256,512] ],
+            'OMP_SCHEDULE': ['static']+[ a+','+str(b) for a in ['static', 'guided', 'dynamic'] for b in [1,4,8,32,64,128,256,512] ],
         },
         'pythonToModLoad' : 'python/3.10.8',
         'jobsystem' : {
@@ -40,7 +40,7 @@ machines = {
             'OMP_NUM_THREADS': [str(a) for a in [10,20,40,60,80,100,120,140,160]],
             'OMP_PROC_BIND': ['close', 'spread'],
             'OMP_PLACES': ['threads', 'cores', 'sockets'],
-            'OMP_SCHEDULE': ['static']+[ a+','+str(b) for a in ['static', 'guided', 'dynamic'] for b in [1,8,32,64,128,256,512] ],
+            'OMP_SCHEDULE': ['static']+[ a+','+str(b) for a in ['static', 'guided', 'dynamic'] for b in [1,4,8,32,64,128,256,512] ],
         },
         'pythonToModLoad' : 'python/3.8.2',
         'jobsystem' : {
