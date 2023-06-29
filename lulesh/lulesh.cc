@@ -1180,19 +1180,19 @@ void ApplyAccelerationBoundaryConditionsForNodes(Domain& domain)
 #pragma omp parallel
    {
       if (!domain.symmXempty() != 0) {
-#pragma omp for schedule(runtime) nowait firstprivate(numNodeBC)
+#pragma omp for nowait firstprivate(numNodeBC)
          for(Index_t i=0 ; i<numNodeBC ; ++i)
             domain.xdd(domain.symmX(i)) = Real_t(0.0) ;
       }
 
       if (!domain.symmYempty() != 0) {
-#pragma omp for schedule(runtime) nowait firstprivate(numNodeBC)
+#pragma omp for nowait firstprivate(numNodeBC)
          for(Index_t i=0 ; i<numNodeBC ; ++i)
             domain.ydd(domain.symmY(i)) = Real_t(0.0) ;
       }
 
       if (!domain.symmZempty() != 0) {
-#pragma omp for schedule(runtime) nowait firstprivate(numNodeBC)
+#pragma omp for nowait firstprivate(numNodeBC)
          for(Index_t i=0 ; i<numNodeBC ; ++i)
             domain.zdd(domain.symmZ(i)) = Real_t(0.0) ;
       }
@@ -2330,7 +2330,7 @@ void EvalEOSForElems(Domain& domain, Real_t *vnewc,
             }
          }
 
-#pragma omp for schedule(runtime) nowait firstprivate(numElemReg)
+#pragma omp for nowait firstprivate(numElemReg)
          for (Index_t i = 0 ; i < numElemReg ; ++i) {
             work[i] = Real_t(0.) ; 
          }
@@ -2389,7 +2389,7 @@ void ApplyMaterialPropertiesForElems(Domain& domain)
 
 #pragma omp parallel
     {
-#pragma omp for schedule(runtime) firstprivate(numElem)
+#pragma omp for firstprivate(numElem)
        for(Index_t i=0 ; i<numElem ; ++i) {
           vnewc[i] = domain.vnew(i) ;
        }
@@ -2414,7 +2414,7 @@ void ApplyMaterialPropertiesForElems(Domain& domain)
        // This check may not make perfect sense in LULESH, but
        // it's representative of something in the full code -
        // just leave it in, please
-#pragma omp for schedule(runtime) nowait firstprivate(numElem)
+#pragma omp for nowait firstprivate(numElem)
        for (Index_t i=0; i<numElem; ++i) {
           Real_t vc = domain.v(i) ;
           if (eosvmin != Real_t(0.)) {
@@ -2533,7 +2533,7 @@ void CalcCourantConstraintForElems(Domain &domain, Index_t length,
       Index_t thread_num = 0;
 #endif      
 
-#pragma omp for schedule(runtime)
+#pragma omp for
       for (Index_t i = 0 ; i < length ; ++i) {
          Index_t indx = regElemlist[i] ;
          Real_t dtf = domain.ss(indx) * domain.ss(indx) ;
@@ -2611,7 +2611,7 @@ void CalcHydroConstraintForElems(Domain &domain, Index_t length,
       Index_t thread_num = 0;
 #endif      
 
-#pragma omp for schedule(runtime)
+#pragma omp for
       for (Index_t i = 0 ; i < length ; ++i) {
          Index_t indx = regElemlist[i] ;
 
