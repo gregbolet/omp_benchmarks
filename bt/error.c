@@ -34,6 +34,7 @@
 
 #include <math.h>
 #include "header.h"
+#include "apollo.h"
 
 //---------------------------------------------------------------------
 // this function computes the norm of the difference between the
@@ -49,6 +50,7 @@ void error_norm(double rms[5])
     rms[m] = 0.0;
   }
 
+  APOLLO_BEGIN(0);
   #pragma omp parallel default(shared) \
           private(i,j,k,m,zeta,eta,xi,add,u_exact,rms_local) shared(rms)
   {
@@ -76,6 +78,7 @@ void error_norm(double rms[5])
     rms[m] += rms_local[m];
   }
   } //end parallel
+  APOLLO_END;
 
   for (m = 0; m < 5; m++) {
     for (d = 0; d < 3; d++) {

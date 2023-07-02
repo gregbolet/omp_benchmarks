@@ -149,8 +149,8 @@ progs = {
             'lrgprob': '"rm -f *.txt" && "./xhpcg --nx=200 --ny=200 --nz=200"'
         },
         'timeout':{
-            'smlprob': 60,
-            'medprob': 180,
+            'smlprob': 120,
+            'medprob': 300,
             'lrgprob': 600
         }
     },
@@ -165,7 +165,7 @@ progs = {
         },
         'timeout':{
             'smlprob': 180,
-            'medprob': 180,
+            'medprob': 300,
             'lrgprob': 600
         }
     },

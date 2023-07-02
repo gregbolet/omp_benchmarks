@@ -214,6 +214,7 @@ int main(int argc, char *argv[])
   //---------------------------------------------------------------------
   // Inialize random number generator
   //---------------------------------------------------------------------
+  APOLLO_BEGIN(0);
   #pragma omp parallel default(shared) private(i,j,k,zeta)
   {
     tran    = 314159265.0;
@@ -262,6 +263,7 @@ int main(int argc, char *argv[])
       p[j] = 0.0;
     }
   }
+  APOLLO_END;
 
   zeta = 0.0;
 

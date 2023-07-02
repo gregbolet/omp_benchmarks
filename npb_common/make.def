@@ -115,7 +115,6 @@ C_INC = -I../npb_common
 #---------------------------------------------------------------------------
 #CLINKFLAGS = -O3 -fopenmp -mcmodel=medium ${LDFLAGS}
 #CLINKFLAGS = -O3 -fopenmp -mcmodel=medium
-LDFLAGS = -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo
 
 MCMODEL=medium
 ifeq ($(CLASS),D)
@@ -128,14 +127,12 @@ ifeq ($(BENCHMARK),ft)
 	endif
 endif
 
-CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS} 
-CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${CXXFLAGS} -I ${ROOT_DIR}
-
 ifeq ($(origin APOLLO_BUILD),undefined)
   $(info building without apollo)
 	BINDIR = ./buildNoApollo
 else
   $(info doing an apollo build)
+	LDFLAGS += -L ${APOLLO_INSTALL}/lib -Wl,--rpath,${APOLLO_INSTALL}/lib -lapollo
 	CFLAGS += -DENABLE_APOLLO
 
 	UNAME=$(shell uname -n)
@@ -149,6 +146,9 @@ else
 
 	BINDIR = ./buildWithApollo
 endif
+
+CLINKFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${LDFLAGS} 
+CFLAGS = -O3 -fopenmp -mcmodel=${MCMODEL} -march=native ${CXXFLAGS} -I ${ROOT_DIR}
 
 $(info CFLAGS = ${CFLAGS} and CLINKFLAGS = ${CLINKFLAGS})
 

@@ -33,6 +33,7 @@
 //-------------------------------------------------------------------------//
 
 #include "header.h"
+#include "apollo.h"
 
 //---------------------------------------------------------------------
 // compute the right hand side based on exact solution
@@ -42,6 +43,7 @@ void exact_rhs()
   double dtemp[5], xi, eta, zeta, dtpp;
   int m, i, j, k, ip1, im1, jp1, jm1, km1, kp1;
 
+  APOLLO_BEGIN(0);
   #pragma omp parallel default(shared) private(i,j,k,m,zeta,eta,xi,\
                                        dtpp,im1,ip1,jm1,jp1,km1,kp1,dtemp)
   {
@@ -362,4 +364,5 @@ void exact_rhs()
     }
   }
   } //end parallel
+  APOLLO_END;
 }

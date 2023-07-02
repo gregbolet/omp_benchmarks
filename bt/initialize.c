@@ -33,6 +33,7 @@
 //-------------------------------------------------------------------------//
 
 #include "header.h"
+#include "apollo.h"
 
 //---------------------------------------------------------------------
 // This subroutine initializes the field variable u using 
@@ -43,6 +44,7 @@ void initialize()
   int i, j, k, m, ix, iy, iz;
   double xi, eta, zeta, Pface[2][3][5], Pxi, Peta, Pzeta, temp[5];
 
+  APOLLO_BEGIN(0);
   #pragma omp parallel default(shared) \
               private(i,j,k,m,zeta,eta,xi,ix,iy,iz,Pface,Pxi,Peta,Pzeta,temp)
   {
@@ -205,6 +207,7 @@ void initialize()
     }
   }
   } //end parallel
+  APOLLO_END;
 }
 
 

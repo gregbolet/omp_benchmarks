@@ -18,7 +18,7 @@ CXX=clang++
 
 # TODO: BLOCK_LENGTH seems to be originally the same as number of threads
 # OMP_NUM_THREADS, how would this work with dynamic thread setting?
-BLOCK_LENGTH=72
+BLOCK_LENGTH=8
 
 #all: euler3d_cpu euler3d_cpu_double pre_euler3d_cpu pre_euler3d_cpu_double euler3d_cpu_offload
 all: euler3d_cpu euler3d_cpu_apollo euler3d_cpu_double euler3d_cpu_double_apollo

@@ -688,6 +688,7 @@ static void checksum(int i, void *ou1, int d1, int d2, int d3)
   int j, q, r, s;
   dcomplex chk = dcmplx(0.0, 0.0);
 
+  APOLLO_BEGIN(0);
   #pragma omp parallel default(shared) private(i,q,r,s)
   {
     dcomplex my_chk = dcmplx(0.0, 0.0);
@@ -705,6 +706,7 @@ static void checksum(int i, void *ou1, int d1, int d2, int d3)
       chk = dcmplx_add(chk, my_chk);
     }
   }
+  APOLLO_END;
 
   chk = dcmplx_div2(chk, (double)(NTOTAL));
 

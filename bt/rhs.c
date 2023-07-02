@@ -34,6 +34,7 @@
 
 #include "header.h"
 #include "timers.h"
+#include "apollo.h"
 
 void compute_rhs()
 {
@@ -41,6 +42,7 @@ void compute_rhs()
   double rho_inv, uijk, up1, um1, vijk, vp1, vm1, wijk, wp1, wm1;
 
   if (timeron) timer_start(t_rhs);
+  APOLLO_BEGIN(0);
   #pragma omp parallel default(shared) private(i,j,k,m,rho_inv,uijk,up1,um1,\
                                        vijk,vp1,vm1,wijk,wp1,wm1)
   {
@@ -439,5 +441,6 @@ void compute_rhs()
     }
   }
   } //end parallel
+  APOLLO_END;
   if (timeron) timer_stop(t_rhs);
 }
