@@ -2,22 +2,23 @@
 
 echo "launching exploration jobs"
 
-progs=(bt_nas cg_nas ft_nas bfs_rodinia hpcg lulesh cfd_rodinia)
+#progs=(bt_nas cg_nas ft_nas bfs_rodinia hpcg lulesh cfd_rodinia)
+progs=(lulesh cfd_rodinia)
 probsizes=(smlprob medprob lrgprob)
 
 for prob in "${probsizes[@]}"; do
 	for prog in "${progs[@]}"; do
 
 		# default is for small problem size (40 runs per node, 60 minutes each node)
-		jobsPerNode=40
-		timePerNode=60
+		jobsPerNode=50
+		timePerNode=90
 
 		if [ "$prob" = "medprob" ]; then
-			jobsPerNode=12
-			timePerNode=120
-		elif [ "$prob" = "lrgprob" ]; then
-			jobsPerNode=4
+			jobsPerNode=30
 			timePerNode=240
+		elif [ "$prob" = "lrgprob" ]; then
+			jobsPerNode=10
+			timePerNode=360
 		fi
 
 		echo "launching ${prog} ${prob} with: ${jobsPerNode} ${timePerNode}"

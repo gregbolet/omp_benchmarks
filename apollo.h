@@ -25,9 +25,9 @@ static const omp_sched_t sched[] = {omp_sched_static, omp_sched_dynamic, omp_sch
 static const int chunk[] = {0,1,4,8,32,64,128,256,512};
 
 #elif defined(LASSEN_MACHINE)
-static const int nthreads[] = {160,60,10,20,40,60,80,100,120,140,160};
+static const int nthreads[] = {10,20,40,60,80,100,120,140,160};
 static const int bind[] = {CLOSE, SPREAD};
-static const omp_sched_t sched[] = {(omp_sched_t)(omp_sched_static | omp_sched_monotonic), omp_sched_dynamic, omp_sched_guided};
+static const omp_sched_t sched[] = {omp_sched_static, omp_sched_dynamic, omp_sched_guided};
 static const int chunk[] = {0,1,4,8,32,64,128,256,512};
 
 #else
