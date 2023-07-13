@@ -99,7 +99,7 @@ ft:
 
 hpcg:
 	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure CLANG_OMP; make clean; make; cp ./bin/* ./;
-	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_APOLLO; make clean; make; cp ./bin/* ./;
+	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_Apollo; make clean; make; cp ./bin/* ./;
 
 lu:
 	cd lu; make clean; make lu CLASS=B; 
