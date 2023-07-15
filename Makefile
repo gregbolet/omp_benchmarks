@@ -1,6 +1,4 @@
 
-
-
 .PHONY: all noapollo withapollo bt cfd cg ft hpcg lulesh nothing
 
 all: bt cfd cg ft hpcg lulesh
@@ -88,7 +86,7 @@ ft:
 
 hpcg:
 	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure CLANG_OMP; make clean; make; cp ./bin/* ./;
-	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_Apollo; make clean; make; cp ./bin/* ./;
+	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_APOLLO; make clean; make; cp ./bin/* ./;
 
 lulesh:
 	cd lulesh; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../runBuildWithApollo.sh; make VERBOSE=1;
