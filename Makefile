@@ -1,9 +1,9 @@
 
 
 
-.PHONY: all noapollo withapollo bt cfd cg cholesky ft hpcg lu lulesh nothing
+.PHONY: all noapollo withapollo bt cfd cg ft hpcg lulesh nothing
 
-all: bt cfd cg cholesky ft hpcg lu lulesh
+all: bt cfd cg ft hpcg lulesh
 
 UNAME=$(shell uname -n)
 
@@ -35,10 +35,6 @@ noapollo:
 
 	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure CLANG_OMP; make clean; make; cp ./bin/* ./;
 
-	cd lu; make clean; make lu CLASS=B; 
-	cd lu; make clean; make lu CLASS=C; 
-	cd lu; make clean; make lu CLASS=D;
-
 	cd lulesh; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../runBuildNoApollo.sh; make;
 
 
@@ -59,11 +55,7 @@ withapollo:
 	cd ft; make clean; make ft CLASS=C APOLLO_BUILD=1; 
 	cd ft; make clean; make ft CLASS=D APOLLO_BUILD=1;
 
-	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_Apollo; make clean; make; cp ./bin/* ./;
-
-	cd lu; make clean; make lu CLASS=B APOLLO_BUILD=1; 
-	cd lu; make clean; make lu CLASS=C APOLLO_BUILD=1; 
-	cd lu; make clean; make lu CLASS=D APOLLO_BUILD=1;
+	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_APOLLO; make clean; make; cp ./bin/* ./;
 
 	cd lulesh; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../runBuildWithApollo.sh; make;
 
@@ -86,9 +78,6 @@ cg:
 	cd cg; make clean; make cg CLASS=C APOLLO_BUILD=1; 
 	cd cg; make clean; make cg CLASS=D APOLLO_BUILD=1;
 
-cholesky:
-	echo ""
-
 ft:
 	cd ft; make clean; make ft CLASS=B; 
 	cd ft; make clean; make ft CLASS=C; 
@@ -100,14 +89,6 @@ ft:
 hpcg:
 	cd hpcg; rm -rf buildNoApollo; mkdir -p buildNoApollo; cd buildNoApollo; ../configure CLANG_OMP; make clean; make; cp ./bin/* ./;
 	cd hpcg; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../configure CLANG_OMP_APOLLO; make clean; make; cp ./bin/* ./;
-
-lu:
-	cd lu; make clean; make lu CLASS=B; 
-	cd lu; make clean; make lu CLASS=C; 
-	cd lu; make clean; make lu CLASS=D;
-	cd lu; make clean; make lu CLASS=B APOLLO_BUILD=1; 
-	cd lu; make clean; make lu CLASS=C APOLLO_BUILD=1; 
-	cd lu; make clean; make lu CLASS=D APOLLO_BUILD=1;
 
 lulesh:
 	cd lulesh; rm -rf buildWithApollo; mkdir -p buildWithApollo; cd buildWithApollo; ../runBuildWithApollo.sh; make VERBOSE=1;
