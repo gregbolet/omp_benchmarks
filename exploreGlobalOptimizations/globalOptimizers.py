@@ -15,6 +15,9 @@ from bayes_opt.event import Events
 # this is going to use the BO Optimizer for runs
 class BOManager:
   def __init__(self, progRegions, seed):
+    # set the global random state seed
+    np.random.seed(seed)
+
     self.regions = progRegions
 
     # Range is inclusive, sub 1 from num_region_policies.
@@ -60,7 +63,36 @@ class BOManager:
     return sugg
 
 
-class PSOManager:
-	def __init__(self):
-		return
-		
+class PSOManager(PSO):
+  def __init__(self, progRegions, seed, population):
+    # set the global random state seed
+    np.random.seed(seed)
+    self.regions = progRegions
+
+
+    lower = [0]*(3 + len(self.regions))
+    upper = [num_threads_policies-1e-3, num_places_policies-1e-3, num_bind_policies-1e-3]
+            + [num_region_policies-1e-3]*(len(self.regions))
+
+    super().__init__(func=(lambda x: 0), n_dim=len(self.regions)+3, pop=population, 
+                     lb=lower, ub=upper, w=0.8, c1=0.5, c2=0.5)
+
+    self.iter = 0
+
+    # perform part of the first iteration
+    self.update_V()
+    self.recorder()
+    self.update_X()
+
+    # create a buffer of the next set of points/particles to sample
+
+
+
+    return
+
+  def registerPoint(self, policy, xtime):
+    return
+
+  def suggestNextPoint(self):
+    return
+

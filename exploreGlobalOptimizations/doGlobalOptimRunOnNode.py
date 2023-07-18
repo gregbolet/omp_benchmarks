@@ -129,7 +129,7 @@ def main():
   parser.add_argument('--progname', help='What program to test on', required=True, default='lulesh', type=str)
   parser.add_argument('--probsize', help='What problem size to use', required=True, default='smlprob', type=str)
   parser.add_argument('--seed', help='What optimizer seed to use for reproducibility', required=False, type=int, default=1337)
-  parser.add_argument('--maxIters', help='How many iterations should we do?', required=False, type=int, default=10)
+  parser.add_argument('--maxSteps', help='How many steps of the algo should we take?', required=False, type=int, default=10)
 
   args = parser.parse_args()
   print('Got input args:', args)
@@ -137,7 +137,7 @@ def main():
   runMan = RunManager(args.optim, args.progname, args.probsize, args.seed)
 
   step = 0
-  while step != args.maxIters:
+  while step != args.maxSteps:
     runMan.takeNextStep()
     step += 1
 
