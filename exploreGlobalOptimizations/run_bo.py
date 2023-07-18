@@ -61,7 +61,11 @@ def main():
     num_bind_policies = 2
     with open('.apollo/apollo_exec_info.csv', 'r') as f:
         csv_data = csv.DictReader(f, fieldnames=['region', 'execs'])
+
+        # gather up all the region names from the test run
+        # with APOLLO_STORE_EXEC_INFO enabled
         regions = [row['region'] for row in csv_data]
+
     # Range is inclusive, sub 1 from num_region_policies.
     # Add global num_threads policies and per-region policies 
     pbounds = {
@@ -69,6 +73,8 @@ def main():
             'places' : (0, num_places_policies - 1),
             'bind' : (0, num_bind_policies - 1)
     }
+
+    # for each region, set the policy index exploration bounds
     for r in regions:
         pbounds[r] = (0, num_region_policies - 1)
 
