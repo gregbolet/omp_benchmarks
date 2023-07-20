@@ -9,6 +9,7 @@ npbparams.h
 **/buildWithApollo
 **/buildNoApollo
 **/explorData
+**/logs
 **/__pycache__
 
 graph1MW_6.txt

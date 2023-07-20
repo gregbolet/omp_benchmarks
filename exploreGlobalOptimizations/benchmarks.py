@@ -24,12 +24,17 @@ if MACHINE == 'lassen':
   places = ['threads', 'cores', 'sockets']
   proc_bind = [ 'close', 'spread' ]
 
-  num_threads_policies = len(num_threads)
-  num_places_policies = len(places)
-  num_bind_policies = len(proc_bind)
+  #num_threads_policies = len(num_threads)
+  #num_places_policies = len(places)
+  #num_bind_policies = len(proc_bind)
+
+  num_threads_policies = 9
+  num_places_policies = 3
+  num_bind_policies = 2
 
   # this should match the NUM_POLICIES preprocessor define from apollo.h
-  num_region_policies = 15
+  #num_region_policies = 15
+  num_region_policies = 25
 
 elif MACHINE == 'ruby':
   num_threads = [160, 80, 40, 20]
