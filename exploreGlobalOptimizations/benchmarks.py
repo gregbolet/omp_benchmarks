@@ -20,9 +20,9 @@ else:
 # proc binds, and places while the Apollo instrumentation controls the
 # schedule for each of the regions
 if MACHINE == 'lassen':
-  num_threads = [160, 80, 40, 20]
-  places = ['threads', 'cores', 'sockets']
-  proc_bind = [ 'close', 'spread' ]
+  #num_threads = [160, 80, 40, 20]
+  #places = ['threads', 'cores', 'sockets']
+  #proc_bind = [ 'close', 'spread' ]
 
   #num_threads_policies = len(num_threads)
   #num_places_policies = len(places)

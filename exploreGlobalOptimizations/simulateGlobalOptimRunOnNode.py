@@ -16,13 +16,12 @@ import sys
 import argparse
 import pandas as pd
 
-# let's just get things working with BO and Lulesh for now
-
 class RunManager:
   def __init__(self, args):
     self.optim = args.optim.lower()
     self.progname = args.progname.lower()
     self.probsize = args.probsize.lower()
+    self.seed = args.seed
 
     self.step = 0
 
@@ -40,15 +39,6 @@ class RunManager:
     self.exe_dir = ROOT_DIR+'/../'+self.dirname+'/buildWithApollo'
     self.timeoutSecs = int(self.prog['timeout'][self.probsize])
 
-    if 'bo' in self.optim:
-      self.optimizer = BOManager(args.seed, args.utilFnct, args.kappa, 
-                                 args.xi, args.kappa_decay, args.kappa_decay_delay)
-    elif 'pso' in self.optim:
-      pass
-    elif 'cma' in self.optim:
-      pass
-    else:
-      raise ValueError('Unknown optimization method requested', optim)
     
     # read in the CSV file with the data to use
     self.db = pd.read_csv(ROOT_DIR+'/databases/'+args.database)
@@ -82,9 +72,19 @@ class RunManager:
     self.sched_to_index = {sched:idx for idx,sched in enumerate(scheds)}
     self.index_to_sched = scheds 
 
-    # setup the logger and log file
-    logfilename = self.progname+'-'+self.probsize+'-'+str(self.optimizer)
-    self.logger = ExplorationLogger(logfilename)
+    logfilename = self.progname+'-'+self.probsize+'-seed'+str(self.seed)
+
+    if 'bo' in self.optim:
+      self.optimizer = BOManager(args.seed, args.utilFnct, args.kappa, 
+                                 args.xi, args.kappa_decay, args.kappa_decay_delay,
+                                 self.queryDatabase, logfilename)
+    elif 'pso' in self.optim:
+      self.optimizer = PSOManager(args.seed, args.population, args.w, 
+                                  args.c1, args.c2, self.queryDatabase, logfilename)
+    elif 'cma' in self.optim:
+      pass
+    else:
+      raise ValueError('Unknown optimization method requested', optim)
 
     return
 
@@ -115,10 +115,9 @@ class RunManager:
 
     xtime = finds.iloc[0]['xtime']
 
-    print(NUM_THREADS, PROC_BIND, PLACES, SCHEDULE, xtime)
+    #print(NUM_THREADS, PROC_BIND, PLACES, SCHEDULE, xtime)
 
-    resultDict = {'step':self.step,
-                  'OMP_NUM_THREADS':NUM_THREADS,
+    resultDict = {'OMP_NUM_THREADS':NUM_THREADS,
                   'OMP_PROC_BIND':PROC_BIND,
                   'OMP_PLACES':PLACES,
                   'OMP_SCHEDULE':SCHEDULE,
@@ -132,27 +131,14 @@ class RunManager:
     return best.iloc[:n]
 
   def getBestFoundPolicies(self, n=10):
-    return self.logger.getBestFoundPolicies(n)
+    return self.optimizer.logger.getBestFoundPolicies(n)
 
-  def getExplorationOverhead(self):
-    return str(self.optimizer)+': \t'+str(self.optimizer.optimXtime)+' seconds'
+  def getMethodOverhead(self):
+    return str(self.optimizer)+': \t'+str(self.optimizer.logger.getOptimizerXtime())+' seconds'
 
   def getEvaluationOverhead(self):
-    return str(self.logger.log['xtime'].sum())+' seconds'
+    return str(self.optimizer.logger.getExecutionXtime())+' seconds'
 
-  def takeNextStep(self):
-    # get the next point to sample and update the model
-    policy = self.optimizer.suggestNextPoint()
-    xtime, resultDict = self.queryDatabase(policy)
-
-    # pass the evaluation to the logger
-    self.logger.logPoint(resultDict)
-
-    self.optimizer.registerPoint(policy, xtime)
-    self.step += 1
-
-    return
-    
     
 
 def main():
@@ -178,6 +164,11 @@ def main():
     # xi is only used in poi and ei
     parser.add_argument('--xi', help='', required=False, type=float, default=0.0)
 
+  elif '--optim=pso' in sys.argv:
+    parser.add_argument('--population', help='Swarm Size', required=False, type=int, default=10)
+    parser.add_argument('--w', help='', required=False, type=float, default=0.8)
+    parser.add_argument('--c1', help='', required=False, type=float, default=0.5)
+    parser.add_argument('--c2', help='', required=False, type=float, default=0.5)
 
   args = parser.parse_args()
   print('Got input args:', args)
@@ -186,8 +177,8 @@ def main():
 
   step = 0
   while step != args.maxSteps:
-    print('step', step, end='\t')
-    runMan.takeNextStep()
+    #print('step', step, end='\t')
+    runMan.optimizer.takeNextStep()
     step += 1
 
   print('best database policies')
@@ -197,7 +188,7 @@ def main():
   print(runMan.getBestFoundPolicies(5))
 
   print('exploration method overhead', end='\t')
-  print(runMan.getExplorationOverhead())
+  print(runMan.getMethodOverhead())
 
   print('exploration program evaluation overhead', end='\t')
   print(runMan.getEvaluationOverhead())

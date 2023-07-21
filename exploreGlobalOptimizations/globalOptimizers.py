@@ -12,8 +12,14 @@ from bayes_opt.util import load_logs
 from bayes_opt.event import Events
 
 class ExplorationLogger:
-  def __init__(self, logfilename):
-    self.log = pd.DataFrame(columns=['step', 'OMP_NUM_THREADS', 'OMP_PROC_BIND', 'OMP_PLACES', 'OMP_SCHEDULE', 'xtime'])
+  def __init__(self, logfilename, logfileCols=[]):
+
+    # globalSample and optimXtime are supplied in the resultDict by their respective GO Managers
+    self.logfileCols = logfileCols+['OMP_NUM_THREADS', 'OMP_PROC_BIND', 'OMP_PLACES', 
+                                    'OMP_SCHEDULE', 'xtime', 'repeatSample', 
+                                    'globalSample', 'optimXtime']
+
+    self.log = pd.DataFrame(columns=self.logfileCols)
 
     self.logfilepath = ROOT_DIR+'/logs/'+logfilename+'.csv'
 
@@ -23,20 +29,52 @@ class ExplorationLogger:
     return
 
   def logPoint(self, resultDict):
+    # check if we've already logged the point we're going to add
+    finds = self.log[(self.log['OMP_NUM_THREADS'] == resultDict['OMP_NUM_THREADS']) & 
+                     (self.log['OMP_PROC_BIND'] == resultDict['OMP_PROC_BIND']) &
+                     (self.log['OMP_PLACES'] == resultDict['OMP_PLACES']) & 
+                     (self.log['OMP_SCHEDULE'] == resultDict['OMP_SCHEDULE'])]
 
+    # flag if it's a repeated sample
+    resultDict['repeatSample'] = int(len(finds) > 0)
+
+    # convert the dict to a pandas-friendly format
     resultDict = {k:[v] for k,v in resultDict.items()}
-    self.log = pd.concat([self.log, pd.DataFrame.from_dict(resultDict)], ignore_index=True)
+    toAdd = pd.DataFrame.from_dict(resultDict)
+
+    self.log = pd.concat([self.log, toAdd], sort=True, ignore_index=True)
 
     # write out the CSV file
     self.log.to_csv(self.logfilepath, index=False)
     return
 
   def getBestFoundPolicies(self, n=10):
-    return self.log.sort_values(by=['xtime', 'step'], ascending=True).iloc[:min(n, self.log.shape[0])]
+    uniquePts = self.log[self.log['repeatSample'] == 0]
+    return uniquePts.sort_values(by=['xtime', 'globalSample'], ascending=True).iloc[:min(n, uniquePts.shape[0])]
+
+  def getOptimizerXtime(self):
+    return self.log['optimXtime'].sum()
+
+  def getExecutionXtime(self):
+    return self.log['xtime'].sum()
+
+class GlobalOptimManager:
+
+  def __init__(self, seed, queryDBFnct, logfilename, logfileCols=[]):
+    self.queryDBFnct = queryDBFnct
+    self.seed = seed
+    self.logfilename = logfilename
+    self.logfileCols = logfileCols
+
+    # setup the logger and log file
+    self.logger = ExplorationLogger(self.logfilename, self.logfileCols)
+    return
+
 
 # this is going to use the BO Optimizer for runs
-class BOManager:
-  def __init__(self, seed, utilFnct, kappa, xi, kappaDecay, kappaDecayDelay):
+class BOManager(GlobalOptimManager):
+  def __init__(self, seed, utilFnct, kappa, xi, kappaDecay, 
+               kappaDecayDelay, queryDBFnct, logfilename):
 
     self.utilFnct = utilFnct
     self.kappa = kappa
@@ -44,8 +82,15 @@ class BOManager:
     self.kappaDecay = kappaDecay
     self.kappaDecayDelay = kappaDecayDelay
 
-    # keep track of the total time consumed by calling BO functions
-    self.optimXtime = 0.0
+    if self.utilFnct == 'ucb':
+      logfilename += f'-BO-{self.utilFnct}-k{self.kappa}-kd{self.kappaDecay}-kdd{self.kappaDecayDelay}'
+    else:
+      logfilename += f'-BO-{self.utilFnct}-xi{self.xi}'
+
+    super().__init__(seed, queryDBFnct, logfilename) 
+
+    # keep track of the global step of the algorithm
+    self.globalSample = 0
 
     # set the global random state seed
     np.random.seed(seed)
@@ -59,7 +104,6 @@ class BOManager:
     }
 
     # set up the optimizer
-    start = time.time()
     self.opt = BayesianOptimization(
             f=None,
             pbounds = pbounds,
@@ -72,7 +116,6 @@ class BOManager:
                                    kappa_decay=kappaDecay, 
                                    kappa_decay_delay=kappaDecayDelay)
 
-    self.optimXtime = self.optimXtime + (time.time() - start)
     return
 
   def __str__(self):
@@ -82,55 +125,111 @@ class BOManager:
       return f'bo-{self.utilFnct}-xi{self.xi}'
 
 
-  def registerPoint(self, policy, xtime):
-    # BO does maximization, need to flip the sign on the xtime
-    start = time.time()
-    self.opt.register(params=policy, target= (-float(xtime)) )
-    self.optimXtime = self.optimXtime + (time.time() - start)
-    return
+  def takeNextStep(self):
 
-  def suggestNextPoint(self):
+    self.optimXtime = 0
+
+    # get the next point
     start = time.time()
-    sugg = self.opt.suggest(self.utility)
-    self.optimXtime = self.optimXtime + (time.time() - start)
+    raw_policy = self.opt.suggest(self.utility)
+    self.optimXtime += (time.time() - start)
 
     # suggested point is represented with floating point values
     # we round all the values instead
-    for k,v in sugg.items():
-      sugg[k] = int(np.round(v))
+    policy = dict()
+    for k,v in raw_policy.items():
+      policy[k] = int(np.round(v))
 
-    return sugg
+    xtime, resultDict = self.queryDBFnct(policy)
+
+    resultDict['globalSample'] = self.globalSample
+    resultDict['optimXtime'] = self.optimXtime
+
+    self.logger.logPoint(resultDict)
+
+    # update the model
+    start = time.time()
+    self.opt.register(params=policy, target= (-float(xtime)) )
+    self.optimXtime += (time.time() - start)
+
+    self.globalSample += 1
+
+    return
 
 
-class PSOManager(PSO):
-  def __init__(self, progRegions, seed, population):
-    # set the global random state seed
-    np.random.seed(seed)
-    self.regions = progRegions
 
-
-    lower = [0]*(3 + len(self.regions))
-    upper = [num_threads_policies-1e-3, num_bind_policies-1e-3, num_places_policies-1e-3] + [num_region_policies-1e-3]*(len(self.regions))
-
-    super().__init__(func=(lambda x: 0), n_dim=len(self.regions)+3, pop=population, 
-                     lb=lower, ub=upper, w=0.8, c1=0.5, c2=0.5)
-
+# this wrapper keeps track of the GO step/iteration
+# along with parsing inputs to the databse query function
+# and writing output results to the logger
+class PSOFunctionWrapper:
+  def __init__(self, f, logger, population):
+    self.f = f
+    self.logger = logger
+    self.pop = population
     self.iter = 0
+    self.sample = 0
 
-    # perform part of the first iteration
-    self.update_V()
-    self.recorder()
-    self.update_X()
+  def __call__(self, x):
 
-    # create a buffer of the next set of points/particles to sample
+    # x is a simple array of shape (4,)
+    # we preprocess the input array here to pass to the database function
+    x = np.round(x).astype(int)
+
+    x_dict = {'OMP_NUM_THREADS':x[0], 'OMP_PROC_BIND':x[1], 'OMP_PLACES':x[2], 'OMP_SCHEDULE':x[3]}
+    xtime, resultDict = self.f(x_dict)
+
+    resultDict['iter'] = self.iter
+    resultDict['sample'] = self.sample
+    resultDict['globalSample'] = (self.iter * self.pop) + self.sample
+    resultDict['optimXtime'] = 0
+
+    self.logger.logPoint(resultDict)
+
+    self.sample += 1
+    if self.sample == self.pop:
+      self.iter += 1
+      self.sample = 0
+
+    return xtime
 
 
+class PSOManager(GlobalOptimManager):
+
+  def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename):
+
+    # These are the extra columns we're going to be printing to the logfile
+    logfileCols = ['iter', 'sample']
+
+    self.pop = population
+    self.w = w
+    self.c1 = c1
+    self.c2 = c2
+
+    logfilename = logfilename+f'-PSO-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
+
+    super().__init__(seed, queryDBFnct, logfilename, logfileCols) 
+
+    # set the global random state seed
+    np.random.seed(self.seed)
+
+    self.lower = [0]*4
+    self.upper = [float(num_threads_policies-1), float(num_bind_policies-1), 
+                  float(num_places_policies-1), float(num_region_policies-1)]
+
+    self.wrapper = PSOFunctionWrapper(self.queryDBFnct, self.logger, self.pop)
+
+    self.pso = PSO(func=self.wrapper, 
+                   n_dim=4, pop=self.pop, lb=self.lower, ub=self.upper, 
+                   w=self.w, c1=self.c1, c2=self.c2)
 
     return
+  
+  def __str__(self):
+    return f'pso-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
 
-  def registerPoint(self, policy, xtime):
+  def takeNextStep(self):
+    self.pso.run(max_iter=1)
     return
 
-  def suggestNextPoint(self):
-    return
+
 
