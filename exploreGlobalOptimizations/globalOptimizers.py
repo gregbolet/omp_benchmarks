@@ -116,6 +116,8 @@ class BOManager(GlobalOptimManager):
                                    kappa_decay=kappaDecay, 
                                    kappa_decay_delay=kappaDecayDelay)
 
+    self.optimXtime = 0
+
     return
 
   def __str__(self):
@@ -126,8 +128,6 @@ class BOManager(GlobalOptimManager):
 
 
   def takeNextStep(self):
-
-    self.optimXtime = 0
 
     # get the next point
     start = time.time()
@@ -147,6 +147,8 @@ class BOManager(GlobalOptimManager):
 
     self.logger.logPoint(resultDict)
 
+    self.optimXtime = 0
+
     # update the model
     start = time.time()
     self.opt.register(params=policy, target= (-float(xtime)) )
@@ -162,12 +164,13 @@ class BOManager(GlobalOptimManager):
 # along with parsing inputs to the databse query function
 # and writing output results to the logger
 class PSOFunctionWrapper:
-  def __init__(self, f, logger, population):
+  def __init__(self, f, logger, population, xtimeHolder):
     self.f = f
     self.logger = logger
     self.pop = population
     self.iter = 0
     self.sample = 0
+    self.xtimeHolder = xtimeHolder
 
   def __call__(self, x):
 
@@ -181,7 +184,7 @@ class PSOFunctionWrapper:
     resultDict['iter'] = self.iter
     resultDict['sample'] = self.sample
     resultDict['globalSample'] = (self.iter * self.pop) + self.sample
-    resultDict['optimXtime'] = 0
+    resultDict['optimXtime'] = self.xtimeHolder.optimXtime
 
     self.logger.logPoint(resultDict)
 
@@ -192,8 +195,81 @@ class PSOFunctionWrapper:
 
     return xtime
 
-
 class PSOManager(GlobalOptimManager):
+
+  def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename):
+
+    # These are the extra columns we're going to be printing to the logfile
+    logfileCols = ['iter', 'sample']
+
+    self.pop = population
+    self.w = w
+    self.c1 = c1
+    self.c2 = c2
+    self.optimXtime = 0
+
+    logfilename = logfilename+f'-PSO-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
+
+    super().__init__(seed, queryDBFnct, logfilename, logfileCols) 
+
+    # set the global random state seed
+    np.random.seed(self.seed)
+
+    self.lower = [0]*4
+    self.upper = [float(num_threads_policies-1), float(num_bind_policies-1), 
+                  float(num_places_policies-1), float(num_region_policies-1)]
+
+    self.wrapper = PSOFunctionWrapper(self.queryDBFnct, self.logger, self.pop, self)
+
+    self.pso = PSO(func=self.wrapper, 
+                   n_dim=4, pop=self.pop, lb=self.lower, ub=self.upper, 
+                   w=self.w, c1=self.c1, c2=self.c2)
+
+    return
+  
+  def __str__(self):
+    return f'pso-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
+
+  def takeNextStep(self):
+    # the following code is equivalent to calling this commented line
+    # below, but we added timing instrumentation
+    #self.pso.run(max_iter=1)
+
+    self.optimXtime = 0
+    start = time.time()
+    max_iter=1
+    precision = None
+    N = 20
+    self.pso.max_iter = max_iter or self.pso.max_iter
+    c = 0
+
+    for iter_num in range(self.pso.max_iter):
+      self.pso.update_V()
+      self.pso.recorder()
+      self.pso.update_X()
+      self.optimXtime += (time.time() - start)
+      self.pso.cal_y()
+      start = time.time()
+      self.pso.update_pbest()
+      self.pso.update_gbest()
+      if precision is not None:
+        tor_iter = np.amax(self.pso.pbest_y) - np.amin(self.pso.pbest_y)
+        if tor_iter < precision:
+          c = c + 1
+          if c > N:
+            break
+        else:
+          c = 0
+      if self.pso.verbose:
+        print('Iter: {}, Best fit: {} at {}'.format(iter_num, self.pso.gbest_y, self.pso.gbest_x))
+
+      self.pso.gbest_y_hist.append(self.pso.gbest_y)
+    self.pso.best_x, self.pso.best_y = self.pso.gbest_x, self.pso.gbest_y
+    #return self.pso.best_x, self.pso.best_y
+
+
+
+class CMAManager(GlobalOptimManager):
 
   def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename):
 
@@ -230,6 +306,3 @@ class PSOManager(GlobalOptimManager):
   def takeNextStep(self):
     self.pso.run(max_iter=1)
     return
-
-
-
