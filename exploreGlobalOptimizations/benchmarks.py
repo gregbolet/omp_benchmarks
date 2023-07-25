@@ -141,21 +141,21 @@ progs = {
 #            'lrgprob': './lu.D.x'
 #        }
 #    },
-    'bfs_rodinia': {
-        'xtime-regex':r'(?<=Compute time: )(\s*\d*\.\d*)(?=\s)',
-        'valid-regex':'',
-        'dirname' : 'bfs',
-        'exe': {
-            'smlprob': './bfs 1 ../inputs/graph4096.txt',
-            'medprob': './bfs 1 ../inputs/graph65536.txt',
-            'lrgprob': './bfs 1 ../inputs/graph1MW_6.txt'
-        },
-        'timeout':{
-            'smlprob': 10,
-            'medprob': 10,
-            'lrgprob': 10
-        }
-    },
+#    'bfs_rodinia': {
+#        'xtime-regex':r'(?<=Compute time: )(\s*\d*\.\d*)(?=\s)',
+#        'valid-regex':'',
+#        'dirname' : 'bfs',
+#        'exe': {
+#            'smlprob': './bfs 1 ../inputs/graph4096.txt',
+#            'medprob': './bfs 1 ../inputs/graph65536.txt',
+#            'lrgprob': './bfs 1 ../inputs/graph1MW_6.txt'
+#        },
+#        'timeout':{
+#            'smlprob': 10,
+#            'medprob': 10,
+#            'lrgprob': 10
+#        }
+#    },
     'cfd_rodinia': {
         'xtime-regex':r'(?<=Compute time: )(\s*\d*\.\d*)(?=\s)',
         'valid-regex':'',

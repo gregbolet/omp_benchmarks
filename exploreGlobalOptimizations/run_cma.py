@@ -78,6 +78,7 @@ def main():
             num_bind_policies-1e-9] + [num_region_policies-1e-9]*len(regions)
     pbounds = [ lower, upper ]
 
+    # x0 is the intitial guess
     x0 = [0]*3 + [0]*len(regions)
 
     print('bounds', pbounds)

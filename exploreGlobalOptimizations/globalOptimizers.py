@@ -1,6 +1,7 @@
 import time
 import os
 import numpy as np
+import random
 import pandas as pd
 from benchmarks import *
 from sko.PSO import PSO
@@ -129,6 +130,8 @@ class BOManager(GlobalOptimManager):
 
   def takeNextStep(self):
 
+    self.optimXtime = 0
+
     # get the next point
     start = time.time()
     raw_policy = self.opt.suggest(self.utility)
@@ -147,12 +150,9 @@ class BOManager(GlobalOptimManager):
 
     self.logger.logPoint(resultDict)
 
-    self.optimXtime = 0
 
     # update the model
-    start = time.time()
     self.opt.register(params=policy, target= (-float(xtime)) )
-    self.optimXtime += (time.time() - start)
 
     self.globalSample += 1
 
@@ -184,7 +184,9 @@ class PSOFunctionWrapper:
     resultDict['iter'] = self.iter
     resultDict['sample'] = self.sample
     resultDict['globalSample'] = (self.iter * self.pop) + self.sample
-    resultDict['optimXtime'] = self.xtimeHolder.optimXtime
+
+    # calculate the xtime per sample, assumed the same for each sample in one iteration
+    resultDict['optimXtime'] = self.xtimeHolder.optimXtime / self.pop
 
     self.logger.logPoint(resultDict)
 
@@ -269,40 +271,112 @@ class PSOManager(GlobalOptimManager):
 
 
 
+class CMAFunctionWrapper:
+  def __init__(self, f, logger, xtimeHolder):
+    self.f = f
+    self.logger = logger
+    self.iter = 0
+    self.sample = 0
+    self.pop = 0
+    self.globalSample = 0
+    self.xtimeHolder = xtimeHolder
+
+  def setPop(self, pop):
+    self.pop = pop
+
+  def __call__(self, x):
+
+    # x is a simple array of shape (4,)
+    # we preprocess the input array here to pass to the database function
+    x = np.round(x).astype(int)
+
+    x_dict = {'OMP_NUM_THREADS':x[0], 'OMP_PROC_BIND':x[1], 'OMP_PLACES':x[2], 'OMP_SCHEDULE':x[3]}
+    xtime, resultDict = self.f(x_dict)
+
+    resultDict['globalSample'] = int(self.globalSample)
+    resultDict['iter'] = int(self.iter)
+    resultDict['sample'] = int(self.sample)
+
+    # calculate the xtime per sample, assumed the same for each sample in one iteration
+    resultDict['optimXtime'] = self.xtimeHolder.optimXtime / self.pop
+
+    self.logger.logPoint(resultDict)
+
+    self.globalSample += 1
+
+    self.sample += 1
+    if self.sample == self.pop:
+      self.iter += 1
+      self.sample = 0
+
+    return xtime
+
+
+
+
 class CMAManager(GlobalOptimManager):
 
-  def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename):
+  def __init__(self, seed, sigma, popsize, popsize_factor, queryDBFnct, logfilename):
 
     # These are the extra columns we're going to be printing to the logfile
-    logfileCols = ['iter', 'sample']
+    self.sigma = sigma
+    self.popsize = popsize
+    self.popsize_factor = popsize_factor
+    self.optimXtime = 0
 
-    self.pop = population
-    self.w = w
-    self.c1 = c1
-    self.c2 = c2
+    logfilename = logfilename+f'-CMA-sigma{self.sigma}-pop{self.popsize}-popdecay{self.popsize_factor}'
 
-    logfilename = logfilename+f'-PSO-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
-
-    super().__init__(seed, queryDBFnct, logfilename, logfileCols) 
+    super().__init__(seed, queryDBFnct, logfilename, []) 
 
     # set the global random state seed
     np.random.seed(self.seed)
+    random.seed(self.seed)
 
     self.lower = [0]*4
     self.upper = [float(num_threads_policies-1), float(num_bind_policies-1), 
                   float(num_places_policies-1), float(num_region_policies-1)]
+    pbounds = [ self.lower, self.upper ]
+    x0 = [0]*4
 
-    self.wrapper = PSOFunctionWrapper(self.queryDBFnct, self.logger, self.pop)
+    self.wrapper = CMAFunctionWrapper(self.queryDBFnct, self.logger, self)
 
-    self.pso = PSO(func=self.wrapper, 
-                   n_dim=4, pop=self.pop, lb=self.lower, ub=self.upper, 
-                   w=self.w, c1=self.c1, c2=self.c2)
+    esOpts = {
+              'integer_variables' : list(range(len(x0))),
+              'bounds' : pbounds,
+              'maxiter' : 100,
+              'seed': self.seed,
+              'popsize': self.popsize,
+              'popsize_factor': self.popsize_factor,
+             }
+
+    self.es = cma.CMAEvolutionStrategy(x0, self.sigma, esOpts)
+
+    # use this to print options for future extra hyperparameters
+    # self.es.opts.pprint()
 
     return
   
   def __str__(self):
-    return f'pso-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
+    return f'-CMA-sigma{self.sigma}-pop{self.popsize}-popdecay{self.popsize_factor}'
 
   def takeNextStep(self):
-    self.pso.run(max_iter=1)
+
+
+    # CMA offers an ask-and-tell interface
+    if not self.es.stop():
+
+      self.optimXtime = 0
+      start = time.time()
+
+      candidates = self.es.ask()
+      self.optimXtime += (time.time() - start)
+      
+      # solutions contains a list of multiple points to sample
+      # this list of points is the "population" which can change
+      # over time
+      self.wrapper.setPop(len(candidates))
+
+      evaluations = [self.wrapper(point) for point in candidates]
+      self.es.tell(candidates, evaluations)
+      self.es.disp()
     return

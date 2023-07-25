@@ -35,7 +35,6 @@ class RunManager:
     self.xtimeRegex = self.prog['xtime-regex']
     self.dirname = self.prog['dirname']
     self.exe = self.prog['exe'][self.probsize]
-    self.regions = self.prog['regions'][self.probsize]
     self.exe_dir = ROOT_DIR+'/../'+self.dirname+'/buildWithApollo'
     self.timeoutSecs = int(self.prog['timeout'][self.probsize])
 
@@ -82,7 +81,8 @@ class RunManager:
       self.optimizer = PSOManager(args.seed, args.population, args.w, 
                                   args.c1, args.c2, self.queryDatabase, logfilename)
     elif 'cma' in self.optim:
-      pass
+      self.optimizer = CMAManager(args.seed, args.sigma, args.popsize, args.popsize_factor, 
+                                  self.queryDatabase, logfilename)
     else:
       raise ValueError('Unknown optimization method requested', optim)
 
@@ -170,6 +170,11 @@ def main():
     parser.add_argument('--c1', help='', required=False, type=float, default=0.5)
     parser.add_argument('--c2', help='', required=False, type=float, default=0.5)
 
+  elif '--optim=cma' in sys.argv:
+    parser.add_argument('--sigma', help='Standard Deviation of Search Space', required=False, type=float, default=100)
+    parser.add_argument('--popsize', help='Population Size', required=False, type=int, default=8)
+    parser.add_argument('--popsize_factor', help='Population Size Decay Factor', required=False, type=float, default=1.0)
+
   args = parser.parse_args()
   print('Got input args:', args)
 
@@ -177,7 +182,6 @@ def main():
 
   step = 0
   while step != args.maxSteps:
-    #print('step', step, end='\t')
     runMan.optimizer.takeNextStep()
     step += 1
 
