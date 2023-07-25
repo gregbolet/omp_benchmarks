@@ -152,25 +152,28 @@ class BOManager(GlobalOptimManager):
 
 
     # update the model
-    self.opt.register(params=policy, target= (-float(xtime)) )
+    self.opt.register(params=raw_policy, target= (-float(xtime)) )
 
     self.globalSample += 1
 
     return
 
 
-
-# this wrapper keeps track of the GO step/iteration
-# along with parsing inputs to the databse query function
-# and writing output results to the logger
-class PSOFunctionWrapper:
-  def __init__(self, f, logger, population, xtimeHolder):
+# this is used by both PSO and CMA, it keeps track
+# of iteration information for logging purposes along
+# with the xtime of the optimizer being used
+class IterativeFunctionWrapper:
+  def __init__(self, f, logger, xtimeHolder):
     self.f = f
     self.logger = logger
-    self.pop = population
     self.iter = 0
     self.sample = 0
+    self.pop = 0
+    self.globalSample = 0
     self.xtimeHolder = xtimeHolder
+
+  def setPop(self, pop):
+    self.pop = pop
 
   def __call__(self, x):
 
@@ -181,14 +184,16 @@ class PSOFunctionWrapper:
     x_dict = {'OMP_NUM_THREADS':x[0], 'OMP_PROC_BIND':x[1], 'OMP_PLACES':x[2], 'OMP_SCHEDULE':x[3]}
     xtime, resultDict = self.f(x_dict)
 
-    resultDict['iter'] = self.iter
-    resultDict['sample'] = self.sample
-    resultDict['globalSample'] = (self.iter * self.pop) + self.sample
+    resultDict['globalSample'] = int(self.globalSample)
+    resultDict['iter'] = int(self.iter)
+    resultDict['sample'] = int(self.sample)
 
     # calculate the xtime per sample, assumed the same for each sample in one iteration
     resultDict['optimXtime'] = self.xtimeHolder.optimXtime / self.pop
 
     self.logger.logPoint(resultDict)
+
+    self.globalSample += 1
 
     self.sample += 1
     if self.sample == self.pop:
@@ -196,6 +201,8 @@ class PSOFunctionWrapper:
       self.sample = 0
 
     return xtime
+
+
 
 class PSOManager(GlobalOptimManager):
 
@@ -221,7 +228,9 @@ class PSOManager(GlobalOptimManager):
     self.upper = [float(num_threads_policies-1), float(num_bind_policies-1), 
                   float(num_places_policies-1), float(num_region_policies-1)]
 
-    self.wrapper = PSOFunctionWrapper(self.queryDBFnct, self.logger, self.pop, self)
+    self.wrapper = IterativeFunctionWrapper(self.queryDBFnct, self.logger, self)
+
+    self.wrapper.setPop(self.pop)
 
     self.pso = PSO(func=self.wrapper, 
                    n_dim=4, pop=self.pop, lb=self.lower, ub=self.upper, 
@@ -271,46 +280,6 @@ class PSOManager(GlobalOptimManager):
 
 
 
-class CMAFunctionWrapper:
-  def __init__(self, f, logger, xtimeHolder):
-    self.f = f
-    self.logger = logger
-    self.iter = 0
-    self.sample = 0
-    self.pop = 0
-    self.globalSample = 0
-    self.xtimeHolder = xtimeHolder
-
-  def setPop(self, pop):
-    self.pop = pop
-
-  def __call__(self, x):
-
-    # x is a simple array of shape (4,)
-    # we preprocess the input array here to pass to the database function
-    x = np.round(x).astype(int)
-
-    x_dict = {'OMP_NUM_THREADS':x[0], 'OMP_PROC_BIND':x[1], 'OMP_PLACES':x[2], 'OMP_SCHEDULE':x[3]}
-    xtime, resultDict = self.f(x_dict)
-
-    resultDict['globalSample'] = int(self.globalSample)
-    resultDict['iter'] = int(self.iter)
-    resultDict['sample'] = int(self.sample)
-
-    # calculate the xtime per sample, assumed the same for each sample in one iteration
-    resultDict['optimXtime'] = self.xtimeHolder.optimXtime / self.pop
-
-    self.logger.logPoint(resultDict)
-
-    self.globalSample += 1
-
-    self.sample += 1
-    if self.sample == self.pop:
-      self.iter += 1
-      self.sample = 0
-
-    return xtime
-
 
 
 
@@ -338,7 +307,7 @@ class CMAManager(GlobalOptimManager):
     pbounds = [ self.lower, self.upper ]
     x0 = [0]*4
 
-    self.wrapper = CMAFunctionWrapper(self.queryDBFnct, self.logger, self)
+    self.wrapper = IterativeFunctionWrapper(self.queryDBFnct, self.logger, self)
 
     esOpts = {
               'integer_variables' : list(range(len(x0))),
@@ -368,6 +337,7 @@ class CMAManager(GlobalOptimManager):
       self.optimXtime = 0
       start = time.time()
 
+      # these are raw un-rounded requested points
       candidates = self.es.ask()
       self.optimXtime += (time.time() - start)
       
@@ -378,5 +348,4 @@ class CMAManager(GlobalOptimManager):
 
       evaluations = [self.wrapper(point) for point in candidates]
       self.es.tell(candidates, evaluations)
-      self.es.disp()
     return
