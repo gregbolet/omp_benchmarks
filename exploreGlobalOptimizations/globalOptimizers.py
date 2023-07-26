@@ -17,27 +17,41 @@ class ExplorationLogger:
 
     # globalSample and optimXtime are supplied in the resultDict by their respective GO Managers
     self.logfileCols = logfileCols+['OMP_NUM_THREADS', 'OMP_PROC_BIND', 'OMP_PLACES', 
-                                    'OMP_SCHEDULE', 'xtime', 'repeatSample', 
+                                    'OMP_SCHEDULE', 'xtime', 'timesSampled', 
                                     'globalSample', 'optimXtime']
 
     self.log = pd.DataFrame(columns=self.logfileCols)
 
     self.logfilepath = ROOT_DIR+'/logs/'+logfilename+'.csv'
 
-    # create the logfile
+    # this file path is for once we're done exploring, we save the data to 
+    # a file that indicates the exploration was able to complete.
+    # We do this so that our batch job script can skip over runs that 
+    # are already done (since these are deterministic).
+    # There are smarter ways of doing this, but we want results and
+    # this is quick to implement.
+    self.donelogfilepath = os.path.splitext(self.logfilepath)[0]+'--DONE.csv'
+
+    print('Live-Logging to:', self.logfilepath)
+
+    # create the logfile (overwrite already-existing file)
     self.log.to_csv(self.logfilepath, index=False)
 
     return
 
   def logPoint(self, resultDict):
     # check if we've already logged the point we're going to add
-    finds = self.log[(self.log['OMP_NUM_THREADS'] == resultDict['OMP_NUM_THREADS']) & 
-                     (self.log['OMP_PROC_BIND'] == resultDict['OMP_PROC_BIND']) &
-                     (self.log['OMP_PLACES'] == resultDict['OMP_PLACES']) & 
-                     (self.log['OMP_SCHEDULE'] == resultDict['OMP_SCHEDULE'])]
+    finds = self.log.index[(self.log['OMP_NUM_THREADS'] == resultDict['OMP_NUM_THREADS']) & 
+                           (self.log['OMP_PROC_BIND'] == resultDict['OMP_PROC_BIND']) &
+                           (self.log['OMP_PLACES'] == resultDict['OMP_PLACES']) & 
+                           (self.log['OMP_SCHEDULE'] == resultDict['OMP_SCHEDULE'])].tolist()
+
+    numRepeats = len(finds) + 1
+
+    self.log.loc[finds, 'timesSampled'] = numRepeats
 
     # flag if it's a repeated sample
-    resultDict['repeatSample'] = int(len(finds) > 0)
+    resultDict['timesSampled'] = numRepeats
 
     # convert the dict to a pandas-friendly format
     resultDict = {k:[v] for k,v in resultDict.items()}
@@ -50,14 +64,20 @@ class ExplorationLogger:
     return
 
   def getBestFoundPolicies(self, n=10):
-    uniquePts = self.log[self.log['repeatSample'] == 0]
-    return uniquePts.sort_values(by=['xtime', 'globalSample'], ascending=True).iloc[:min(n, uniquePts.shape[0])]
+    #uniquePts = self.log[self.log['repeatSample'] == 0]
+    return self.log.copy(deep=True).sort_values(by=['xtime', 'globalSample'], ascending=True).iloc[:min(n, self.log.shape[0])]
 
   def getOptimizerXtime(self):
     return self.log['optimXtime'].sum()
 
   def getExecutionXtime(self):
     return self.log['xtime'].sum()
+
+  def markLogFileAsComplete(self):
+    print('Wrote:', self.donelogfilepath)
+    self.log.to_csv(self.donelogfilepath, index=False)
+    return
+
 
 class GlobalOptimManager:
 

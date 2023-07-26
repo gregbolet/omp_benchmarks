@@ -71,7 +71,7 @@ class RunManager:
     self.sched_to_index = {sched:idx for idx,sched in enumerate(scheds)}
     self.index_to_sched = scheds 
 
-    logfilename = self.progname+'-'+self.probsize+'-seed'+str(self.seed)
+    logfilename = self.progname+'-'+self.probsize+'-seed'+str(self.seed)+'-maxSteps'+str(args.maxSteps)
 
     if 'bo' in self.optim:
       self.optimizer = BOManager(args.seed, args.utilFnct, args.kappa, 
@@ -87,6 +87,11 @@ class RunManager:
       raise ValueError('Unknown optimization method requested', optim)
 
     return
+
+  def isDataAlreadyGathered(self):
+    # check to see if the DONE file exists, if it does
+    # we return true, otherwise false
+    return os.path.exists(self.optimizer.logger.donelogfilepath)
 
   # input policy is assumed to already be integers
   def queryDatabase(self, policy):
@@ -171,7 +176,7 @@ def main():
     parser.add_argument('--c2', help='', required=False, type=float, default=0.5)
 
   elif '--optim=cma' in sys.argv:
-    parser.add_argument('--sigma', help='Standard Deviation of Search Space', required=False, type=float, default=100)
+    parser.add_argument('--sigma', help='Standard Deviation of Search Space', required=False, type=float, default=100.0)
     parser.add_argument('--popsize', help='Population Size', required=False, type=int, default=8)
     parser.add_argument('--popsize_factor', help='Population Size Decay Factor', required=False, type=float, default=1.0)
 
@@ -180,10 +185,17 @@ def main():
 
   runMan = RunManager(args)
 
+  if runMan.isDataAlreadyGathered():
+    print('Data already gathered at: ', runMan.optimizer.logger.donelogfilepath)
+    return
+
   step = 0
   while step != args.maxSteps:
     runMan.optimizer.takeNextStep()
     step += 1
+
+  # this saves the log file with a DONE postfix to indicate completed data
+  runMan.optimizer.logger.markLogFileAsComplete()
 
   print('best database policies')
   print(runMan.getBestPolicies(5))
