@@ -62,6 +62,26 @@ Below we show three inputs that we feed to each of the codes. We try a small, me
 |       lu      |             `lu.B.x`            |             `lu.C.x`            |             `lu.D.x`            |
 |     lulesh    | `-s 30 -r 100 -b 0 -c 8 -i 200` | `-s 55 -r 100 -b 0 -c 8 -i 200` | `-s 80 -r 100 -b 0 -c 8 -i 200` |
 
+
+## Global Search Hyperparameters
+Here we list the hyperparemters we explore for each of the global optimization methods.
+We do this large exploration using our synthetic data to try and find reasonable configurations of these search methods so that we could apply them on live program tuning.
+
+| **Optimization <br>Method** 	|     **Hyperparameter**     	|                                 **Description**                                	|              **Values**             	|
+|:---------------------------:	|:--------------------------:	|:------------------------------------------------------------------------------:	|:-----------------------------------:	|
+|              BO             	|      Utility Function      	|              Used for selecting the <br>next best point to sample              	|             {UCB,POI,EI}            	|
+|           BO (UCB)          	|            Kappa           	|           Exploration/Exploitation Factor<br>(bigger --> exploration)          	|    start=1<br>stop=500<br>step=1    	|
+|           BO (UCB)          	|         Kappa Decay        	|               Kappa variable multiplier <br>(i.e: decay schedule)              	| start=0.01<br>stop=1.5<br>step=0.01 	|
+|           BO (UCB)          	|    Kappa Decay <br>Delay   	| Number of iterations that must pass <br>before applying the Kappa Decay factor 	|     start=1<br>stop=50<br>step=1    	|
+|       BO <br>(POI, EI)      	|             Xi             	|           Exploration/Exploitation Factor<br>(bigger --> exploration)          	|  start=0.0<br>stop=5.0<br>step=0.1  	|
+|             PSO             	|       Population Size      	|              Number of points to sample <br>in one step/iteration              	|     start=1<br>stop=50<br>step=1    	|
+|             PSO             	|              w             	|                                  Swarm Inertia                                 	| start=0.01<br>stop=1.0<br>step=0.01 	|
+|             PSO             	|             c1             	|                     Personal best bias factor (exploration)                    	| start=0.01<br>stop=1.5<br>step=0.01 	|
+|             PSO             	|             c2             	|                     Global best bias factor (exploitation)                     	| start=0.01<br>stop=1.5<br>step=0.01 	|
+|             CMA             	|       Population Size      	|              Number of points to sample <br>in one step/iteration              	|     start=1<br>stop=50<br>step=1    	|
+|             CMA             	| Population Size <br>Factor 	|               Population Size increase/decrease <br>at each step               	|  start=0.1<br>stop=1.5<br>step=0.1  	|
+|             CMA             	|            Sigma           	|                           Initial Standard Deviation                           	|    start=1<br>stop=100<br>step=2    	|
+
 ## Notes
 ### Runtime Note
 ALL these codes have had their `#pragma omp for` regions modified to have `schedule(runtime)` included.

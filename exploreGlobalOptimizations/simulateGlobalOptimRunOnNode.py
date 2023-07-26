@@ -78,7 +78,7 @@ class RunManager:
                                  args.xi, args.kappa_decay, args.kappa_decay_delay,
                                  self.queryDatabase, logfilename)
     elif 'pso' in self.optim:
-      self.optimizer = PSOManager(args.seed, args.population, args.w, 
+      self.optimizer = PSOManager(args.seed, args.popsize, args.w, 
                                   args.c1, args.c2, self.queryDatabase, logfilename)
     elif 'cma' in self.optim:
       self.optimizer = CMAManager(args.seed, args.sigma, args.popsize, args.popsize_factor, 
@@ -165,7 +165,7 @@ def main():
     parser.add_argument('--xi', help='', required=False, type=float, default=0.0)
 
   elif '--optim=pso' in sys.argv:
-    parser.add_argument('--population', help='Swarm Size', required=False, type=int, default=10)
+    parser.add_argument('--popsize', help='Swarm Population Size', required=False, type=int, default=10)
     parser.add_argument('--w', help='', required=False, type=float, default=0.8)
     parser.add_argument('--c1', help='', required=False, type=float, default=0.5)
     parser.add_argument('--c2', help='', required=False, type=float, default=0.5)
