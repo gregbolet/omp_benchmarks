@@ -2,6 +2,7 @@ import platform, sys, os
 
 # figure out the root directory
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
+ROOT_DIR = ROOT_DIR.replace('/usr/WS2/bolet1', '/g/g15/bolet1/workspace')
 print('ROOT_DIR', ROOT_DIR)
 
 # figure out what machine we're on, we only assume single node runs
@@ -33,8 +34,7 @@ if MACHINE == 'lassen':
   num_bind_policies = 2
 
   # this should match the NUM_POLICIES preprocessor define from apollo.h
-  #num_region_policies = 15
-  num_region_policies = 25
+  num_region_policies = 22
 
 elif MACHINE == 'ruby':
   num_threads = [160, 80, 40, 20]

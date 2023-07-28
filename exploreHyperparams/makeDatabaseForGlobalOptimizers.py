@@ -41,8 +41,15 @@ for dir in dirs:
 	# we remove this line just to get the plots up
 	doneData = doneData[doneData['xtime'] != -1.0]
 
+
 	# if we have all the data, let's analyze it
 	if doneData.shape[0] == allData.shape[0]:
+		# some of the runs didn't get the schedule chunk-size of 4.
+		# they must be some newer runs we forgot about, so we're dropping them
+		# we're not including them in the analysis or the final report
+		doneData = doneData[(doneData['OMP_SCHEDULE'] != 'static,4' ) & 
+							          (doneData['OMP_SCHEDULE'] != 'dynamic,4') &
+							          (doneData['OMP_SCHEDULE'] != 'guided,4' ) ]
 		print(progname, probsize, end='\t')
 		print(doneData.shape, allData.shape, 'all samples collected!')
 		globalDataset = pd.concat([globalDataset, doneData], ignore_index=True)

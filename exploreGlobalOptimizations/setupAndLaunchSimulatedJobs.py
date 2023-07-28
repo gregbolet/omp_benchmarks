@@ -14,52 +14,169 @@ from itertools import product
 # Need to update this for RUBY later
 MAX_ITERATIONS=0
 if MACHINE == 'lassen':
-    MAX_ITERATIONS = 1350
+    MAX_ITERATIONS = 1188//2
 elif MACHINE == 'ruby':
-    MAX_ITERATIONS = 1350
+    MAX_ITERATIONS = 1188//2
+
+seeds = [1337, 3827, 9999, 4873]
 
 paramsToSweep = {
-    # 40 * 15 * 25 = 15,000
+    # note: max value is excluded if min to max is not evenly divisible by step
+    # 5 * 15 * 25 = 1875 test-per-node
     'bo-ucb':{
         'params':['KAPPA', 'KAPPA_DECAY', 'KAPPA_DECAY_DELAY'],
         'min': [2, 0.1, 1],
         'max': [200, 1.5, 50],
-        'step': [5, 0.1, 2]
+        'step': [15, 0.1, 2], # larger kappa gap
+        'runChunkSz':[5,0,0]
     },
     # 51 combinations to try
     'bo-poi':{
         'params':['XI'],
         'min': [0.0],
         'max': [5.0],
-        'step': [0.1]
+        'step': [0.1],
+        'runChunkSz':[0]
     },
     # 51 combinations to try
     'bo-ei':{
         'params':['XI'],
         'min': [0.0],
         'max': [5.0],
-        'step': [0.1]
+        'step': [0.1],
+        'runChunkSz':[0]
     },
     # PSO: 15 * 10 * 11 * 11 = 18,150 combinations to try
     'pso':{
         'params':['POPSIZE', 'W', 'C1', 'C2'],
         'min': [1, 0.1, 0.0, 0.0],
         'max': [30, 1.0, 1.5, 1.5],
-        'step': [2, 0.1, 0.15, 0.15]
+        'step': [5, 0.1, 0.15, 0.15],
+        'runChunkSz':[3,5,0,0]
     },
     # CMA: 15 * 15 * 15 = 3375 combinations to try
     'cma':{ 
         'params':['POPSIZE', 'POPSIZE_FACTOR', 'SIGMA'],
         'min': [1, 0.1, 1],
         'max': [30, 1.5, 30],
-        'step': [2, 0.1, 2]
+        'step': [5, 0.1, 3],
+        'runChunkSz':[5,5,0]
     }
 }
 
-
-def launchJobs():
+def partitionHyperparams(goMethod):
     '''
-        This will make multiple sbatch script invocations
+        Return a list of dicts with the hyperparams for a particular GO method
+    '''
+    varSpace = {}
+    method = paramsToSweep[goMethod]
+    for idx,var in enumerate(method['params']):
+        # make the sequences
+        minVal = method['min'][idx]
+        maxVal = method['max'][idx]
+        stepVal = method['step'][idx]
+        singleDim = np.arange(minVal, maxVal, stepVal)
+        # this is done to match the behavior of seq
+        if ((maxVal - minVal) % stepVal) == 0:
+            singleDim = np.concatenate(singleDim, np.array([maxVal]))
+
+        #print(var, 'singleDim', singleDim)
+        varSpace[var] = []
+        # now lets partition the array
+        chunkSize = method['runChunkSz'][idx]
+        if chunkSize == 0:
+            varSpace[var] += [singleDim]
+        else:
+            numChunks = int(np.ceil(len(singleDim)/chunkSize))
+            #print(numChunks, len(singleDim), chunkSize)
+            for part in range(numChunks):
+                startIdx = part*chunkSize
+                endIdx = startIdx + chunkSize
+                varSpace[var] += [singleDim[startIdx:endIdx]]
+
+    # for each group in the varSpace, let's create all possible combinations with other groups
+    #print('varspace to combine:', varSpace)
+    combos = []
+    for varName, elems in varSpace.items():
+        if len(combos) == 0:
+            for elem in elems:
+                combos += [{varName:elem}]
+        else:
+            newCombos = []
+            for combo in combos:
+                for elem in elems:
+                    newElem = {}
+                    newElem.update(combo)
+                    newElem[varName] = elem
+                    newCombos += [newElem]
+            combos = newCombos
+
+    #print('\n\n combos:', len(combos), combos)
+    print(goMethod, 'combos', len(combos))
+
+    return combos
+
+def generateJobs(dbFile, maxIters, goMethod, hyper):
+    '''
+        Return a list of dicts with envvars to run with
+    '''
+    jobs = []
+
+    prognames = list(progs.keys())
+    probsizes = ['smlprob', 'medprob', 'lrgprob']
+
+    modloadPy =  machines[MACHINE]['pythonToModLoad']
+
+    baseDict = {'DATABASE_FILE':dbFile, 'MAX_ITERATIONS':maxIters, 
+                'PYTHON_SCRIPT_EXEC_DIR':ROOT_DIR, 'MOD_LOAD_PYTHON':modloadPy}
+    # static database file
+    # static max iterations
+    # for seed
+    # for progname
+    # for probsize
+    # for partitioned hyperparameters
+        # need to extract the start, step, stop from each combo we generated
+
+    # 4 * 6 * 3 = 72 jobs per set of envvars
+    for seed in seeds:
+        for progname in prognames:
+            for probsize in probsizes:
+                for config in hyper:
+                    envvars = {}
+                    envvars.update(baseDict)
+                    envvars.update({'RAND_SEED':seed, 'PROGNAME':progname, 'PROBSIZE':probsize})
+
+                    if '-' in goMethod:
+                        method,utilFnct = goMethod.split('-')[0],goMethod.split('-')[1]
+                        envvars.update({'GO_METHOD':method, 'BO_UTIL_FNCT':utilFnct})
+                    else:
+                        envvars.update({'GO_METHOD':goMethod})
+
+                    # numpy getting values like 1.4000000000001, need to drop that extra 0000001
+                    for varName,vals in config.items():
+                        envvars[varName+'_START'] = np.round(np.min(vals),6)
+                        envvars[varName+'_STOP'] = np.round(np.max(vals),6)
+                        if np.min(vals) == np.max(vals):
+                            envvars[varName+'_STEP'] = 1
+                        else:
+                            envvars[varName+'_STEP'] = np.round(np.max(vals) - np.min(vals), 6)
+
+                    # cast all elements to strings
+                    for key,val in envvars.items():
+                        envvars[key] = str(val)
+
+                    #print('\n', envvars)
+                    jobs += [envvars]
+
+    print(goMethod, 'total number of jobs to submit', len(jobs))
+
+    return jobs
+
+def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
+    '''
+        This will make multiple sbatch script invocations.
+        We assume that the jobsArr is a list of dicts that contain
+        envvars for execution.
     '''
     jobSys = machines[MACHINE]['jobsystem']
     jobRunner = jobSys['runner']
@@ -69,32 +186,36 @@ def launchJobs():
 
     modloadPy =  machines[MACHINE]['pythonToModLoad']
 
-    for csvDir in self.runDirs: 
-        envvars = {'TODO_WORK_DIR':csvDir, 'MOD_LOAD_PYTHON':modloadPy, 'PROG_DIR':ROOT_DIR}
+    for envvars in jobsArr: 
         vars_to_use = {**os.environ.copy(), **envvars}
 
-        command = jobRunner+jobNodetime+self.nodeRuntime+' '+jobOutput+csvDir+'/runOutput.log '
-        if self.useDebugNodes:
+        print(envvars)
+
+        # form a name for the output file
+        forName = {}
+        forName.update(envvars)
+        forName.pop('DATABASE_FILE')
+        forName.pop('PYTHON_SCRIPT_EXEC_DIR')
+        forName.pop('MOD_LOAD_PYTHON')
+        jobOutputLogName = '-'.join([k+'='+v for k,v in forName.items()])
+
+        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+ROOT_DIR+'/logs/execLogs/'+jobOutputLogName+'.log '
+        if useDebugNodes:
             command += jobDebug
 
         command += ' jobfile.sh'
         #comand = '"'+command+'"'
 
         print('executing command:', command, '\nwith envvars', envvars)
-        print(shlex.split(command))
-        result = subprocess.run(shlex.split(command), shell=False, env=vars_to_use,
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-        # grab the stdout and errors 
-        errors = result.stderr.decode('utf-8')
-        output = result.stdout.decode('utf-8')
+        result = subprocess.run(command, shell=True, text=True, check=True, 
+                                env=vars_to_use, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+        # grab the stdout
+        output = result.stdout
 
         print(output)
-        print(errors)
-
-
-    if len(self.runDirs) == 0:
-        print('All runs complete, none needed!', self.progname, self.probsize)
+        return
 
     return
 
@@ -103,16 +224,26 @@ def main():
     parser = argparse.ArgumentParser(description='Global Optimization Hyperparam Space Exploration Launcher')
 
     parser.add_argument('--useDebugNodes', help='Should we use debug nodes for testing launches?', default=False, type=bool)
-    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=True, type=str)
+    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=str, default='360')
     
     args = parser.parse_args()
     print('Got input args:', args)
 
-    jobMan = JobManager(args.progName, args.probSize, args.nodeRuntime, 
-                          args.jobsPerNode, args.numTrials, args.useDebugNodes)
-    jobMan.setupJobs()
-    jobMan.launchJobs()
+    goMethods = list(paramsToSweep.keys())
+    
+    jobsToLaunch = []
 
+    for goMethod in goMethods:
+        hypers = partitionHyperparams(goMethod)
+
+        jobEnvvars = generateJobs('lassen-fullExploreDataset.csv', MAX_ITERATIONS, goMethod, hypers)
+        jobsToLaunch += jobEnvvars
+        print(goMethod, len(jobEnvvars))
+
+    print('All jobs to launch', len(jobsToLaunch))
+
+    launchJobs(jobsToLaunch, '60', False)
+    #launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
     return
   
   

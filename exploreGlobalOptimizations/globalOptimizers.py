@@ -8,9 +8,6 @@ from sko.PSO import PSO
 import cma
 from bayes_opt import BayesianOptimization
 from bayes_opt import UtilityFunction
-from bayes_opt.logger import JSONLogger
-from bayes_opt.util import load_logs
-from bayes_opt.event import Events
 
 class ExplorationLogger:
   def __init__(self, logfilename, logfileCols=[]):
@@ -35,7 +32,7 @@ class ExplorationLogger:
     print('Live-Logging to:', self.logfilepath)
 
     # create the logfile (overwrite already-existing file)
-    self.log.to_csv(self.logfilepath, index=False)
+    # self.log.to_csv(self.logfilepath, index=False)
 
     return
 
