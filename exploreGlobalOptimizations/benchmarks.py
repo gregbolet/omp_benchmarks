@@ -2,7 +2,7 @@ import platform, sys, os
 
 # figure out the root directory
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
-ROOT_DIR = ROOT_DIR.replace('/usr/WS2/bolet1', '/g/g15/bolet1/workspace')
+#ROOT_DIR = ROOT_DIR.replace('/usr/WS2/bolet1', '/g/g15/bolet1/workspace')
 print('ROOT_DIR', ROOT_DIR)
 
 # figure out what machine we're on, we only assume single node runs

@@ -192,14 +192,27 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
         print(envvars)
 
         # form a name for the output file
-        forName = {}
+        forName = {'':envvars['PROGNAME']+'-'+envvars['PROBSIZE']+'-'+envvars['GO_METHOD']}
         forName.update(envvars)
         forName.pop('DATABASE_FILE')
         forName.pop('PYTHON_SCRIPT_EXEC_DIR')
         forName.pop('MOD_LOAD_PYTHON')
-        jobOutputLogName = '-'.join([k+'='+v for k,v in forName.items()])
+        forName.pop('MAX_ITERATIONS')
+        forName.pop('GO_METHOD')
+        forName.pop('RAND_SEED')
+        forName.pop('PROGNAME')
+        forName.pop('PROBSIZE')
 
-        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+ROOT_DIR+'/logs/execLogs/'+jobOutputLogName+'.log '
+        forName['SEED'] = envvars['RAND_SEED']
+
+        # there's a character limit of 255 chars on the logfile name
+        # although the BSUB docs say its 4096...
+        # need to cut where we can...
+        jobOutputLogName = '-'.join([k.replace('_','')+''+v for k,v in forName.items()])
+        print(len(jobOutputLogName)+4)
+        #jobOutputLogName = ''.join(['a']*252)
+
+        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+ROOT_DIR+'/logs/execLogs/'+jobOutputLogName+'.out '
         if useDebugNodes:
             command += jobDebug
 
