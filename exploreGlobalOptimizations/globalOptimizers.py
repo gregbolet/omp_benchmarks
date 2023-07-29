@@ -111,7 +111,8 @@ class BOManager(GlobalOptimManager):
     self.globalSample = 0
 
     # set the global random state seed
-    np.random.seed(seed)
+    np.random.seed(self.seed)
+    random.seed(self.seed)
 
     # Range is inclusive, sub 1 from num_region_policies.
     pbounds = {
@@ -240,6 +241,7 @@ class PSOManager(GlobalOptimManager):
 
     # set the global random state seed
     np.random.seed(self.seed)
+    random.seed(self.seed)
 
     self.lower = [0]*4
     self.upper = [float(num_threads_policies-1), float(num_bind_policies-1), 
