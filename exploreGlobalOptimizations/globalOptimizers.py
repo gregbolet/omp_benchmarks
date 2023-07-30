@@ -368,7 +368,10 @@ class CMAManager(GlobalOptimManager):
   def takeNextStep(self):
 
     # CMA offers an ask-and-tell interface
-    if not self.es.stop():
+    if True:
+    # this does early stopping if stagnation is encountered
+    # we skip it because we want to see how badly CMA stagnates
+    #if not self.es.stop():
 
       self.optimXtime = 0
       start = time.time()

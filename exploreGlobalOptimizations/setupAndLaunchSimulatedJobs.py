@@ -24,14 +24,14 @@ paramsToSweep = {
     # note: max value is excluded if min to max is not evenly divisible by step
     'cma':{ 
         'params':['POPSIZE', 'POPSIZE_FACTOR', 'SIGMA'],
-        'min': [1, 1.0, 1],
+        'min': [3, 1.0, 1],
         'max': [30, 1.0, 30],
         'step': [5, 1.0, 3],
         'runChunkSz':[5,0,0]
     },
     'pso':{
         'params':['POPSIZE', 'W', 'C1', 'C2'],
-        'min': [1, 0.1, 0.0, 0.0],
+        'min': [2, 0.1, 0.0, 0.0],
         'max': [30, 1.0, 1.5, 1.5],
         'step': [5, 0.1, 0.15, 0.15],
         'runChunkSz':[3,5,0,0]
@@ -184,7 +184,7 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
 
     modloadPy =  machines[MACHINE]['pythonToModLoad']
 
-    for envvars in jobsArr: 
+    for idx, envvars in enumerate(jobsArr): 
         vars_to_use = {**os.environ.copy(), **envvars}
 
         print(envvars)
@@ -240,7 +240,8 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
         output = result.stdout
 
         print(output)
-        return
+        if idx == 3:
+            return
 
     return
 
