@@ -250,7 +250,7 @@ def main():
     parser = argparse.ArgumentParser(description='Global Optimization Hyperparam Space Exploration Launcher')
 
     parser.add_argument('--useDebugNodes', help='Should we use debug nodes for testing launches?', default=False, type=bool)
-    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=str, default='360')
+    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=str, default='240')
     
     args = parser.parse_args()
     print('Got input args:', args)
@@ -268,8 +268,8 @@ def main():
 
     print('All jobs to launch', len(jobsToLaunch))
 
-    launchJobs(jobsToLaunch, '60', False)
-    #launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
+    #launchJobs(jobsToLaunch, '240', False)
+    launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
     return
   
   
