@@ -10,7 +10,10 @@ from bayes_opt import BayesianOptimization
 from bayes_opt import UtilityFunction
 
 class ExplorationLogger:
-  def __init__(self, logfilename, logfileCols=[]):
+  def __init__(self, logfilename, logfiledir, logfileCols=[]):
+
+    self.logfiledir = logfiledir
+    self.logfilename = logfilename
 
     # globalSample and optimXtime are supplied in the resultDict by their respective GO Managers
     self.logfileCols = logfileCols+['OMP_NUM_THREADS', 'OMP_PROC_BIND', 'OMP_PLACES', 
@@ -19,7 +22,7 @@ class ExplorationLogger:
 
     self.log = pd.DataFrame(columns=self.logfileCols)
 
-    self.logfilepath = ROOT_DIR+'/logs/'+logfilename+'.csv'
+    self.logfilepath = self.logfiledir+'/'+self.logfilename+'.csv'
 
     # this file path is for once we're done exploring, we save the data to 
     # a file that indicates the exploration was able to complete.
@@ -27,7 +30,8 @@ class ExplorationLogger:
     # are already done (since these are deterministic).
     # There are smarter ways of doing this, but we want results and
     # this is quick to implement.
-    self.donelogfilepath = os.path.splitext(self.logfilepath)[0]+'--DONE.csv'
+    #self.donelogfilepath = os.path.splitext(self.logfilepath)[0]+'--DONE.csv'
+    self.donelogfilepath = self.logfiledir+'/'+self.logfilename+'--DONE.csv'
 
     print('Live-Logging to:', self.logfilepath)
 
@@ -47,7 +51,7 @@ class ExplorationLogger:
 
     self.log.loc[finds, 'timesSampled'] = numRepeats
 
-    # flag if it's a repeated sample
+    # count the number of times this sample was queried
     resultDict['timesSampled'] = numRepeats
 
     # convert the dict to a pandas-friendly format
@@ -56,7 +60,8 @@ class ExplorationLogger:
 
     self.log = pd.concat([self.log, toAdd], sort=True, ignore_index=True)
 
-    # write out the CSV file
+    # write out the CSV file -- need to overwrite the whole file
+    # since multiple elements can get updated at each step
     self.log.to_csv(self.logfilepath, index=False)
     return
 
@@ -78,21 +83,22 @@ class ExplorationLogger:
 
 class GlobalOptimManager:
 
-  def __init__(self, seed, queryDBFnct, logfilename, logfileCols=[]):
+  def __init__(self, seed, queryDBFnct, logfilename, logfiledir, logfileCols=[]):
     self.queryDBFnct = queryDBFnct
     self.seed = seed
     self.logfilename = logfilename
+    self.logfiledir = logfiledir 
     self.logfileCols = logfileCols
 
     # setup the logger and log file
-    self.logger = ExplorationLogger(self.logfilename, self.logfileCols)
+    self.logger = ExplorationLogger(self.logfilename, self.logfiledir, self.logfileCols)
     return
 
 
 # this is going to use the BO Optimizer for runs
 class BOManager(GlobalOptimManager):
   def __init__(self, seed, utilFnct, kappa, xi, kappaDecay, 
-               kappaDecayDelay, queryDBFnct, logfilename):
+               kappaDecayDelay, queryDBFnct, logfilename, logfiledir):
 
     self.utilFnct = utilFnct
     self.kappa = kappa
@@ -105,7 +111,7 @@ class BOManager(GlobalOptimManager):
     else:
       logfilename += f'-BO-{self.utilFnct}-xi{self.xi}'
 
-    super().__init__(seed, queryDBFnct, logfilename) 
+    super().__init__(seed, queryDBFnct, logfilename, logfiledir) 
 
     # keep track of the global step of the algorithm
     self.globalSample = 0
@@ -224,7 +230,7 @@ class IterativeFunctionWrapper:
 
 class PSOManager(GlobalOptimManager):
 
-  def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename):
+  def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename, logfiledir):
 
     # These are the extra columns we're going to be printing to the logfile
     logfileCols = ['iter', 'sample']
@@ -237,7 +243,7 @@ class PSOManager(GlobalOptimManager):
 
     logfilename = logfilename+f'-PSO-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
 
-    super().__init__(seed, queryDBFnct, logfilename, logfileCols) 
+    super().__init__(seed, queryDBFnct, logfilename, logfileCols, logfiledir) 
 
     # set the global random state seed
     np.random.seed(self.seed)
@@ -304,7 +310,7 @@ class PSOManager(GlobalOptimManager):
 
 class CMAManager(GlobalOptimManager):
 
-  def __init__(self, seed, sigma, popsize, popsize_factor, queryDBFnct, logfilename):
+  def __init__(self, seed, sigma, popsize, popsize_factor, queryDBFnct, logfilename, logfiledir):
 
     # These are the extra columns we're going to be printing to the logfile
     self.sigma = sigma
@@ -314,7 +320,7 @@ class CMAManager(GlobalOptimManager):
 
     logfilename = logfilename+f'-CMA-sigma{self.sigma}-pop{self.popsize}-popdecay{self.popsize_factor}'
 
-    super().__init__(seed, queryDBFnct, logfilename, []) 
+    super().__init__(seed, queryDBFnct, logfilename, logfiledir) 
 
     # set the global random state seed
     np.random.seed(self.seed)

@@ -72,19 +72,24 @@ class RunManager:
     self.index_to_sched = scheds 
 
     logfilename = self.progname+'-'+self.probsize+'-seed'+str(self.seed)+'-maxSteps'+str(args.maxSteps)
+    loggingdir = ROOT_DIR+'/logs/'+self.progname+'-'+self.probsize+'/'+self.optim+'-'+str(self.seed)
 
     if 'bo' in self.optim:
       self.optimizer = BOManager(args.seed, args.utilFnct, args.kappa, 
                                  args.xi, args.kappa_decay, args.kappa_decay_delay,
-                                 self.queryDatabase, logfilename)
+                                 self.queryDatabase, logfilename, loggingdir)
     elif 'pso' in self.optim:
       self.optimizer = PSOManager(args.seed, args.popsize, args.w, 
-                                  args.c1, args.c2, self.queryDatabase, logfilename)
+                                  args.c1, args.c2, self.queryDatabase, logfilename, loggingdir)
     elif 'cma' in self.optim:
       self.optimizer = CMAManager(args.seed, args.sigma, args.popsize, args.popsize_factor, 
-                                  self.queryDatabase, logfilename)
+                                  self.queryDatabase, logfilename, loggingdir)
     else:
       raise ValueError('Unknown optimization method requested', optim)
+
+    # set up the logging directory if it doesn't exist
+    if not os.path.exists(loggingdir):
+      os.makedirs(loggingdir)
 
     return
 

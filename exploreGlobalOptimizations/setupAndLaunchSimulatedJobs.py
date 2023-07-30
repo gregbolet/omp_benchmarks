@@ -22,7 +22,6 @@ seeds = [1337, 3827, 9999, 4873]
 
 paramsToSweep = {
     # note: max value is excluded if min to max is not evenly divisible by step
-    # 5 * 15 * 25 = 1875 test-per-node
     'bo-ucb':{
         'params':['KAPPA', 'KAPPA_DECAY', 'KAPPA_DECAY_DELAY'],
         'min': [2, 0.1, 1],
@@ -30,7 +29,6 @@ paramsToSweep = {
         'step': [15, 0.1, 2], # larger kappa gap
         'runChunkSz':[5,0,0]
     },
-    # 51 combinations to try
     'bo-poi':{
         'params':['XI'],
         'min': [0.0],
@@ -38,7 +36,6 @@ paramsToSweep = {
         'step': [0.1],
         'runChunkSz':[0]
     },
-    # 51 combinations to try
     'bo-ei':{
         'params':['XI'],
         'min': [0.0],
@@ -46,7 +43,6 @@ paramsToSweep = {
         'step': [0.1],
         'runChunkSz':[0]
     },
-    # PSO: 15 * 10 * 11 * 11 = 18,150 combinations to try
     'pso':{
         'params':['POPSIZE', 'W', 'C1', 'C2'],
         'min': [1, 0.1, 0.0, 0.0],
@@ -54,7 +50,6 @@ paramsToSweep = {
         'step': [5, 0.1, 0.15, 0.15],
         'runChunkSz':[3,5,0,0]
     },
-    # CMA: 15 * 15 * 15 = 3375 combinations to try
     'cma':{ 
         'params':['POPSIZE', 'POPSIZE_FACTOR', 'SIGMA'],
         'min': [1, 0.1, 1],
@@ -212,12 +207,26 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
         print(len(jobOutputLogName)+4)
         #jobOutputLogName = ''.join(['a']*252)
 
-        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+ROOT_DIR+'/logs/execLogs/'+jobOutputLogName+'.out '
+        # forcibly truncate the logfile name to fit the 255 char limit 
+        # ('.out' is added to the end, hence 251)
+        if len(jobOutputLogName) > 251:
+            jobOutputLogName = jobOutputLogName[:251]
+
+        # make the logging path if it doesn't already exist, 
+        # this is for SLURM or LSF to write its files to alongside
+        loggingdir = ROOT_DIR+'/logs/'+envvars['PROGNAME']+'-'+envvars['PROBSIZE']\
+                     +'/'+envvars['GO_METHOD']+'-'+envvars['RAND_SEED']+'/execLogs'
+
+        # set up the logging directory if it doesn't exist
+        if not os.path.exists(loggingdir):
+            os.makedirs(loggingdir)
+            print('made dir', loggingdir)
+
+        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+loggingdir+'/'+jobOutputLogName+'.out '
         if useDebugNodes:
             command += jobDebug
 
         command += ' jobfile.sh'
-        #comand = '"'+command+'"'
 
         print('executing command:', command, '\nwith envvars', envvars)
 
