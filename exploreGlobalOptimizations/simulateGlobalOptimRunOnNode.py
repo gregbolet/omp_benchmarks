@@ -155,8 +155,9 @@ class RunManager:
     while True:
       try:
         self.optimizer.takeNextStep()
-      except StopIteration:
-        print('Reached max samples to take, stopping execution!')
+      except StopIteration as e:
+        print('Stopping execution! (either due to a method stopping or maxSamples reached)')
+        print('Exception message:', e)
         print('Log num samples:', self.optimizer.logger.log.shape[0])
         break
     

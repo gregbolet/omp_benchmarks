@@ -367,7 +367,6 @@ class CMAManager(GlobalOptimManager):
 
   def takeNextStep(self):
 
-
     # CMA offers an ask-and-tell interface
     if not self.es.stop():
 
@@ -385,4 +384,8 @@ class CMAManager(GlobalOptimManager):
 
       evaluations = [self.wrapper(point) for point in candidates]
       self.es.tell(candidates, evaluations)
+    else:
+      print('CMA stopped itself')
+      raise StopIteration('CMA stopped itself')
+
     return
