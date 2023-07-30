@@ -36,6 +36,13 @@ paramsToSweep = {
         'step': [5, 0.1, 0.15, 0.15],
         'runChunkSz':[3,5,0,0]
     },
+    'bo-ei':{
+        'params':['XI'],
+        'min': [0.0],
+        'max': [5.0],
+        'step': [0.1],
+        'runChunkSz':[0]
+    },
     'bo-ucb':{
         'params':['KAPPA', 'KAPPA_DECAY', 'KAPPA_DECAY_DELAY'],
         'min': [2, 0.1, 1],
@@ -44,13 +51,6 @@ paramsToSweep = {
         'runChunkSz':[5,0,0]
     },
     'bo-poi':{
-        'params':['XI'],
-        'min': [0.0],
-        'max': [5.0],
-        'step': [0.1],
-        'runChunkSz':[0]
-    },
-    'bo-ei':{
         'params':['XI'],
         'min': [0.0],
         'max': [5.0],
@@ -240,8 +240,8 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
         output = result.stdout
 
         print(output)
-        if idx == 3:
-            return
+        #if idx == 3:
+        #    return
 
     return
 
