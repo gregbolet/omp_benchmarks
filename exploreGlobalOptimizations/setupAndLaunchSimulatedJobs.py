@@ -22,6 +22,20 @@ seeds = [1337, 3827, 9999, 4873]
 
 paramsToSweep = {
     # note: max value is excluded if min to max is not evenly divisible by step
+    'cma':{ 
+        'params':['POPSIZE', 'POPSIZE_FACTOR', 'SIGMA'],
+        'min': [1, 1.0, 1],
+        'max': [30, 1.0, 30],
+        'step': [5, 1.0, 3],
+        'runChunkSz':[5,0,0]
+    },
+    'pso':{
+        'params':['POPSIZE', 'W', 'C1', 'C2'],
+        'min': [1, 0.1, 0.0, 0.0],
+        'max': [30, 1.0, 1.5, 1.5],
+        'step': [5, 0.1, 0.15, 0.15],
+        'runChunkSz':[3,5,0,0]
+    },
     'bo-ucb':{
         'params':['KAPPA', 'KAPPA_DECAY', 'KAPPA_DECAY_DELAY'],
         'min': [2, 0.1, 1],
@@ -43,20 +57,6 @@ paramsToSweep = {
         'step': [0.1],
         'runChunkSz':[0]
     },
-    'pso':{
-        'params':['POPSIZE', 'W', 'C1', 'C2'],
-        'min': [1, 0.1, 0.0, 0.0],
-        'max': [30, 1.0, 1.5, 1.5],
-        'step': [5, 0.1, 0.15, 0.15],
-        'runChunkSz':[3,5,0,0]
-    },
-    'cma':{ 
-        'params':['POPSIZE', 'POPSIZE_FACTOR', 'SIGMA'],
-        'min': [1, 0.1, 1],
-        'max': [30, 1.5, 30],
-        'step': [5, 0.1, 3],
-        'runChunkSz':[5,5,0]
-    }
 }
 
 def partitionHyperparams(goMethod):
@@ -72,9 +72,12 @@ def partitionHyperparams(goMethod):
         stepVal = method['step'][idx]
         singleDim = np.arange(minVal, maxVal, stepVal)
         # this is done to match the behavior of seq
-        if ((maxVal - minVal) % stepVal) == 0:
+        if stepVal == 1.0 and minVal == maxVal:
+            singleDim = np.array([minVal])
+        elif ((maxVal - minVal) % stepVal) == 0:
             singleDim = np.concatenate(singleDim, np.array([maxVal]))
 
+        # singleDim should keep the sequence that seq would generate
         #print(var, 'singleDim', singleDim)
         varSpace[var] = []
         # now lets partition the array

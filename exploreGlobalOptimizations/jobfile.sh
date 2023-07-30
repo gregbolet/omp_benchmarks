@@ -35,8 +35,9 @@ if [ $GO_METHOD = 'bo' ]; then
 					TO_EXEC="$BASE_COMMAND --utilFnct=$BO_UTIL_FNCT"
 					TO_EXEC+=" --kappa=$kappa --kappa_decay=$kappa_decay --kappa_decay_delay=${kappa_decay_delay}"
 
+					echo ""
 					echo "Executing command: [$TO_EXEC]"
-					$( $TO_EXEC )
+					$TO_EXEC
 				done
 			done
 		done
@@ -50,8 +51,9 @@ if [ $GO_METHOD = 'bo' ]; then
 			TO_EXEC="$BASE_COMMAND --utilFnct=$BO_UTIL_FNCT"
 			TO_EXEC+=" --xi=$xi"
 
-			echo $TO_EXEC
-			$( $TO_EXEC )
+			echo ""
+			echo "Executing command: [$TO_EXEC]"
+			$TO_EXEC
 		done
 
 	else
@@ -74,8 +76,9 @@ elif [ $GO_METHOD = 'pso' ]; then
 					TO_EXEC="$BASE_COMMAND --popsize=$popsize"
 					TO_EXEC+=" --w=$w --c1=$c1 --c2=$c2"
 
-					echo $TO_EXEC
-					$( $TO_EXEC )
+					echo ""
+					echo "Executing command: [$TO_EXEC]"
+					$TO_EXEC
 				done
 			done
 		done
@@ -94,8 +97,9 @@ elif [ $GO_METHOD = 'cma' ]; then
 				TO_EXEC="$BASE_COMMAND --popsize=$popsize"
 				TO_EXEC+=" --popsize_factor=$popsize_factor --sigma=$sigma"
 
-				echo $TO_EXEC
-				$( $TO_EXEC )
+				echo ""
+				echo "Executing command: [$TO_EXEC]"
+				$TO_EXEC
 			done
 		done
 	done
