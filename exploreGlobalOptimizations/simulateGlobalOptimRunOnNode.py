@@ -77,19 +77,16 @@ class RunManager:
     if 'bo' in self.optim:
       self.optimizer = BOManager(args.seed, args.utilFnct, args.kappa, 
                                  args.xi, args.kappa_decay, args.kappa_decay_delay,
-                                 self.queryDatabase, logfilename, loggingdir)
+                                 self.queryDatabase, logfilename, loggingdir, args.maxSteps)
     elif 'pso' in self.optim:
       self.optimizer = PSOManager(args.seed, args.popsize, args.w, 
-                                  args.c1, args.c2, self.queryDatabase, logfilename, loggingdir)
+                                  args.c1, args.c2, self.queryDatabase, 
+                                  logfilename, loggingdir, args.maxSteps)
     elif 'cma' in self.optim:
       self.optimizer = CMAManager(args.seed, args.sigma, args.popsize, args.popsize_factor, 
-                                  self.queryDatabase, logfilename, loggingdir)
+                                  self.queryDatabase, logfilename, loggingdir, args.maxSteps)
     else:
       raise ValueError('Unknown optimization method requested', optim)
-
-    # set up the logging directory if it doesn't exist
-    if not os.path.exists(loggingdir):
-      os.makedirs(loggingdir)
 
     return
 
@@ -101,7 +98,11 @@ class RunManager:
   # input policy is assumed to already be integers
   def queryDatabase(self, policy):
 
-    #print(policy)
+    # this doesn't get around the problem of PSO initialization
+    # taking samples before we start the doRuns loop -- PSO would essentially
+    # be just doing pure ranodm sampling is maxSamples < popsize
+    if hasattr(self, 'optimizer') and self.optimizer.logger.hasReachedMaxSamples():
+      raise StopIteration('Reached max samples to take! -- Stopping execution')
 
     THREADS_IDX = policy['OMP_NUM_THREADS']
     PROC_IDX = policy['OMP_PROC_BIND']
@@ -149,6 +150,32 @@ class RunManager:
   def getEvaluationOverhead(self):
     return str(self.optimizer.logger.getExecutionXtime())+' seconds'
 
+  # runs stop when we've sampled the maxSteps number of points
+  def doRuns(self):
+    while True:
+      try:
+        self.optimizer.takeNextStep()
+      except StopIteration:
+        print('Reached max samples to take, stopping execution!')
+        print('Log num samples:', self.optimizer.logger.log.shape[0])
+        break
+    
+    # this saves the log file with a DONE postfix to indicate completed data
+    self.optimizer.logger.markLogFileAsComplete()
+
+    print('best database policies')
+    print(self.getBestPolicies(5))
+
+    print('best found policies')
+    print(self.getBestFoundPolicies(5))
+
+    print('exploration method overhead', end='\t')
+    print(self.getMethodOverhead())
+
+    print('exploration program evaluation overhead', end='\t')
+    print(self.getEvaluationOverhead())
+
+    return
     
 
 def main():
@@ -194,25 +221,8 @@ def main():
     print('Data already gathered at: ', runMan.optimizer.logger.donelogfilepath)
     return
 
-  step = 0
-  while step != args.maxSteps:
-    runMan.optimizer.takeNextStep()
-    step += 1
+  runMan.doRuns()
 
-  # this saves the log file with a DONE postfix to indicate completed data
-  runMan.optimizer.logger.markLogFileAsComplete()
-
-  print('best database policies')
-  print(runMan.getBestPolicies(5))
-
-  print('best found policies')
-  print(runMan.getBestFoundPolicies(5))
-
-  print('exploration method overhead', end='\t')
-  print(runMan.getMethodOverhead())
-
-  print('exploration program evaluation overhead', end='\t')
-  print(runMan.getEvaluationOverhead())
 
 if __name__ == "__main__":
     main()

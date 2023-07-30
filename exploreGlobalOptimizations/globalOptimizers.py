@@ -10,10 +10,11 @@ from bayes_opt import BayesianOptimization
 from bayes_opt import UtilityFunction
 
 class ExplorationLogger:
-  def __init__(self, logfilename, logfiledir, logfileCols=[]):
+  def __init__(self, logfilename, logfiledir, maxSamples, logfileCols=[]):
 
     self.logfiledir = logfiledir
     self.logfilename = logfilename
+    self.maxSamples = maxSamples
 
     # globalSample and optimXtime are supplied in the resultDict by their respective GO Managers
     self.logfileCols = logfileCols+['OMP_NUM_THREADS', 'OMP_PROC_BIND', 'OMP_PLACES', 
@@ -21,6 +22,10 @@ class ExplorationLogger:
                                     'globalSample', 'optimXtime']
 
     self.log = pd.DataFrame(columns=self.logfileCols)
+
+    # setup the logilfe path if it doesn't exist 
+    if not os.path.exists(self.logfiledir):
+      os.makedirs(self.logfiledir)
 
     self.logfilepath = self.logfiledir+'/'+self.logfilename+'.csv'
 
@@ -80,38 +85,43 @@ class ExplorationLogger:
     self.log.to_csv(self.donelogfilepath, index=False)
     return
 
+  def hasReachedMaxSamples(self):
+    return self.log.shape[0] >= self.maxSamples
+
 
 class GlobalOptimManager:
 
-  def __init__(self, seed, queryDBFnct, logfilename, logfiledir, logfileCols=[]):
+  def __init__(self, seed, queryDBFnct, logfilename, logfiledir, maxSamples, logfileCols=[]):
     self.queryDBFnct = queryDBFnct
     self.seed = seed
     self.logfilename = logfilename
     self.logfiledir = logfiledir 
     self.logfileCols = logfileCols
+    self.maxSamples = maxSamples
 
     # setup the logger and log file
-    self.logger = ExplorationLogger(self.logfilename, self.logfiledir, self.logfileCols)
+    self.logger = ExplorationLogger(self.logfilename, self.logfiledir, self.maxSamples, self.logfileCols)
     return
 
 
 # this is going to use the BO Optimizer for runs
 class BOManager(GlobalOptimManager):
   def __init__(self, seed, utilFnct, kappa, xi, kappaDecay, 
-               kappaDecayDelay, queryDBFnct, logfilename, logfiledir):
+               kappaDecayDelay, queryDBFnct, logfilename, logfiledir, maxSamples):
 
     self.utilFnct = utilFnct
     self.kappa = kappa
     self.xi = xi
     self.kappaDecay = kappaDecay
     self.kappaDecayDelay = kappaDecayDelay
+    self.maxSamples = maxSamples
 
     if self.utilFnct == 'ucb':
       logfilename += f'-BO-{self.utilFnct}-k{self.kappa}-kd{self.kappaDecay}-kdd{self.kappaDecayDelay}'
     else:
       logfilename += f'-BO-{self.utilFnct}-xi{self.xi}'
 
-    super().__init__(seed, queryDBFnct, logfilename, logfiledir) 
+    super().__init__(seed, queryDBFnct, logfilename, logfiledir, maxSamples) 
 
     # keep track of the global step of the algorithm
     self.globalSample = 0
@@ -230,7 +240,7 @@ class IterativeFunctionWrapper:
 
 class PSOManager(GlobalOptimManager):
 
-  def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename, logfiledir):
+  def __init__(self, seed, population, w, c1, c2, queryDBFnct, logfilename, logfiledir, maxSamples):
 
     # These are the extra columns we're going to be printing to the logfile
     logfileCols = ['iter', 'sample']
@@ -240,10 +250,11 @@ class PSOManager(GlobalOptimManager):
     self.c1 = c1
     self.c2 = c2
     self.optimXtime = 0
+    self.maxSamples = maxSamples
 
     logfilename = logfilename+f'-PSO-pop{self.pop}-w{self.w}-c1{self.c1}-c2{self.c2}'
 
-    super().__init__(seed, queryDBFnct, logfilename, logfileCols, logfiledir) 
+    super().__init__(seed, queryDBFnct, logfilename, logfiledir, maxSamples, logfileCols) 
 
     # set the global random state seed
     np.random.seed(self.seed)
@@ -310,17 +321,18 @@ class PSOManager(GlobalOptimManager):
 
 class CMAManager(GlobalOptimManager):
 
-  def __init__(self, seed, sigma, popsize, popsize_factor, queryDBFnct, logfilename, logfiledir):
+  def __init__(self, seed, sigma, popsize, popsize_factor, queryDBFnct, logfilename, logfiledir, maxSamples):
 
     # These are the extra columns we're going to be printing to the logfile
     self.sigma = sigma
     self.popsize = popsize
     self.popsize_factor = popsize_factor
     self.optimXtime = 0
+    self.maxSamples = maxSamples
 
     logfilename = logfilename+f'-CMA-sigma{self.sigma}-pop{self.popsize}-popdecay{self.popsize_factor}'
 
-    super().__init__(seed, queryDBFnct, logfilename, logfiledir) 
+    super().__init__(seed, queryDBFnct, logfilename, logfiledir, maxSamples) 
 
     # set the global random state seed
     np.random.seed(self.seed)
