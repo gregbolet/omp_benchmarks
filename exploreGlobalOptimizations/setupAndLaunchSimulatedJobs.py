@@ -10,6 +10,7 @@ import pandas as pd
 import math
 import glob
 from itertools import product
+from pathlib import Path
 
 # Need to update this for RUBY later
 MAX_ITERATIONS=0
@@ -20,161 +21,151 @@ elif MACHINE == 'ruby':
 
 seeds = [1337, 3827, 9999, 4873]
 
+CLEAN_FINISH_EXIT_CODE=111
+
+# max precision we should round to 
+# for avoiding verbose filenames
+ROUND_PREC = 3
+
 paramsToSweep = {
-    # note: max value is excluded if min to max is not evenly divisible by step
+    # linspace (start, stop, numPoints)
     'cma':{ 
-        'params':['POPSIZE', 'POPSIZE_FACTOR', 'SIGMA'],
-        'min': [3, 1.0, 1],
-        'max': [30, 1.0, 30],
-        'step': [5, 1.0, 3],
-        'runChunkSz':[5,0,0]
+        'popsize': np.linspace(3,30, 10, endpoint=True).astype(int),
+        #'popsize_factor': np.array([1.0]),
+        'sigma': np.round(np.linspace(1,30, 10, endpoint=True), ROUND_PREC),
     },
     'pso':{
-        'params':['POPSIZE', 'W', 'C1', 'C2'],
-        'min': [2, 0.1, 0.0, 0.0],
-        'max': [30, 1.0, 1.5, 1.5],
-        'step': [5, 0.1, 0.15, 0.15],
-        'runChunkSz':[3,5,0,0]
+        'popsize': np.linspace(3,30, 10, endpoint=True).astype(int),
+        'w': np.round(np.linspace(0.1, 1, 5, endpoint=True), ROUND_PREC),
+        'c1': np.round(np.linspace(0.1, 1.5, 5, endpoint=True), ROUND_PREC),
+        'c2': np.round(np.linspace(0.1, 1.5, 5, endpoint=True), ROUND_PREC),
     },
     'bo-ei':{
-        'params':['XI'],
-        'min': [0.0],
-        'max': [5.0],
-        'step': [0.1],
-        'runChunkSz':[0]
-    },
-    'bo-ucb':{
-        'params':['KAPPA', 'KAPPA_DECAY', 'KAPPA_DECAY_DELAY'],
-        'min': [2, 0.1, 1],
-        'max': [200, 1.5, 50],
-        'step': [15, 0.1, 2], # larger kappa gap
-        'runChunkSz':[5,0,0]
+        'xi': np.round(np.linspace(0.0, 5.0, 100, endpoint=True), ROUND_PREC),
     },
     'bo-poi':{
-        'params':['XI'],
-        'min': [0.0],
-        'max': [5.0],
-        'step': [0.1],
-        'runChunkSz':[0]
+        'xi': np.round(np.linspace(0.0, 5.0, 100, endpoint=True), ROUND_PREC),
+    },
+    'bo-ucb':{
+        'kappa': np.linspace(2,200, 30, endpoint=True).astype(int),
+        'kappa_decay': np.round(np.linspace(0.1, 1.5, 5, endpoint=True), ROUND_PREC),
+        'kappa_decay_delay': np.linspace(1,50, 20, endpoint=True).astype(int),
     },
 }
 
-def partitionHyperparams(goMethod):
-    '''
-        Return a list of dicts with the hyperparams for a particular GO method
-    '''
-    varSpace = {}
+def writeTodoFiles(progname, probsize, seed, goMethod, combos, numExecsPerFile, basefilepath):
+    basecommand = f'python3 -u --progname={progname} --probsize={probsize} --seed={seed} --maxSteps={MAX_ITERATIONS}'
+
+    if 'bo' in goMethod:
+        utilFnct = goMethod.split('-')[1]
+        goMethod = 'bo'
+        basecommand += f' --optim=bo --utilFnct={utilFnct}'
+    else:
+        basecommand += f' --optim={goMethod}'
+
+    # combos is assumed to be a list of dicts containing 
+    # pytohn args that we will write to the todo file
+
+    numFilesToWrite = int(np.ceil(len(combos)/numExecsPerFile))
+
+    # we assume basefilepath exists
+    basefilename = basefilepath+'/'+f'{progname}-{probsize}-{seed}-{goMethod}'
+
+    writtenFiles = []
+    currIdx = 0
+    for fileIdx in range(numFilesToWrite):
+        stopIdx = min((currIdx+numExecsPerFile), len(combos))
+
+        outfilename = basefilename+f'-run_{fileIdx+1}_of_{numFilesToWrite}.sh'
+
+        # create the file and write to it
+        shfile = open(outfilename, 'w')
+
+        shfile.write('#!/bin/bash\n\n')
+
+        for combo in combos[currIdx:stopIdx]:
+            command = basecommand
+            for argname,arg in combo.items():
+                command += f' --{argname}={arg}'
+
+            shfile.write(command+'\n')
+
+        shfile.write(f'exit {CLEAN_FINISH_EXIT_CODE}\n')
+        shfile.close()
+        writtenFiles += [outfilename]
+        currIdx += numExecsPerFile
+    
+    return writtenFiles
+
+def genSweepCombos(goMethod):
     method = paramsToSweep[goMethod]
-    for idx,var in enumerate(method['params']):
-        # make the sequences
-        minVal = method['min'][idx]
-        maxVal = method['max'][idx]
-        stepVal = method['step'][idx]
-        singleDim = np.arange(minVal, maxVal, stepVal)
-        # this is done to match the behavior of seq
-        if stepVal == 1.0 and minVal == maxVal:
-            singleDim = np.array([minVal])
-        elif ((maxVal - minVal) % stepVal) == 0:
-            singleDim = np.concatenate(singleDim, np.array([maxVal]))
-
-        # singleDim should keep the sequence that seq would generate
-        #print(var, 'singleDim', singleDim)
-        varSpace[var] = []
-        # now lets partition the array
-        chunkSize = method['runChunkSz'][idx]
-        if chunkSize == 0:
-            varSpace[var] += [singleDim]
-        else:
-            numChunks = int(np.ceil(len(singleDim)/chunkSize))
-            #print(numChunks, len(singleDim), chunkSize)
-            for part in range(numChunks):
-                startIdx = part*chunkSize
-                endIdx = startIdx + chunkSize
-                varSpace[var] += [singleDim[startIdx:endIdx]]
-
-    # for each group in the varSpace, let's create all possible combinations with other groups
-    #print('varspace to combine:', varSpace)
     combos = []
-    for varName, elems in varSpace.items():
-        if len(combos) == 0:
-            for elem in elems:
-                combos += [{varName:elem}]
+    for idx,(var,arr) in enumerate(method.items()):
+        if idx == 0:
+            combos += [ [item] for item in list(arr)]
         else:
-            newCombos = []
+            newElems = []
             for combo in combos:
-                for elem in elems:
-                    newElem = {}
-                    newElem.update(combo)
-                    newElem[varName] = elem
-                    newCombos += [newElem]
-            combos = newCombos
+                for item in list(arr):
+                    newElems += [ combo+[item] ]
+            combos = newElems
 
-    #print('\n\n combos:', len(combos), combos)
-    print(goMethod, 'combos', len(combos))
+    # convert the combos to dicts
+    toRet = []
+    for combo in combos:
+        toRet += [{ var:combo[idx] for idx,var in enumerate(list(method.keys()))}]
+    
+    return toRet
 
-    return combos
-
-def generateJobs(dbFile, maxIters, goMethod, hyper):
+def genJobs(dbFile, goMethod, maxExecsPerJob=500):
     '''
-        Return a list of dicts with envvars to run with
+        Create files in /logs/todoFiles that simply have all the python
+        commands for a job to run.
+        We have one job running for each GOmethod+seed+progname+probsize combo.
+        There is a PROPAGATE_CMD envvar that is executed if the jobfile.sh doesn't
+        get to finish its work, it'll relaunch itself till the todo.sh file signals
+        completion.
+        The work is considered finished when the exit code of 111 is returned by
+        the todo.sh script
     '''
-    jobs = []
+    jobfileBasePath = ROOT_DIR+'/logs/todoFiles'
+
+    # setup the jobfile path if it doesn't exist 
+    if not os.path.exists(jobfileBasePath):
+        os.makedirs(jobfileBasePath)
 
     prognames = list(progs.keys())
     probsizes = ['smlprob', 'medprob', 'lrgprob']
 
     modloadPy =  machines[MACHINE]['pythonToModLoad']
+    goMethods = list(paramsToSweep.keys())
 
-    baseDict = {'DATABASE_FILE':dbFile, 'MAX_ITERATIONS':maxIters, 
-                'PYTHON_SCRIPT_EXEC_DIR':ROOT_DIR, 'MOD_LOAD_PYTHON':modloadPy}
-    # static database file
-    # static max iterations
-    # for seed
-    # for progname
-    # for probsize
-    # for partitioned hyperparameters
-        # need to extract the start, step, stop from each combo we generated
+    # write/generate all the job files
+    jobFiles = []
 
-    # 4 * 6 * 3 = 72 jobs per set of envvars
+    # generate the values we want to sweep
+    combos = genSweepCombos(goMethod)
+    print(goMethod, 'num executions to perform ', len(combos))
+
     for seed in seeds:
         for progname in prognames:
             for probsize in probsizes:
-                for config in hyper:
-                    envvars = {}
-                    envvars.update(baseDict)
-                    envvars.update({'RAND_SEED':seed, 'PROGNAME':progname, 'PROBSIZE':probsize})
+                jobfilename = progname+'-'+probsize+'-'+str(seed)+'-'+goMethod
 
-                    if '-' in goMethod:
-                        method,utilFnct = goMethod.split('-')[0],goMethod.split('-')[1]
-                        envvars.update({'GO_METHOD':method, 'BO_UTIL_FNCT':utilFnct})
-                    else:
-                        envvars.update({'GO_METHOD':goMethod})
+                files = writeTodoFiles(progname, probsize, seed, goMethod, 
+                                       combos, maxExecsPerJob, jobfileBasePath)
+                jobFiles += files
 
-                    # numpy getting values like 1.4000000000001, need to drop that extra 0000001
-                    for varName,vals in config.items():
-                        envvars[varName+'_START'] = np.round(np.min(vals),6)
-                        envvars[varName+'_STOP'] = np.round(np.max(vals),6)
-                        if np.min(vals) == np.max(vals):
-                            envvars[varName+'_STEP'] = 1
-                        else:
-                            envvars[varName+'_STEP'] = np.round(np.max(vals) - np.min(vals), 6)
+    print(goMethod, 'num job files', len(jobFiles))
+    return jobFiles
 
-                    # cast all elements to strings
-                    for key,val in envvars.items():
-                        envvars[key] = str(val)
-
-                    #print('\n', envvars)
-                    jobs += [envvars]
-
-    print(goMethod, 'total number of jobs to submit', len(jobs))
-
-    return jobs
 
 def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
     '''
         This will make multiple sbatch script invocations.
-        We assume that the jobsArr is a list of dicts that contain
-        envvars for execution.
+        We assume that the jobsArr is a list of filenames 
+        for the jobfile to execute with.
+        nodeRuntime is assumed to be in minutes (at least 3 minutes)
     '''
     jobSys = machines[MACHINE]['jobsystem']
     jobRunner = jobSys['runner']
@@ -184,54 +175,40 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
 
     modloadPy =  machines[MACHINE]['pythonToModLoad']
 
-    for idx, envvars in enumerate(jobsArr): 
-        vars_to_use = {**os.environ.copy(), **envvars}
+    runLogsBasePath = ROOT_DIR+'/logs/runLogs'
 
-        print(envvars)
+    # setup the runlon path if it doesn't exist 
+    if not os.path.exists(runLogsBasePath):
+        os.makedirs(runLogsBasePath)
 
-        # form a name for the output file
-        forName = {'':envvars['PROGNAME']+'-'+envvars['PROBSIZE']+'-'+envvars['GO_METHOD']}
-        forName.update(envvars)
-        forName.pop('DATABASE_FILE')
-        forName.pop('PYTHON_SCRIPT_EXEC_DIR')
-        forName.pop('MOD_LOAD_PYTHON')
-        forName.pop('MAX_ITERATIONS')
-        forName.pop('GO_METHOD')
-        forName.pop('RAND_SEED')
-        forName.pop('PROGNAME')
-        forName.pop('PROBSIZE')
+    # we shave off 3 minutes for the XTIME_LIMIT to 
+    # make sure we re-launch the job if lots of work 
+    # is still left to do
+    baseenvvars = {'MOD_LOAD_PYTHON':modloadPy, 
+                   'PYTHON_SCRIPT_EXEC_DIR':ROOT_DIR, 
+                   'XTIME_LIMIT':str(nodeRuntime-3)}
 
-        forName['SEED'] = envvars['RAND_SEED']
+    for idx,filename in enumerate(jobsArr):
+        vars_to_use = {**baseenvvars}
+        vars_to_use['TODO_WORK_FILE'] = filename
 
-        # there's a character limit of 255 chars on the logfile name
-        # although the BSUB docs say its 4096...
-        # need to cut where we can...
-        jobOutputLogName = '-'.join([k.replace('_','')+''+v for k,v in forName.items()])
-        print(len(jobOutputLogName)+4)
-        #jobOutputLogName = ''.join(['a']*252)
+        plainname = Path(filename).stem
+        jobOutputLogName = f'{plainname}.out'
 
-        # forcibly truncate the logfile name to fit the 255 char limit 
-        # ('.out' is added to the end, hence 251)
+        # truncate for bsub restruction of 255 chars in outfile name
         if len(jobOutputLogName) > 251:
             jobOutputLogName = jobOutputLogName[:251]
 
-        # make the logging path if it doesn't already exist, 
-        # this is for SLURM or LSF to write its files to alongside
-        loggingdir = ROOT_DIR+'/logs/'+envvars['PROGNAME']+'-'+envvars['PROBSIZE']\
-                     +'/'+envvars['GO_METHOD']+'-'+envvars['RAND_SEED']+'/execLogs'
+        jobOutputLog = runLogsBasePath+'/'+jobOutputLogName
 
-        # set up the logging directory if it doesn't exist
-        if not os.path.exists(loggingdir):
-            os.makedirs(loggingdir)
-            print('made dir', loggingdir)
-
-        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+loggingdir+'/'+jobOutputLogName+'.out '
+        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+jobOutputLog
         if useDebugNodes:
             command += jobDebug
 
-        command += ' jobfile.sh'
+        command += ' newJobfile.sh'
 
-        print('executing command:', command, '\nwith envvars', envvars)
+        print('executing command:', command, '\nwith envvars', vars_to_use)
+        vars_to_use['PROPAGATE_CMD'] = command
 
         result = subprocess.run(command, shell=True, text=True, check=True, 
                                 env=vars_to_use, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -240,10 +217,8 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
         output = result.stdout
 
         print(output)
-        #if idx == 3:
-        #    return
 
-    return
+        return
 
 # Defining main function
 def main():
@@ -257,19 +232,19 @@ def main():
 
     goMethods = list(paramsToSweep.keys())
     
-    jobsToLaunch = []
+    jobsToLaunch = genJobs('lassen-fullExploreDataset.csv', goMethods[0])
 
-    for goMethod in goMethods:
-        hypers = partitionHyperparams(goMethod)
+    #for goMethod in goMethods:
+    #    hypers = partitionHyperparams(goMethod)
 
-        jobEnvvars = generateJobs('lassen-fullExploreDataset.csv', MAX_ITERATIONS, goMethod, hypers)
-        jobsToLaunch += jobEnvvars
-        print(goMethod, len(jobEnvvars))
+    #    jobEnvvars = generateJobs('lassen-fullExploreDataset.csv', MAX_ITERATIONS, goMethod, hypers)
+    #    jobsToLaunch += jobEnvvars
+    #    print(goMethod, len(jobEnvvars))
 
-    print('All jobs to launch', len(jobsToLaunch))
+    #print('All jobs to launch', len(jobsToLaunch))
 
-    #launchJobs(jobsToLaunch, '240', False)
-    launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
+    ##launchJobs(jobsToLaunch, '240', False)
+    #launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
     return
   
   
