@@ -155,7 +155,6 @@ def genJobs(dbFile, goMethod, maxExecsPerJob=500):
                 files = writeTodoFiles(progname, probsize, seed, goMethod, 
                                        combos, maxExecsPerJob, jobfileBasePath)
                 jobFiles += files
-                return jobFiles
 
     print(goMethod, 'num job files', len(jobFiles))
     return jobFiles
@@ -210,7 +209,7 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
 
         command += 'jobfile.sh'
 
-        print('executing command:', command, '\nwith envvars', vars_to_use)
+        print('executing command:', command) #'\nwith envvars', vars_to_use)
 
         # re-execute this command if the xtime cap gets hit
         vars_to_use['PROPAGATE_CMD'] = command
