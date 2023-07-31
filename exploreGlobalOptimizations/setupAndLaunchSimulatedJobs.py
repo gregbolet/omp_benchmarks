@@ -54,7 +54,7 @@ paramsToSweep = {
 }
 
 def writeTodoFiles(progname, probsize, seed, goMethod, combos, numExecsPerFile, basefilepath):
-    basecommand = f'python3 -u --progname={progname} --probsize={probsize} --seed={seed} --maxSteps={MAX_ITERATIONS}'
+    basecommand = f'python3 -u simulateGlobalOptimRunOnNode.py --progname={progname} --probsize={probsize} --seed={seed} --maxSteps={MAX_ITERATIONS}'
 
     if 'bo' in goMethod:
         utilFnct = goMethod.split('-')[1]
@@ -208,7 +208,7 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
         if useDebugNodes:
             command += jobDebug
 
-        command += 'newJobfile.sh'
+        command += 'jobfile.sh'
 
         print('executing command:', command, '\nwith envvars', vars_to_use)
 
@@ -231,17 +231,17 @@ def main():
 
     parser.add_argument('--useDebugNodes', help='Should we use debug nodes for testing launches?', default=False, type=bool)
     parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=240)
+    parser.add_argument('--execsPerJob', help='Max number of executions to perform per job', required=False, type=int, default=400)
     
     args = parser.parse_args()
     print('Got input args:', args)
 
     goMethods = list(paramsToSweep.keys())
     
-    jobsToLaunch = genJobs('lassen-fullExploreDataset.csv', goMethods[0])
+    for method in goMethods:
+        jobsToLaunch = genJobs('lassen-fullExploreDataset.csv', method, args.execsPerJob)
 
-
-    launchJobs(jobsToLaunch, 5, False)
-    #launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
+    launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
     return
   
   
