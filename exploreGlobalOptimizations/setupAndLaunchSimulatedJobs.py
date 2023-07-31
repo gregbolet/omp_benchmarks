@@ -155,6 +155,7 @@ def genJobs(dbFile, goMethod, maxExecsPerJob=500):
                 files = writeTodoFiles(progname, probsize, seed, goMethod, 
                                        combos, maxExecsPerJob, jobfileBasePath)
                 jobFiles += files
+                return jobFiles
 
     print(goMethod, 'num job files', len(jobFiles))
     return jobFiles
@@ -189,7 +190,7 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
                    'XTIME_LIMIT':str(nodeRuntime-3)}
 
     for idx,filename in enumerate(jobsArr):
-        vars_to_use = {**baseenvvars}
+        vars_to_use = {**os.environ.copy(), **baseenvvars}
         vars_to_use['TODO_WORK_FILE'] = filename
 
         plainname = Path(filename).stem
@@ -201,13 +202,17 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
 
         jobOutputLog = runLogsBasePath+'/'+jobOutputLogName
 
-        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+jobOutputLog
+        # prepare the command to execute
+        command = jobRunner+jobNodetime+str(nodeRuntime)+' '+jobOutput+jobOutputLog+' '
+
         if useDebugNodes:
             command += jobDebug
 
-        command += ' newJobfile.sh'
+        command += 'newJobfile.sh'
 
         print('executing command:', command, '\nwith envvars', vars_to_use)
+
+        # re-execute this command if the xtime cap gets hit
         vars_to_use['PROPAGATE_CMD'] = command
 
         result = subprocess.run(command, shell=True, text=True, check=True, 
@@ -225,7 +230,7 @@ def main():
     parser = argparse.ArgumentParser(description='Global Optimization Hyperparam Space Exploration Launcher')
 
     parser.add_argument('--useDebugNodes', help='Should we use debug nodes for testing launches?', default=False, type=bool)
-    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=str, default='240')
+    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=240)
     
     args = parser.parse_args()
     print('Got input args:', args)
@@ -234,16 +239,8 @@ def main():
     
     jobsToLaunch = genJobs('lassen-fullExploreDataset.csv', goMethods[0])
 
-    #for goMethod in goMethods:
-    #    hypers = partitionHyperparams(goMethod)
 
-    #    jobEnvvars = generateJobs('lassen-fullExploreDataset.csv', MAX_ITERATIONS, goMethod, hypers)
-    #    jobsToLaunch += jobEnvvars
-    #    print(goMethod, len(jobEnvvars))
-
-    #print('All jobs to launch', len(jobsToLaunch))
-
-    ##launchJobs(jobsToLaunch, '240', False)
+    launchJobs(jobsToLaunch, 5, False)
     #launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
     return
   
