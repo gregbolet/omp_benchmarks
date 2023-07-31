@@ -58,7 +58,6 @@ def writeTodoFiles(progname, probsize, seed, goMethod, combos, numExecsPerFile, 
 
     if 'bo' in goMethod:
         utilFnct = goMethod.split('-')[1]
-        goMethod = 'bo'
         basecommand += f' --optim=bo --utilFnct={utilFnct}'
     else:
         basecommand += f' --optim={goMethod}'
@@ -117,7 +116,7 @@ def genSweepCombos(goMethod):
     
     return toRet
 
-def genJobs(dbFile, goMethod, maxExecsPerJob=500):
+def genJobs(dbFile, goMethod, maxExecsPerJob):
     '''
         Create files in /logs/todoFiles that simply have all the python
         commands for a job to run.
@@ -138,20 +137,17 @@ def genJobs(dbFile, goMethod, maxExecsPerJob=500):
     probsizes = ['smlprob', 'medprob', 'lrgprob']
 
     modloadPy =  machines[MACHINE]['pythonToModLoad']
-    goMethods = list(paramsToSweep.keys())
 
     # write/generate all the job files
     jobFiles = []
 
     # generate the values we want to sweep
     combos = genSweepCombos(goMethod)
-    print(goMethod, 'num executions to perform ', len(combos))
+    print(goMethod, 'num executions to perform for one seed-progname-probsize config', len(combos))
 
     for seed in seeds:
         for progname in prognames:
             for probsize in probsizes:
-                jobfilename = progname+'-'+probsize+'-'+str(seed)+'-'+goMethod
-
                 files = writeTodoFiles(progname, probsize, seed, goMethod, 
                                        combos, maxExecsPerJob, jobfileBasePath)
                 jobFiles += files
@@ -186,7 +182,8 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
     # is still left to do
     baseenvvars = {'MOD_LOAD_PYTHON':modloadPy, 
                    'PYTHON_SCRIPT_EXEC_DIR':ROOT_DIR, 
-                   'XTIME_LIMIT':str(nodeRuntime-3)}
+                   'XTIME_LIMIT':str(nodeRuntime-3),
+                   'CLEAN_FINISH_EXIT_CODE':CLEAN_FINISH_EXIT_CODE}
 
     for idx,filename in enumerate(jobsArr):
         vars_to_use = {**os.environ.copy(), **baseenvvars}
@@ -209,7 +206,7 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
 
         command += 'jobfile.sh'
 
-        print('executing command:', command) #'\nwith envvars', vars_to_use)
+        print('executing command:', command, '\nworkfile', plainname) #'\nwith envvars', vars_to_use)
 
         # re-execute this command if the xtime cap gets hit
         vars_to_use['PROPAGATE_CMD'] = command
@@ -221,25 +218,29 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
         output = result.stdout
 
         print(output)
+    
+    return
 
-        return
 
 # Defining main function
 def main():
     parser = argparse.ArgumentParser(description='Global Optimization Hyperparam Space Exploration Launcher')
 
     parser.add_argument('--useDebugNodes', help='Should we use debug nodes for testing launches?', default=False, type=bool)
-    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=240)
-    parser.add_argument('--execsPerJob', help='Max number of executions to perform per job', required=False, type=int, default=400)
+    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=360)
+    parser.add_argument('--execsPerJob', help='Max number of executions to perform per job', required=False, type=int, default=1000)
     
     args = parser.parse_args()
     print('Got input args:', args)
 
     goMethods = list(paramsToSweep.keys())
     
+    jobsToLaunch = []
     for method in goMethods:
-        jobsToLaunch = genJobs('lassen-fullExploreDataset.csv', method, args.execsPerJob)
+        jobsToLaunch += genJobs('lassen-fullExploreDataset.csv', method, args.execsPerJob)
 
+    print('')
+    print('launching', len(jobsToLaunch), 'jobs')
     launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
     return
   

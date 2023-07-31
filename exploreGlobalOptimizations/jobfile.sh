@@ -16,7 +16,7 @@ fi
 
 FINISH_WORK_EXIT_CODE=$?
 
-if (( $FINISH_WORK_EXIT_CODE == 111 )); then
+if [ $FINISH_WORK_EXIT_CODE == $CLEAN_FINISH_EXIT_CODE ]; then
 	echo "Work finished, not re-calling script"
 else
 	# bsub inherits the calling environemnts envvars, so
