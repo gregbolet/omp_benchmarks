@@ -183,7 +183,7 @@ def launchJobs(jobsArr, nodeRuntime, useDebugNodes=False):
     baseenvvars = {'MOD_LOAD_PYTHON':modloadPy, 
                    'PYTHON_SCRIPT_EXEC_DIR':ROOT_DIR, 
                    'XTIME_LIMIT':str(nodeRuntime-3),
-                   'CLEAN_FINISH_EXIT_CODE':CLEAN_FINISH_EXIT_CODE}
+                   'CLEAN_FINISH_EXIT_CODE':str(CLEAN_FINISH_EXIT_CODE)}
 
     for idx,filename in enumerate(jobsArr):
         vars_to_use = {**os.environ.copy(), **baseenvvars}
