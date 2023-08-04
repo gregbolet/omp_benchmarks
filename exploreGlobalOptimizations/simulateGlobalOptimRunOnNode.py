@@ -184,7 +184,7 @@ def main():
 
   parser.add_argument('--progname', help='What program to test on', required=False, default='lulesh', type=str)
   parser.add_argument('--probsize', help='What problem size to use', required=False, default='smlprob', type=str)
-  parser.add_argument('--database', help='Path to database file', required=False, type=str, default='lassen-fullExploreDataset.csv')
+  parser.add_argument('--database', help='Path to database file', required=False, type=str, default=MACHINE+'-fullExploreDataset.csv')
 
   parser.add_argument('--optim', help='What global optimizer to use', required=False, default='bo', type=str)
   parser.add_argument('--seed', help='What optimizer seed to use for reproducibility', required=False, type=int, default=1337)
@@ -223,6 +223,7 @@ def main():
     return
 
   runMan.doRuns()
+  print('Done!\n\n')
 
 
 if __name__ == "__main__":

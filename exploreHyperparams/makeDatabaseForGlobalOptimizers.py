@@ -78,7 +78,7 @@ print('OMP_PLACES unique', len(list(avrgd['OMP_PLACES'].unique())))
 print('OMP_SCHEDULE unique', len(list(avrgd['OMP_SCHEDULE'].unique())))
 
 
-avrgd.to_csv(ROOT_DIR+'/'+MACHINE+'-fullExplorDataset.csv', index=False)
+avrgd.to_csv(ROOT_DIR+'/'+MACHINE+'-fullExploreDataset.csv', index=False)
 #globalDataset.to_csv(ROOT_DIR+'/'+MACHINE+'-fullExplorDataset.csv', index=False)
 
 

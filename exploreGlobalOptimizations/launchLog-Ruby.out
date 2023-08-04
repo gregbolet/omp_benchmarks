@@ -1,0 +1,1742 @@
+ROOT_DIR /usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations
+Got input args: Namespace(useDebugNodes=False, nodeRuntime=480, execsPerJob=1500)
+cma num executions to perform for one seed-progname-probsize config 100
+cma num job files 72
+pso num executions to perform for one seed-progname-probsize config 1250
+pso num job files 72
+bo-ei num executions to perform for one seed-progname-probsize config 100
+bo-ei num job files 72
+bo-poi num executions to perform for one seed-progname-probsize config 100
+bo-poi num job files 72
+bo-ucb num executions to perform for one seed-progname-probsize config 3000
+bo-ucb num job files 144
+
+launching 432 jobs
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-1337-cma-run_1_of_1
+Submitted batch job 1719632
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-1337-cma-run_1_of_1
+Submitted batch job 1719633
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-1337-cma-run_1_of_1
+Submitted batch job 1719634
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-1337-cma-run_1_of_1
+Submitted batch job 1719635
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-1337-cma-run_1_of_1
+Submitted batch job 1719636
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-1337-cma-run_1_of_1
+Submitted batch job 1719637
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-1337-cma-run_1_of_1
+Submitted batch job 1719638
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-1337-cma-run_1_of_1
+Submitted batch job 1719639
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-1337-cma-run_1_of_1
+Submitted batch job 1719640
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-1337-cma-run_1_of_1
+Submitted batch job 1719641
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-1337-cma-run_1_of_1
+Submitted batch job 1719642
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-1337-cma-run_1_of_1
+Submitted batch job 1719643
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-1337-cma-run_1_of_1
+Submitted batch job 1719644
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-1337-cma-run_1_of_1
+Submitted batch job 1719645
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-1337-cma-run_1_of_1
+Submitted batch job 1719646
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-1337-cma-run_1_of_1
+Submitted batch job 1719647
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-1337-cma-run_1_of_1
+Submitted batch job 1719648
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-1337-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-1337-cma-run_1_of_1
+Submitted batch job 1719649
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-3827-cma-run_1_of_1
+Submitted batch job 1719650
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-3827-cma-run_1_of_1
+Submitted batch job 1719651
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-3827-cma-run_1_of_1
+Submitted batch job 1719652
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-3827-cma-run_1_of_1
+Submitted batch job 1719653
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-3827-cma-run_1_of_1
+Submitted batch job 1719654
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-3827-cma-run_1_of_1
+Submitted batch job 1719655
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-3827-cma-run_1_of_1
+Submitted batch job 1719656
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-3827-cma-run_1_of_1
+Submitted batch job 1719657
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-3827-cma-run_1_of_1
+Submitted batch job 1719658
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-3827-cma-run_1_of_1
+Submitted batch job 1719659
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-3827-cma-run_1_of_1
+Submitted batch job 1719660
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-3827-cma-run_1_of_1
+Submitted batch job 1719661
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-3827-cma-run_1_of_1
+Submitted batch job 1719662
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-3827-cma-run_1_of_1
+Submitted batch job 1719663
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-3827-cma-run_1_of_1
+Submitted batch job 1719664
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-3827-cma-run_1_of_1
+Submitted batch job 1719665
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-3827-cma-run_1_of_1
+Submitted batch job 1719666
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-3827-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-3827-cma-run_1_of_1
+Submitted batch job 1719667
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-9999-cma-run_1_of_1
+Submitted batch job 1719668
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-9999-cma-run_1_of_1
+Submitted batch job 1719669
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-9999-cma-run_1_of_1
+Submitted batch job 1719670
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-9999-cma-run_1_of_1
+Submitted batch job 1719671
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-9999-cma-run_1_of_1
+Submitted batch job 1719672
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-9999-cma-run_1_of_1
+Submitted batch job 1719673
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-9999-cma-run_1_of_1
+Submitted batch job 1719674
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-9999-cma-run_1_of_1
+Submitted batch job 1719675
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-9999-cma-run_1_of_1
+Submitted batch job 1719676
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-9999-cma-run_1_of_1
+Submitted batch job 1719677
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-9999-cma-run_1_of_1
+Submitted batch job 1719678
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-9999-cma-run_1_of_1
+Submitted batch job 1719679
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-9999-cma-run_1_of_1
+Submitted batch job 1719680
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-9999-cma-run_1_of_1
+Submitted batch job 1719681
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-9999-cma-run_1_of_1
+Submitted batch job 1719682
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-9999-cma-run_1_of_1
+Submitted batch job 1719683
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-9999-cma-run_1_of_1
+Submitted batch job 1719684
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-9999-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-9999-cma-run_1_of_1
+Submitted batch job 1719685
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-4873-cma-run_1_of_1
+Submitted batch job 1719686
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-4873-cma-run_1_of_1
+Submitted batch job 1719687
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-4873-cma-run_1_of_1
+Submitted batch job 1719688
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-4873-cma-run_1_of_1
+Submitted batch job 1719689
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-4873-cma-run_1_of_1
+Submitted batch job 1719690
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-4873-cma-run_1_of_1
+Submitted batch job 1719691
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-4873-cma-run_1_of_1
+Submitted batch job 1719692
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-4873-cma-run_1_of_1
+Submitted batch job 1719693
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-4873-cma-run_1_of_1
+Submitted batch job 1719694
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-4873-cma-run_1_of_1
+Submitted batch job 1719695
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-4873-cma-run_1_of_1
+Submitted batch job 1719696
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-4873-cma-run_1_of_1
+Submitted batch job 1719697
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-4873-cma-run_1_of_1
+Submitted batch job 1719698
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-4873-cma-run_1_of_1
+Submitted batch job 1719699
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-4873-cma-run_1_of_1
+Submitted batch job 1719700
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-4873-cma-run_1_of_1
+Submitted batch job 1719701
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-4873-cma-run_1_of_1
+Submitted batch job 1719702
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-4873-cma-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-4873-cma-run_1_of_1
+Submitted batch job 1719703
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-1337-pso-run_1_of_1
+Submitted batch job 1719704
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-1337-pso-run_1_of_1
+Submitted batch job 1719705
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-1337-pso-run_1_of_1
+Submitted batch job 1719706
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-1337-pso-run_1_of_1
+Submitted batch job 1719707
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-1337-pso-run_1_of_1
+Submitted batch job 1719708
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-1337-pso-run_1_of_1
+Submitted batch job 1719709
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-1337-pso-run_1_of_1
+Submitted batch job 1719710
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-1337-pso-run_1_of_1
+Submitted batch job 1719711
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-1337-pso-run_1_of_1
+Submitted batch job 1719712
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-1337-pso-run_1_of_1
+Submitted batch job 1719713
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-1337-pso-run_1_of_1
+Submitted batch job 1719714
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-1337-pso-run_1_of_1
+Submitted batch job 1719715
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-1337-pso-run_1_of_1
+Submitted batch job 1719716
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-1337-pso-run_1_of_1
+Submitted batch job 1719717
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-1337-pso-run_1_of_1
+Submitted batch job 1719718
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-1337-pso-run_1_of_1
+Submitted batch job 1719719
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-1337-pso-run_1_of_1
+Submitted batch job 1719720
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-1337-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-1337-pso-run_1_of_1
+Submitted batch job 1719721
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-3827-pso-run_1_of_1
+Submitted batch job 1719722
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-3827-pso-run_1_of_1
+Submitted batch job 1719723
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-3827-pso-run_1_of_1
+Submitted batch job 1719724
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-3827-pso-run_1_of_1
+Submitted batch job 1719725
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-3827-pso-run_1_of_1
+Submitted batch job 1719726
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-3827-pso-run_1_of_1
+Submitted batch job 1719727
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-3827-pso-run_1_of_1
+Submitted batch job 1719728
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-3827-pso-run_1_of_1
+Submitted batch job 1719729
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-3827-pso-run_1_of_1
+Submitted batch job 1719730
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-3827-pso-run_1_of_1
+Submitted batch job 1719731
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-3827-pso-run_1_of_1
+Submitted batch job 1719732
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-3827-pso-run_1_of_1
+Submitted batch job 1719733
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-3827-pso-run_1_of_1
+Submitted batch job 1719734
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-3827-pso-run_1_of_1
+Submitted batch job 1719735
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-3827-pso-run_1_of_1
+Submitted batch job 1719736
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-3827-pso-run_1_of_1
+Submitted batch job 1719737
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-3827-pso-run_1_of_1
+Submitted batch job 1719738
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-3827-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-3827-pso-run_1_of_1
+Submitted batch job 1719739
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-9999-pso-run_1_of_1
+Submitted batch job 1719740
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-9999-pso-run_1_of_1
+Submitted batch job 1719741
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-9999-pso-run_1_of_1
+Submitted batch job 1719742
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-9999-pso-run_1_of_1
+Submitted batch job 1719743
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-9999-pso-run_1_of_1
+Submitted batch job 1719744
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-9999-pso-run_1_of_1
+Submitted batch job 1719745
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-9999-pso-run_1_of_1
+Submitted batch job 1719746
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-9999-pso-run_1_of_1
+Submitted batch job 1719747
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-9999-pso-run_1_of_1
+Submitted batch job 1719748
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-9999-pso-run_1_of_1
+Submitted batch job 1719749
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-9999-pso-run_1_of_1
+Submitted batch job 1719750
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-9999-pso-run_1_of_1
+Submitted batch job 1719751
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-9999-pso-run_1_of_1
+Submitted batch job 1719752
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-9999-pso-run_1_of_1
+Submitted batch job 1719753
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-9999-pso-run_1_of_1
+Submitted batch job 1719754
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-9999-pso-run_1_of_1
+Submitted batch job 1719755
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-9999-pso-run_1_of_1
+Submitted batch job 1719756
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-9999-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-9999-pso-run_1_of_1
+Submitted batch job 1719757
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-4873-pso-run_1_of_1
+Submitted batch job 1719758
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-4873-pso-run_1_of_1
+Submitted batch job 1719759
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-4873-pso-run_1_of_1
+Submitted batch job 1719760
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-4873-pso-run_1_of_1
+Submitted batch job 1719761
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-4873-pso-run_1_of_1
+Submitted batch job 1719762
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-4873-pso-run_1_of_1
+Submitted batch job 1719763
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-4873-pso-run_1_of_1
+Submitted batch job 1719764
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-4873-pso-run_1_of_1
+Submitted batch job 1719765
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-4873-pso-run_1_of_1
+Submitted batch job 1719766
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-4873-pso-run_1_of_1
+Submitted batch job 1719767
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-4873-pso-run_1_of_1
+Submitted batch job 1719768
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-4873-pso-run_1_of_1
+Submitted batch job 1719769
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-4873-pso-run_1_of_1
+Submitted batch job 1719770
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-4873-pso-run_1_of_1
+Submitted batch job 1719771
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-4873-pso-run_1_of_1
+Submitted batch job 1719772
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-4873-pso-run_1_of_1
+Submitted batch job 1719773
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-4873-pso-run_1_of_1
+Submitted batch job 1719774
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-4873-pso-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-4873-pso-run_1_of_1
+Submitted batch job 1719775
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719776
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719777
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719778
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719779
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719780
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719781
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719782
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719783
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719784
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719785
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719786
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719787
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719788
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719789
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719790
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719791
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719792
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-1337-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-1337-bo-ei-run_1_of_1
+Submitted batch job 1719793
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719794
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719795
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719796
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719797
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719798
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719799
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719800
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719801
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719802
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719803
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719804
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719805
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719806
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719807
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719808
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719809
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719810
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-3827-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-3827-bo-ei-run_1_of_1
+Submitted batch job 1719811
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719812
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719813
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719814
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719815
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719816
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719817
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719818
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719819
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719820
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719821
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719822
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719823
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719824
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719825
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719826
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719827
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719828
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-9999-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-9999-bo-ei-run_1_of_1
+Submitted batch job 1719829
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719830
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719831
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719832
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719833
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719834
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719835
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719836
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719837
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719838
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719839
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719840
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719841
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719842
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719843
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719844
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719845
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719846
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-4873-bo-ei-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-4873-bo-ei-run_1_of_1
+Submitted batch job 1719847
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719848
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719849
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719850
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719851
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719852
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719853
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719854
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719855
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719856
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719857
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719858
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719859
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719860
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719861
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719862
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719863
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719864
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-1337-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-1337-bo-poi-run_1_of_1
+Submitted batch job 1719865
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719866
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719867
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719868
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719869
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719870
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719871
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719872
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719873
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719874
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719875
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719876
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719877
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719878
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719879
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719880
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719881
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719882
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-3827-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-3827-bo-poi-run_1_of_1
+Submitted batch job 1719883
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719884
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719885
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719886
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719887
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719888
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719889
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719890
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719891
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719892
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719893
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719894
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719895
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719896
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719897
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719898
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719899
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719900
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-9999-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-9999-bo-poi-run_1_of_1
+Submitted batch job 1719901
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-smlprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719902
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-medprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719903
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile bt_nas-lrgprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719904
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-smlprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719905
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-medprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719906
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cg_nas-lrgprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719907
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-smlprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719908
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-medprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719909
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile ft_nas-lrgprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719910
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-smlprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719911
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-medprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719912
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719913
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-smlprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719914
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-medprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719915
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile hpcg-lrgprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719916
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-smlprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719917
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-medprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719918
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-4873-bo-poi-run_1_of_1.out jobfile.sh 
+workfile lulesh-lrgprob-4873-bo-poi-run_1_of_1
+Submitted batch job 1719919
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719920
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719921
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-medprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719922
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-medprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719923
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719924
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719925
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719926
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719927
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-medprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719928
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-medprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719929
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719930
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719931
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719932
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719933
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-medprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719934
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-medprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719935
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719936
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719937
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719938
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719939
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719940
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719941
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719942
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719943
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-smlprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719944
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-smlprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719945
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-medprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719946
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-medprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719947
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719948
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719949
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-smlprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719950
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-smlprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719951
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-medprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719952
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-medprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719953
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-1337-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-1337-bo-ucb-run_1_of_2
+Submitted batch job 1719954
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-1337-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-1337-bo-ucb-run_2_of_2
+Submitted batch job 1719955
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719956
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719957
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-medprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719958
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-medprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719959
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719960
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719961
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719962
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719963
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-medprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719964
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-medprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719965
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719966
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719967
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719968
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719969
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-medprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719970
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-medprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719971
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719972
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719973
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719974
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719975
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719976
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719977
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719978
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719979
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-smlprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719980
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-smlprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719981
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-medprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719982
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-medprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719983
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719984
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719985
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-smlprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719986
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-smlprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719987
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-medprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719988
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-medprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719989
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-3827-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-3827-bo-ucb-run_1_of_2
+Submitted batch job 1719990
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-3827-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-3827-bo-ucb-run_2_of_2
+Submitted batch job 1719991
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1719992
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1719993
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-medprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1719994
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-medprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1719995
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1719996
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1719997
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1719998
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1719999
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-medprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720000
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-medprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720001
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720002
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720003
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720004
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720005
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-medprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720006
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-medprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720007
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720008
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720009
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720010
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720011
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720012
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720013
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720014
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720015
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-smlprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720016
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-smlprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720017
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-medprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720018
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-medprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720019
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720020
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720021
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-smlprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720022
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-smlprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720023
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-medprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720024
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-medprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720025
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-9999-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-9999-bo-ucb-run_1_of_2
+Submitted batch job 1720026
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-9999-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-9999-bo-ucb-run_2_of_2
+Submitted batch job 1720027
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720028
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-smlprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-smlprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720029
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-medprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720030
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-medprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-medprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720031
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720032
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/bt_nas-lrgprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile bt_nas-lrgprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720033
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720034
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-smlprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-smlprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720035
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-medprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720036
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-medprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-medprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720037
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720038
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cg_nas-lrgprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cg_nas-lrgprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720039
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720040
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-smlprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-smlprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720041
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-medprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720042
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-medprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-medprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720043
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720044
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/ft_nas-lrgprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile ft_nas-lrgprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720045
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720046
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-smlprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-smlprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720047
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720048
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-medprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-medprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720049
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720050
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/cfd_rodinia-lrgprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile cfd_rodinia-lrgprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720051
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-smlprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720052
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-smlprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-smlprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720053
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-medprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720054
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-medprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-medprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720055
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720056
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/hpcg-lrgprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile hpcg-lrgprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720057
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-smlprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720058
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-smlprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-smlprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720059
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-medprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720060
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-medprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-medprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720061
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-4873-bo-ucb-run_1_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-4873-bo-ucb-run_1_of_2
+Submitted batch job 1720062
+
+executing command: sbatch --nodes=1 --time=480 --output=/usr/WS2/bolet1/ruby-benchmarks/exploreGlobalOptimizations/logs/runLogs/lulesh-lrgprob-4873-bo-ucb-run_2_of_2.out jobfile.sh 
+workfile lulesh-lrgprob-4873-bo-ucb-run_2_of_2
+Submitted batch job 1720063
+

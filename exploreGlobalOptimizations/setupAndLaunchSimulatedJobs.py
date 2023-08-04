@@ -12,12 +12,11 @@ import glob
 from itertools import product
 from pathlib import Path
 
-# Need to update this for RUBY later
 MAX_ITERATIONS=0
 if MACHINE == 'lassen':
     MAX_ITERATIONS = 1188//2
 elif MACHINE == 'ruby':
-    MAX_ITERATIONS = 1188//2
+    MAX_ITERATIONS = 1320//2
 
 seeds = [1337, 3827, 9999, 4873]
 
@@ -116,7 +115,7 @@ def genSweepCombos(goMethod):
     
     return toRet
 
-def genJobs(dbFile, goMethod, maxExecsPerJob):
+def genJobs(goMethod, maxExecsPerJob):
     '''
         Create files in /logs/todoFiles that simply have all the python
         commands for a job to run.
@@ -227,8 +226,8 @@ def main():
     parser = argparse.ArgumentParser(description='Global Optimization Hyperparam Space Exploration Launcher')
 
     parser.add_argument('--useDebugNodes', help='Should we use debug nodes for testing launches?', default=False, type=bool)
-    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=360)
-    parser.add_argument('--execsPerJob', help='Max number of executions to perform per job', required=False, type=int, default=1000)
+    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=480)
+    parser.add_argument('--execsPerJob', help='Max number of executions to perform per job', required=False, type=int, default=1500)
     
     args = parser.parse_args()
     print('Got input args:', args)
@@ -237,15 +236,12 @@ def main():
     
     jobsToLaunch = []
     for method in goMethods:
-        jobsToLaunch += genJobs('lassen-fullExploreDataset.csv', method, args.execsPerJob)
+        jobsToLaunch += genJobs(method, args.execsPerJob)
 
     print('')
     print('launching', len(jobsToLaunch), 'jobs')
     launchJobs(jobsToLaunch, args.nodeRuntime, args.useDebugNodes)
     return
   
-  
-# Using the special variable 
-# __name__
 if __name__=="__main__":
     main()
