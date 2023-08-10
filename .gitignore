@@ -5,6 +5,7 @@
 result.txt
 setparams
 npbparams.h
+*GO_Data.csv
 
 **/buildWithApollo
 **/buildNoApollo
