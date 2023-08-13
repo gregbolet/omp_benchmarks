@@ -10,6 +10,8 @@ import os, sys
 # for each of the programs/prob sizes in the explorData directory,
 # load up all their CSV data
 
+MACHINE = 'lassen' if 'lassen' in ROOT_DIR else 'ruby'
+
 print(ROOT_DIR)
 os.chdir(ROOT_DIR+'/explorData')
 
@@ -31,10 +33,13 @@ for dir in dirs:
 
 	doneData = pd.DataFrame(columns=['xtime']+list(allData.columns))
 
+	donefilelist = []
 	# join all the done files into one csv
 	for doneFile in doneFiles:
 		comp = pd.read_csv(doneFile)
-		doneData = pd.concat([doneData, comp], ignore_index=True)
+		donefilelist += [comp]
+
+	doneData = pd.concat([doneData]+donefilelist, ignore_index=True)
 
 	doneData = doneData.reset_index(drop=True)
 

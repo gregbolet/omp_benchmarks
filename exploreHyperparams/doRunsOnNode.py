@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import glob
+import sys
 
 class JobRunner:
     def __init__(self, csvDir):
@@ -192,6 +193,10 @@ def main():
 
     runner = JobRunner(args.csvDir)
     runner.doJobs()
+
+    # if this program manages to get all the runs done, it should
+    # exit with the 111 exit code
+    sys.exit(CLEAN_FINISH_EXIT_CODE)
 
     return
   

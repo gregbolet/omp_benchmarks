@@ -199,17 +199,23 @@ class JobManager:
         modloadPy =  machines[MACHINE]['pythonToModLoad']
 
         for csvDir in self.runDirs: 
-            envvars = {'TODO_WORK_DIR':csvDir, 'MOD_LOAD_PYTHON':modloadPy, 'PROG_DIR':ROOT_DIR}
-            vars_to_use = {**os.environ.copy(), **envvars}
 
             command = jobRunner+jobNodetime+self.nodeRuntime+' '+jobOutput+csvDir+'/runOutput.log '
             if self.useDebugNodes:
                 command += jobDebug
 
             command += ' jobfile.sh'
-            #comand = '"'+command+'"'
 
-            print('executing command:', command, '\nwith envvars', envvars)
+            envvars = {'TODO_WORK_DIR':csvDir, 
+                       'MOD_LOAD_PYTHON':modloadPy, 
+                       'PYTHON_SCRIPT_EXEC_DIR':ROOT_DIR,
+                       'CLEAN_FINISH_EXIT_CODE':str(CLEAN_FINISH_EXIT_CODE),
+                       'XTIME_LIMIT':str(int(self.nodeRuntime)-3),
+                       'PROPAGATE_CMD':command}
+
+            vars_to_use = {**os.environ.copy(), **envvars}
+
+            print(f'executing command: [{command}] \n', '\nwith envvars', envvars)
             print(shlex.split(command))
             result = subprocess.run(shlex.split(command), shell=False, env=vars_to_use,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)

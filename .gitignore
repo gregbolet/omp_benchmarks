@@ -1,5 +1,6 @@
 
 *.yaml
+*.zip
 *.o
 *.a
 result.txt

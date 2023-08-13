@@ -4,6 +4,8 @@ import platform, sys, os
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 print('ROOT_DIR', ROOT_DIR)
 
+CLEAN_FINISH_EXIT_CODE=111
+
 # figure out what machine we're on, we only assume single node runs
 MACHINE=None
 uname = str(platform.uname().node)
@@ -28,7 +30,7 @@ machines = {
         },
         'pythonToModLoad' : 'python/3.10.8',
         'jobsystem' : {
-            'runner' : 'sbatch --nodes=1 ',
+            'runner' : 'sbatch --open-mode=append --nodes=1 ',
             'debug' : '--partition=pdebug ', 
             'nodetime' : '--time=', # in format of: minutes
             'output' : '--output=' # can do "path/to/file.log"
