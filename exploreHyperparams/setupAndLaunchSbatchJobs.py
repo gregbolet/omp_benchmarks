@@ -70,16 +70,16 @@ class JobManager:
 
         self.pointsDF = self.setupSamplingFile()
 
-        self.wroteNewPointsFile = False
-
         # check whether the main CSV file already exists, if it matches this shape
         # ignore writing it out
-        # sloppy coding, just want it to work
         CSVFile = self.samplingDir+'/allUniquePointsToSample.csv'
-        if (not os.path.isfile(CSVFile)) or ((os.path.isfile(CSVFile)) and (pd.read_csv(CSVFile).shape[0] != self.pointsDF.shape[0])):
-            self.pointsDF.to_csv(CSVFile, index=False)
-            print('wrote sample points CSV to:', CSVFile)
-            self.wroteNewPointsFile = True
+        #if (not os.path.isfile(CSVFile)) or ((os.path.isfile(CSVFile)) and (pd.read_csv(CSVFile).shape[0] != self.pointsDF.shape[0])):
+
+        self.pointsDF.to_csv(CSVFile, index=False)
+        print('wrote sample points CSV to:', CSVFile)
+
+        # create a unique timestamp for the directory names to avoid overwriting
+        self.timestamp = str(int(time.time()))
 
         return
 
@@ -100,7 +100,7 @@ class JobManager:
         return df
 
     def setupAllNewJobs(self):
-        numJobs = self.pointsDF.shape[0]
+        numJobs = self.todoDF.shape[0]
         totalNumGroups = math.ceil(numJobs/self.jobsPerNode)
 
         groupIdx = 0
@@ -115,11 +115,11 @@ class JobManager:
             # get the next set of jobs
             startIdx = groupIdx*self.jobsPerNode
             endIdx = startIdx + todoJobs
-            jobs = self.pointsDF.iloc[startIdx:endIdx]
+            jobs = self.todoDF.iloc[startIdx:endIdx]
             jobs = jobs.reset_index()
 
             # create a directory for this group
-            dirname = self.samplingDir+'/job_'+str(groupIdx+1)+'_of_'+str(totalNumGroups)
+            dirname = self.samplingDir+'/job_'+str(groupIdx+1)+'_of_'+str(totalNumGroups)+'-'+self.timestamp
             if not os.path.exists(dirname):
                 os.mkdir(dirname)
 
@@ -135,56 +135,152 @@ class JobManager:
 
         return toRunDirs
 
-    def findIncompleteJobs(self):
+    def getIncompleteRuns(self):
+        # open up all the directories and concatenate their
+        # complete.csv
 
-        incompleteRuns = []
+        # check against the pointsDF to see what's missing
+
+        # setup run dirs to complete missing work
 
         # job_X_of_Y directories
-        dirs = list(os.listdir(self.samplingDir))
 
-        for dir in dirs:
-            dir = self.samplingDir+'/'+dir
+        # get all the complete.csv files
+        completeFiles = list(glob.glob(f'{self.samplingDir}/*/complete.csv'))
 
-            if not os.path.isdir(dir):
-                continue
+        completedData = pd.DataFrame()
 
-            todoFiles = glob.glob(dir+'/todo.csv')
+        tojoin = []
+        # open and concatenate all of them
+        for compFile in completeFiles:
+            df = pd.read_csv(compFile)
+            tojoin += [df]
 
-            # this needs to be updated -- if there's no todo.csv file, we can't just launch the run...
-            # we need to create the todo file...
-            if len(todoFiles) == 0:
-                incompleteRuns.append(dir)
-                continue
+        completedData = pd.concat([completedData]+tojoin, ignore_index=True)
 
-            else:
-                todoFile = dir+'/todo.csv'
-                todo = pd.read_csv(todoFile)
-                compFile = todoFile.replace('todo', 'complete')
+        #print('completeddata shape', completedData.shape)
+        #print('pointsdf shape', self.pointsDF.shape)
 
-                # if some runs were completed
-                if os.path.isfile(compFile):
-                    comp = pd.read_csv(compFile)
+        if completedData.shape[0] == 0:
+            # if there are no complete files, no runs have been done
+            # or if the files were started and nothing written to them
+            return self.pointsDF
 
-                    # check that there are no -1 xtimes and the shapes match
-                    comp = comp[comp['xtime'] != -1.0]
+        # drop any -1 xtimes
+        completedData = completedData[completedData['xtime'] != -1.0]
 
-                    # if there are still runs to do, add it to the todo job list
-                    if comp.shape[0] != todo.shape[0]:
-                        incompleteRuns.append(dir)
+        #print('completeddata shape', completedData.shape)
+        #print('pointsdf shape', self.pointsDF.shape)
 
-                else:
-                    incompleteRuns.append(dir)
+        # drop the xtime column
+        completedData = completedData.drop('xtime', axis=1)
+        assert len(list(completedData)) == len(list(self.pointsDF.columns))
 
-        return incompleteRuns
+        colsToSort = list(self.pointsDF.columns)
+
+        # force the column datatypes to be the same
+        self.pointsDF['OMP_NUM_THREADS'] = self.pointsDF['OMP_NUM_THREADS'].astype(completedData.dtypes['OMP_NUM_THREADS'])
+
+        completedData = completedData.sort_values(by=colsToSort).reset_index(drop=True)
+        self.pointsDF = self.pointsDF.sort_values(by=colsToSort).reset_index(drop=True)
+
+        #print(completedData.head(), self.pointsDF.head(), sep='\n')
+        #print(completedData.tail(), self.pointsDF.tail(), sep='\n')
+        #print('completeddata shape', completedData.shape)
+        #print('pointsdf shape', self.pointsDF.shape)
+
+        #print(completedData.dtypes, self.pointsDF.dtypes, sep='\n')
+
+        # it's not playing nice with duplicates, let's make a new column of 1s
+        # cumsum after groupby to "index" them, then do the isin check
+        # drop the extra column after
+
+        self.pointsDF['indic'] = 1
+        completedData['indic'] = 1
+
+        self.pointsDF['cumsum'] = self.pointsDF.groupby(colsToSort, as_index=False)['indic'].cumsum().reset_index(drop=True)
+        completedData['cumsum'] = completedData.groupby(colsToSort, as_index=False)['indic'].cumsum().reset_index(drop=True)
+
+        completedData = completedData.drop('indic', axis=1)
+        self.pointsDF = self.pointsDF.drop('indic', axis=1)
+
+        # let's check against the pointsDF to see what we're missing
+        todoRuns = self.pointsDF[~self.pointsDF.apply(tuple,1).isin(completedData.apply(tuple,1))]
+
+        todoRuns = todoRuns.drop('cumsum', axis=1)
+
+        #print('todoruns shape', todoRuns.shape, todoRuns.head())
+
+        todoRuns = todoRuns.reset_index(drop=True)
+
+        return todoRuns
+
+
+    #def findIncompleteJobs(self):
+
+    #    incompleteRuns = []
+
+    #    # job_X_of_Y directories
+    #    dirs = list(os.listdir(self.samplingDir))
+
+    #    for dir in dirs:
+    #        dir = self.samplingDir+'/'+dir
+
+    #        if not os.path.isdir(dir):
+    #            continue
+
+    #        todoFiles = glob.glob(dir+'/todo.csv')
+
+    #        # this needs to be updated -- if there's no todo.csv file, we can't just launch the run...
+    #        # we need to create the todo file...
+    #        if len(todoFiles) == 0:
+    #            incompleteRuns.append(dir)
+    #            continue
+
+    #        else:
+    #            todoFile = dir+'/todo.csv'
+    #            todo = pd.read_csv(todoFile)
+    #            compFile = todoFile.replace('todo', 'complete')
+
+    #            # if some runs were completed
+    #            if os.path.isfile(compFile):
+    #                comp = pd.read_csv(compFile)
+
+    #                # check that there are no -1 xtimes and the shapes match
+    #                comp = comp[comp['xtime'] != -1.0]
+
+    #                # if there are still runs to do, add it to the todo job list
+    #                if comp.shape[0] != todo.shape[0]:
+    #                    incompleteRuns.append(dir)
+
+    #            else:
+    #                incompleteRuns.append(dir)
+
+    #    return incompleteRuns
 
     def setupJobs(self):
         # this shouldn't really be the trigger, but it will be for now
-        if self.wroteNewPointsFile:
-            self.runDirs = self.setupAllNewJobs()
+        #if self.wroteNewPointsFile:
+        #    self.runDirs = self.setupAllNewJobs()
+        #else:
+        #    self.runDirs = self.findIncompleteJobs()
+        #    print(self.progname, self.probsize, 'incomplete jobs:', '\n'.join(self.runDirs))
+        #return
+
+        self.todoDF = self.getIncompleteRuns()
+
+        print(f'Number of samples left to execute: {self.todoDF.shape[0]}')
+
+        # if there's no work to be done
+        if self.todoDF.shape[0] == 0:
+            print('no incomplete jobs!')
+            self.runDirs = []
         else:
-            self.runDirs = self.findIncompleteJobs()
+            self.runDirs = self.setupAllNewJobs()
             print(self.progname, self.probsize, 'incomplete jobs:', '\n'.join(self.runDirs))
+
         return
+
 
     def launchJobs(self):
         '''
@@ -197,6 +293,10 @@ class JobManager:
         jobDebug = jobSys['debug']
 
         modloadPy =  machines[MACHINE]['pythonToModLoad']
+
+        if len(self.runDirs) == 0:
+            print('All runs complete, none needed!', self.progname, self.probsize)
+            return
 
         for csvDir in self.runDirs: 
 
@@ -226,10 +326,6 @@ class JobManager:
 
             print(output)
             print(errors)
-
-
-        if len(self.runDirs) == 0:
-            print('All runs complete, none needed!', self.progname, self.probsize)
 
         return
 

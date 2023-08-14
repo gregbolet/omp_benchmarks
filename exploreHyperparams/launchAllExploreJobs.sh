@@ -14,13 +14,13 @@ for prob in "${probsizes[@]}"; do
 		jobsPerNode=500
 		timePerNode=480
 
-		#if [ "$prob" = "medprob" ]; then
-		#	jobsPerNode=30
-		#	timePerNode=480
-		#elif [ "$prob" = "lrgprob" ]; then
-		#	jobsPerNode=10
-		#	timePerNode=480
-		#fi
+		if [ "$prob" = "medprob" ]; then
+			jobsPerNode=300
+			timePerNode=480
+		elif [ "$prob" = "lrgprob" ]; then
+			jobsPerNode=200
+			timePerNode=480
+		fi
 
 		printf "\n\n\n"
 		echo "launching ${prog} ${prob} with: ${jobsPerNode} ${timePerNode}"
