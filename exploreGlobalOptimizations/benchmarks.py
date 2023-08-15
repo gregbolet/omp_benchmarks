@@ -10,7 +10,7 @@ MACHINE=None
 uname = str(platform.uname().node)
 if 'lassen' in uname:
     MACHINE = 'lassen'
-    os.sched_setaffinity(0, {i for i in range(160)})
+    os.sched_setaffinity(0, list(range(8,88))+list(range(96,176)))
 elif 'ruby' in uname:
     MACHINE = 'ruby'
     os.sched_setaffinity(0, {i for i in range(112)})

@@ -148,6 +148,8 @@ class JobManager:
         # get all the complete.csv files
         completeFiles = list(glob.glob(f'{self.samplingDir}/*/complete.csv'))
 
+        #print('\n', '\n'.join(completeFiles))
+
         completedData = pd.DataFrame()
 
         tojoin = []
@@ -186,6 +188,7 @@ class JobManager:
 
         #print(completedData.head(), self.pointsDF.head(), sep='\n')
         #print(completedData.tail(), self.pointsDF.tail(), sep='\n')
+        #print(completedData.head(), completedData.tail(), sep='\n')
         #print('completeddata shape', completedData.shape)
         #print('pointsdf shape', self.pointsDF.shape)
 

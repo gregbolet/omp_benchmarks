@@ -3,9 +3,10 @@
 echo "launching exploration jobs"
 
 #progs=(bt_nas cg_nas ft_nas bfs_rodinia hpcg lulesh cfd_rodinia)
-#progs=(lulesh cfd_rodinia)
-progs=(hpcg lulesh cfd_rodinia)
-probsizes=(smlprob medprob lrgprob)
+progs=(hpcg)
+#progs=(hpcg lulesh cfd_rodinia)
+#probsizes=(smlprob medprob lrgprob)
+probsizes=(lrgprob)
 
 for prob in "${probsizes[@]}"; do
 	for prog in "${progs[@]}"; do

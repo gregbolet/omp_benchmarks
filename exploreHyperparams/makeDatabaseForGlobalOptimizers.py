@@ -66,7 +66,7 @@ for dir in dirs:
 
 # now that we've read in all the results, let's save them to a file
 print(globalDataset.shape, globalDataset.columns)
-print(globalDataset.head(), globalDataset.tail())
+#print(globalDataset.head(), globalDataset.tail())
 
 # group and average out all the xtimes - include a column for stddev
 hparams = list(globalDataset.columns)
@@ -82,7 +82,7 @@ print('OMP_PROC_BIND unique', len(list(avrgd['OMP_PROC_BIND'].unique())))
 print('OMP_PLACES unique', len(list(avrgd['OMP_PLACES'].unique())))
 print('OMP_SCHEDULE unique', len(list(avrgd['OMP_SCHEDULE'].unique())))
 
-
+# need to then copy this file over to the exploreGlobalOptimizations/databases directory
 avrgd.to_csv(ROOT_DIR+'/'+MACHINE+'-fullExploreDataset.csv', index=False)
 #globalDataset.to_csv(ROOT_DIR+'/'+MACHINE+'-fullExplorDataset.csv', index=False)
 
