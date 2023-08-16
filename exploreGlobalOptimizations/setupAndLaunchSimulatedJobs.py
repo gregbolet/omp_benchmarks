@@ -14,9 +14,10 @@ from pathlib import Path
 
 MAX_ITERATIONS=0
 if MACHINE == 'lassen':
-    MAX_ITERATIONS = 1188//2
+    MAX_ITERATIONS = 300 #1188//4
 elif MACHINE == 'ruby':
-    MAX_ITERATIONS = 1320//2
+    # stop exploration after 330 samples (a quarter of the exploration space)
+    MAX_ITERATIONS = 300 #1320//4
 
 seeds = [1337, 3827, 9999, 4873]
 
@@ -40,15 +41,18 @@ paramsToSweep = {
         'c2': np.round(np.linspace(0.1, 1.5, 5, endpoint=True), ROUND_PREC),
     },
     'bo-ei':{
-        'xi': np.round(np.linspace(0.0, 5.0, 100, endpoint=True), ROUND_PREC),
+        'xi': np.round(np.linspace(0.0, 5.0, 15, endpoint=True), ROUND_PREC),
     },
     'bo-poi':{
-        'xi': np.round(np.linspace(0.0, 5.0, 100, endpoint=True), ROUND_PREC),
+        'xi': np.round(np.linspace(0.0, 5.0, 15, endpoint=True), ROUND_PREC),
     },
+    # drop kappa_decay and kappa_decay_delay by fixing them to their defaults
     'bo-ucb':{
         'kappa': np.linspace(2,200, 30, endpoint=True).astype(int),
-        'kappa_decay': np.round(np.linspace(0.1, 1.5, 5, endpoint=True), ROUND_PREC),
-        'kappa_decay_delay': np.linspace(1,50, 20, endpoint=True).astype(int),
+        #'kappa_decay': np.round(np.linspace(0.1, 1.5, 5, endpoint=True), ROUND_PREC),
+        'kappa_decay': np.round(np.linspace(1.0, 1.0, 1, endpoint=True), ROUND_PREC),
+        #'kappa_decay_delay': np.linspace(1,50, 20, endpoint=True).astype(int),
+        'kappa_decay_delay': np.linspace(0, 0, 1, endpoint=True).astype(int),
     },
 }
 
@@ -226,8 +230,8 @@ def main():
     parser = argparse.ArgumentParser(description='Global Optimization Hyperparam Space Exploration Launcher')
 
     parser.add_argument('--useDebugNodes', help='Should we use debug nodes for testing launches?', default=False, type=bool)
-    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=480)
-    parser.add_argument('--execsPerJob', help='Max number of executions to perform per job', required=False, type=int, default=1500)
+    parser.add_argument('--nodeRuntime', help='How long for each node to run in MINUTES format', required=False, type=int, default=360)
+    parser.add_argument('--execsPerJob', help='Max number of executions to perform per job', required=False, type=int, default=625)
     
     args = parser.parse_args()
     print('Got input args:', args)

@@ -21,35 +21,17 @@ else:
 # proc binds, and places while the Apollo instrumentation controls the
 # schedule for each of the regions
 if MACHINE == 'lassen':
-  #num_threads = [160, 80, 40, 20]
-  #places = ['threads', 'cores', 'sockets']
-  #proc_bind = [ 'close', 'spread' ]
-
-  #num_threads_policies = len(num_threads)
-  #num_places_policies = len(places)
-  #num_bind_policies = len(proc_bind)
-
   num_threads_policies = 9
   num_places_policies = 3
   num_bind_policies = 2
   num_region_policies = 22
 
 elif MACHINE == 'ruby':
-  #num_threads = [160, 80, 40, 20]
-  #places = ['threads', 'cores', 'sockets']
-  #proc_bind = [ 'close', 'spread' ]
-
   num_threads_policies = 10
   num_places_policies = 3
   num_bind_policies = 2
   num_region_policies = 22
 
-  #num_threads_policies = len(num_threads)
-  #num_places_policies = len(places)
-  #num_bind_policies = len(proc_bind)
-
-  ## this should match the NUM_POLICIES preprocessor define from apollo.h
-  #num_region_policies = 15
 
 # specify the job launching approach for each machine
 # the timeouts are in units of seconds
@@ -134,46 +116,22 @@ progs = {
             'lrgprob': 1800
         }
     },
-#    'lu_nas': {
-#        'xtime-regex':r'(?<=Time in seconds =)(\s*\d*\.\d*)(?=\s)',
-#        'valid-regex':r'(Verification\s*=\s*SUCCESSFUL)(?=\s)',
-#        'dirname' : 'lu',
-#        'exe': {
-#            'smlprob': './lu.B.x',
-#            'medprob': './lu.C.x',
-#            'lrgprob': './lu.D.x'
-#        }
-#    },
-#    'bfs_rodinia': {
-#        'xtime-regex':r'(?<=Compute time: )(\s*\d*\.\d*)(?=\s)',
-#        'valid-regex':'',
-#        'dirname' : 'bfs',
-#        'exe': {
-#            'smlprob': './bfs 1 ../inputs/graph4096.txt',
-#            'medprob': './bfs 1 ../inputs/graph65536.txt',
-#            'lrgprob': './bfs 1 ../inputs/graph1MW_6.txt'
-#        },
-#        'timeout':{
-#            'smlprob': 10,
-#            'medprob': 10,
-#            'lrgprob': 10
-#        }
-#    },
-    'cfd_rodinia': {
-        'xtime-regex':r'(?<=Compute time: )(\s*\d*\.\d*)(?=\s)',
-        'valid-regex':'',
-        'dirname' : 'cfd',
-        'exe': {
-            'smlprob': './euler3d_cpu ../inputs/fvcorr.domn.097K',
-            'medprob': './euler3d_cpu ../inputs/missile.domn.0.2M',
-            'lrgprob': './euler3d_cpu ../inputs/missile.domn.0.4M'
-        },
-        'timeout':{
-            'smlprob': 180,
-            'medprob': 180,
-            'lrgprob': 600
-        }
-    },
+    # Dropping CFD for now since it proves no speedups
+   # 'cfd_rodinia': {
+   #     'xtime-regex':r'(?<=Compute time: )(\s*\d*\.\d*)(?=\s)',
+   #     'valid-regex':'',
+   #     'dirname' : 'cfd',
+   #     'exe': {
+   #         'smlprob': './euler3d_cpu ../inputs/fvcorr.domn.097K',
+   #         'medprob': './euler3d_cpu ../inputs/missile.domn.0.2M',
+   #         'lrgprob': './euler3d_cpu ../inputs/missile.domn.0.4M'
+   #     },
+   #     'timeout':{
+   #         'smlprob': 180,
+   #         'medprob': 180,
+   #         'lrgprob': 600
+   #     }
+   # },
     'hpcg': {
         'xtime-regex':r'(?<=Benchmark Time Summary::Total=)(\d*\.\d*)(?=\s)',
         'valid-regex':r'(?<=Final Summary::)(Results are valid)(?=\s)',
