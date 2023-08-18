@@ -86,21 +86,21 @@ progs = {
             'lrgprob': 4500 
         }
     },
-    'cg_nas': {
-        'xtime-regex':r'(?<=Time in seconds =)(\s*\d*\.\d*)(?=\s)',
-        'valid-regex':r'(Verification\s*=\s*SUCCESSFUL)(?=\s)',
-        'dirname' : 'cg',
-        'exe': {
-            'smlprob': './cg.B.x',
-            'medprob': './cg.C.x',
-            'lrgprob': './cg.D.x'
-        },
-        'timeout':{
-            'smlprob': 100,
-            'medprob': 300,
-            'lrgprob': 3600
-        }
-    },
+    #'cg_nas': {
+    #    'xtime-regex':r'(?<=Time in seconds =)(\s*\d*\.\d*)(?=\s)',
+    #    'valid-regex':r'(Verification\s*=\s*SUCCESSFUL)(?=\s)',
+    #    'dirname' : 'cg',
+    #    'exe': {
+    #        'smlprob': './cg.B.x',
+    #        'medprob': './cg.C.x',
+    #        'lrgprob': './cg.D.x'
+    #    },
+    #    'timeout':{
+    #        'smlprob': 100,
+    #        'medprob': 300,
+    #        'lrgprob': 3600
+    #    }
+    #},
     'ft_nas': {
         'xtime-regex':r'(?<=Time in seconds =)(\s*\d*\.\d*)(?=\s)',
         'valid-regex':r'(Verification\s*=\s*SUCCESSFUL)(?=\s)',
